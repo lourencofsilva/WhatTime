@@ -10,7 +10,6 @@ function openConn(): PDO {
         $pdo = new PDO("mysql:host=$host;dbname=$name", $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,
             PDO::ERRMODE_WARNING);
-        $pdo->exec('SET CHARACTER SET utf8');
     }
     catch (PDOException $pe)
     {
