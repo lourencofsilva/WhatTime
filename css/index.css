@@ -37,7 +37,7 @@
 
 .nav{
 	display: flex;
-	margin-right: 3%;
+	margin-right: 5%;
 }
 
 .nav > ul{
@@ -46,7 +46,7 @@
 	display: flex;
 	white-space: nowrap;
 	line-height: 8vh;
-	margin-right: 20%;
+	margin-right: 25%;
 	background-color: rgba(49, 95, 211, 1);
 }
 
@@ -66,12 +66,11 @@
 	background-color: rgba(49, 95, 211, 1);
 }
 
-.nav > button > img{
-	width: 90%;
-	border: none;
-	background-color: rgba(49, 95, 211, 1);
+.nav > button > i{
+	color: white;
+	font-size: 30px;
 	cursor: pointer;
-	border-radius: 100%;
+	background-color: rgba(49, 95, 211, 1);
 }
 
 .hero{
@@ -157,21 +156,12 @@
 	background-color: rgba(49, 95, 211, 1);
 }
 
-.footer > button{
+.footer > a{
 	display: flex;
 	border: none;
-	width: 3%;
-	background-color: rgba(49, 95, 211, 1);
+	font-size: 27px;
+	color: white;
 	margin-left: 5%;
-}
-
-.footer > button > img{
-	width: 100%;
-	border: none;
-	border-radius: 100%;
-	cursor: pointer;
-	border-radius: 100%;
-	background-color: rgba(49, 95, 211, 1);
 }
 
 .footer > ul{
@@ -210,6 +200,9 @@
 	.nav > ul > li > a{
 		font-size: 16px;
 	}
+	.nav > button > i{
+		font-size: 25px;
+	}
 	.hero > h2 > a{
 		font-size: 32px;
 	}
@@ -243,8 +236,8 @@
 	.nav > ul > li > a{
 		font-size: 14px;
 	}
-	.nav > button > img{
-		width: 80%;
+	.nav > button > i{
+		font-size: 20px;
 	}
 	.hero > h2 > a{
 		font-size: 30px;
@@ -255,20 +248,17 @@
 	.bullets > ul > li > a{
 		font-size: 12px;
 	}
+	.footer > a{
+		font-size: 20px;
+	}
 	.footer > ul > li > a{
 		font-size: 10px;
 	}
 }
 
 @media (max-width: 415px) {
-	.nav > ul{
-		margin-right: 10%;
-	}
 	.nav > ul > li > a{
 		font-size: 11px;
-	}
-	.nav > button > img{
-		width: 45%;
 	}
 	.hero > h2 > a{
 		font-size: 21px;
@@ -279,12 +269,21 @@
 	.bullets > ul > li > a{
 		font-size: 8px;
 	}
+	.footer > a{
+		font-size: 18px;
+	}
 	.footer > ul > li > a{
 		font-size: 8px;
 	}
 }
 
 @media (max-width: 281px) {
+	.nav > ul > li > a{
+		font-size: 9px;
+	}
+	.nav > button > i{
+		font-size: 16px;
+	}
 	.hero > h2 > a{
 		font-size: 15px;
 	}
@@ -294,7 +293,28 @@
 	.bullets > ul > li > a{
 		font-size: 6px;
 	}
+	.footer > a{
+		font-size: 15px;
+	}
 	.footer > ul > li > a{
 		font-size: 6px;
+	}
+}
+
+@media (max-aspect-ratio: 19/25) {
+	.header > button{
+		width: 30%;
+	}
+	.header > button > img{
+		height: 6vh;
+	}
+	.nav{
+		margin-right: 10%;
+	}
+	.nav > ul{
+		margin-right: 30%;
+	}
+	.footer > ul{
+		margin-right: 11%;
 	}
 }
