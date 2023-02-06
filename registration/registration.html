@@ -1,9 +1,148 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset ="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Get started(Registration)</title>
-        
-    </head>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(70, 135, 232);
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: rgb(255, 255, 255);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.navbar a {
+  float: right;
+  display: block;
+  color: rgb(151, 151, 151);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background: #f1f1f1;
+  color: black;
+}
+
+
+
+.main {
+  padding: 16px;
+  margin-bottom: 30px;
+  display: block;
+  text-align: center;
+  float: center;
+}
+
+.What{
+    text-align: center;
+    color: azure;
+}
+.Time{
+    text-align: center;
+    color: rgb(204, 204, 204);
+}
+
+.What, .Time{
+    display: inline;
+}
+
+.modal {
+    background: rgb(255, 255, 255);
+    height: 500px;
+    width: 500px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 30px;
+    text-align: center;
+    padding: 80px 80px;
+    }
+
+    .form-inline {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.form-inline input {
+  vertical-align: middle;
+  margin: 90px 90px 90px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid black;
+}
+.button {
+  background-color: rgb(37, 88, 208);
+  border: 1px solid black;
+  color: white;
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.button4 {border-radius: 20px;}
+.button4:hover{
+    color: rgb(151, 151, 151);
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="#privacypolicy">Privacy Policy</a>
+  <a href="#t&c">Terms & Conditions</a>
+  <a href="#contact">Contact Us</a>
+</div>
+
+<div class="main">
+  <div class = "What">
+    <h1 style="display: inline-block">What</h1>
+  </div>  
+  <div  class = "Time">
+    <h1 style="display: inline-block" >Time?</h1>
+  </div>
+  
+  <div class = "modal">
+      <div>
+          <p style = "color: rgb(77, 130, 193); font-size: larger; font-weight: 650; text-align: center;">SYNC YOUR TIMETABLE</p>
+        </div>
+    <div>
+        <p style="color: black; font-size: larger; font-weight: 500; padding-top: 40px; padding-left: 40px; padding-right: 40px; text-align: center; padding-bottom: 20px;">To upload your calendar locate the link to the ics file of your calendar system and paste it below.</p>
+    </div>
+    <div>
+        <p style="color: black; font-size: larger; font-weight: 500; padding-top: 20px; padding-left: 40px; padding-right: 40px; text-align: center;">More details about how to do this can be found here.</p>
+    </div>
+    <div>
+        <form class = "form-inline">
+            <input type="url" id="icslink" placeholder="Timetable URl" name="icslink">
+        </form>
+        <button class="button button4" onclick="window.location.href = '#something';">Continue</button>
+
+    </div>
+  </div>
+
+
+
+  
+</div>
+
+</body>
 </html>
