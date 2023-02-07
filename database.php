@@ -15,14 +15,14 @@ function openConn(): PDO {
     {
         die("Could not connect to $host :" . $pe->getMessage());
     }
-    echo ("Connected");
+    echo (" CONN ");
     return $pdo;
 }
 
 function closeConn($obj): void
 {
     $obj = null;
-    echo "Closed";
+    echo " DISCONN ";
 }
 
 function showDB(): void
@@ -34,10 +34,11 @@ function showDB(): void
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     while ($row = $stmt->fetch())
     {
-        print("<h3>" . $row['name'] . "</h3>");
-        print("<h3>" . $row['username'] . "</h3>");
-        print("<h3>" . $row['password_hash'] . "</h3>");
-        print("<h3>" . $row['email'] . "</h3>");
+        print("<h3>" . "id: " . $row['id'] . "</h3>");
+        print("<h3>" . "Name: " . $row['name'] . "</h3>");
+        print("<h3>" . "Username: " . $row['username'] . "</h3>");
+        print("<h3>" . "passHash: " . $row['password_hash'] . "</h3>");
+        print("<h3>" . "email: " . $row['email'] . "</h3>");
         print("<h3>" . '<img alt="Profile Picture" src="data:image/png;base64,'.base64_encode($row['profile_picture']).'"/>' . "</h3>");
     }
     closeConn($pdo);
@@ -79,14 +80,98 @@ function authenticateUser($email, $password): bool
 
     if (password_verify($password, $row['password_hash'])) {
         echo("authentication successful");
+        closeConn($pdo);
         return true;
     }
     echo("incorrect email or password");
     return false;
+
+
 }
 
-showDB();
-//createUser("Lourenco1", file_get_contents("https://i.imgur.com/UYcHkKD.png" ), "lourencofsilva1", "fbhifhef@fhjjff1.com", "12345678");
+function checkIfEmailExists($email): bool
+{
+    $pdo = openConn();
+    $sql = "SELECT email
+            FROM users
+            WHERE email = :email";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'email' => $email
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch();
+
+    if (isset($row['email'])) {
+        echo("email exists");
+        closeConn($pdo);
+        return(true);
+    }
+    else {
+        echo("email don't exist");
+        closeConn($pdo);
+        return(false);
+    }
+}
+
+function checkIfUsernameExists($username): bool
+{
+    $pdo = openConn();
+    $sql = "SELECT username
+            FROM users
+            WHERE username = :username";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'username' => $username
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch();
+
+    if (isset($row['username'])) {
+        echo("username exists");
+        closeConn($pdo);
+        return(true);
+    }
+    else {
+        echo("username don't exist");
+        closeConn($pdo);
+        return(false);
+    }
+}
+function authenticateUsername($username, $password): bool
+{
+    $pdo = openConn();
+
+    $sql = "SELECT password_hash
+            FROM users
+            WHERE username= :username";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'username' => $username
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch();
+
+    if (password_verify($password, $row['password_hash'])) {
+        echo("authentication successful");
+        closeConn($pdo);
+        return true;
+    }
+    else {
+        echo("incorrect username or password");
+        return false;
+    }
+
+
+}
+
+//createUser("Aran", file_get_contents("https://assets.manchester.ac.uk/corporate/images/design/logo-university-of-manchester.png" ), "a2trizzy", "aran@2trizzy.com", "test");
 //showDB();
-authenticateUser("fbhifhef@fhjjff.com", "12345678");
+echo(checkIfEmailExists("aran@2trizzy.com"));
+echo(checkIfUsernameExists("a2trizzy"));
+echo(checkIfUsernameExists("fakeUsername"));
+
 ?>
