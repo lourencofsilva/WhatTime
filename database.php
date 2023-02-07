@@ -45,6 +45,14 @@ function showDB(): void
 }
 
 function createUser($name, $profile_picture, $username, $email, $password) {
+    if(checkIfUsernameExists($username)){
+        echo("username already exists, please choose another. ");
+        return;
+    }
+    if(checkIfEmailExists($email)){
+        echo("email has already been used, please choose another. ");
+        return;
+    }
     $pdo = openConn();
 
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
@@ -60,6 +68,7 @@ function createUser($name, $profile_picture, $username, $email, $password) {
         'email' => $email,
         'password_hash' => $password_hash
     ]);
+    echo("account: '" . $username . "' created.");
     closeConn($pdo);
 }
 
@@ -104,12 +113,10 @@ function checkIfEmailExists($email): bool
     $row = $stmt->fetch();
 
     if (isset($row['email'])) {
-        echo("email exists");
         closeConn($pdo);
         return(true);
     }
     else {
-        echo("email don't exist");
         closeConn($pdo);
         return(false);
     }
@@ -130,12 +137,10 @@ function checkIfUsernameExists($username): bool
     $row = $stmt->fetch();
 
     if (isset($row['username'])) {
-        echo("username exists");
         closeConn($pdo);
         return(true);
     }
     else {
-        echo("username don't exist");
         closeConn($pdo);
         return(false);
     }
@@ -168,10 +173,10 @@ function authenticateUsername($username, $password): bool
 
 }
 
-//createUser("Aran", file_get_contents("https://assets.manchester.ac.uk/corporate/images/design/logo-university-of-manchester.png" ), "a2trizzy", "aran@2trizzy.com", "test");
-//showDB();
-echo(checkIfEmailExists("aran@2trizzy.com"));
-echo(checkIfUsernameExists("a2trizzy"));
-echo(checkIfUsernameExists("fakeUsername"));
+createUser("Aran", file_get_contents("https://assets.manchester.ac.uk/corporate/images/design/logo-university-of-manchester.png" ), "a2trizzy", "aran@2trizzy.com", "test");
+showDB();
+//echo(checkIfEmailExists("aran@2trizzy.com"));
+//echo(checkIfUsernameExists("a2trizzy"));
+//echo(checkIfUsernameExists("fakeUsername"));
 
 ?>
