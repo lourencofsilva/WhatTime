@@ -169,14 +169,29 @@ function authenticateUsername($username, $password): bool
         echo("incorrect username or password");
         return false;
     }
-
-
 }
 
-createUser("Aran", file_get_contents("https://assets.manchester.ac.uk/corporate/images/design/logo-university-of-manchester.png" ), "a2trizzy", "aran@2trizzy.com", "test");
-showDB();
+function getTimetable($id, $url){
+    if(substr(file_get_contents($url),0,15) == "BEGIN:VCALENDAR"){
+        echo("yay");
+        parseTimetable($id, file_get_contents($url));
+    }
+    else {
+        echo("bad");
+        return(false);
+    }
+}
+
+function parseTimetable($id, $fileContent){
+    echo(preg_match_all("BEGIN:VEVENT", $fileContent));
+}
+
+//createUser("Aran", file_get_contents("https://assets.manchester.ac.uk/corporate/images/design/logo-university-of-manchester.png" ), "a2trizzy", "aran@2trizzy.com", "test");
+//showDB();
 //echo(checkIfEmailExists("aran@2trizzy.com"));
 //echo(checkIfUsernameExists("a2trizzy"));
 //echo(checkIfUsernameExists("fakeUsername"));
+getTimetable(1, "https://scientia-eu-v4-api-d3-02.azurewebsites.net//api/ical/b5098763-4476-40a6-8d60-5a08e9c52964/54df08df-70ec-869d-162a-1230db79bf15/timetable.ics")
+
 
 ?>
