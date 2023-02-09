@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(70, 135, 232);
+    background: radial-gradient(#5297ed, #285edb);
   }
   
   .navbar {
@@ -64,14 +64,23 @@ body {
       padding: 80px 80px;
       }
   
-      .form-inline {
+  
+
+      .ddd {
       display: block;
       margin-left: auto;
       margin-right: auto;
-      margin-top: auto;
-      margin-bottom: auto;
+      /* margin-top: 5%;
+      margin-bottom: 5%; */
   }
-  
+
+  .inputbox{
+    background-color: red;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .form-inline input {
     vertical-align: middle;
     margin-top: 10vh;
@@ -84,9 +93,8 @@ body {
     text-align: center;
   }
   .button {
-    background-color: rgb(37, 88, 208);
     border: 1px solid black;
-    color: white;
+    color: black;
     padding: 20px;
     padding-left: 40px;
     padding-right: 40px;
@@ -95,13 +103,41 @@ body {
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
+    border-radius: 20px;
   }
   
-  .button4 {border-radius: 20px;}
-  .button4:hover{
+  .button:hover{
       color: rgb(151, 151, 151);
   }
 
   .div {
     display: inline-block;
+  }
+
+  .firstline {
+    color: rgb(77, 130, 193); 
+    font-size: larger; 
+    font-weight: 650; 
+    text-align: center;
+  }
+
+  .uploadcalendar {
+    color: black; 
+    font-size: larger; 
+    font-weight: 500; 
+    padding-top: 40px; 
+    padding-left: 40px; 
+    padding-right: 40px; 
+    text-align: center; 
+    padding-bottom: 20px;
+  }
+
+  .moreinfo {
+    color: black; 
+    font-size: larger; 
+    font-weight: 500; 
+    padding-top: 20px; 
+    padding-left: 40px; 
+    padding-right: 40px; 
+    text-align: center;
   }
