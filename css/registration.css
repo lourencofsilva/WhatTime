@@ -4,7 +4,7 @@ body {
     background: radial-gradient(#5297ed, #285edb);
   }
   
-  .navbar {
+  footer {
     overflow: hidden;
     background-color: rgb(255, 255, 255);
     position: fixed;
@@ -12,7 +12,7 @@ body {
     width: 100%;
   }
   
-  .navbar a {
+  footer a {
     float: right;
     display: block;
     color: rgb(151, 151, 151);
@@ -22,79 +22,50 @@ body {
     font-size: 17px;
   }
   
-  .navbar a:hover {
+  footer a:hover {
     background: #f1f1f1;
     color: black;
   }
-  
-  
-  
-  .main {
-    padding: 16px;
-    margin-bottom: 30px;
-    display: block;
-    text-align: center;
-    float: center;
-  }
-  
-  .What{
-      text-align: center;
-      color: azure;
-  }
-  .Time{
-      text-align: center;
-      color: rgb(204, 204, 204);
-  }
-  
-  .What, .Time{
-      display: inline;
-  }
-  
+
+
+
+
   .modal {
       background: rgb(255, 255, 255);
-      height: 500px;
-      width: 500px;
+      height: 5%;
+      width: 25%;
       display: block;
       margin-left: auto;
       margin-right: auto;
-      margin-top: auto;
-      margin-bottom: auto;
+      margin-top: 10vh;
+      margin-bottom: 10vh;
       border-radius: 30px;
       text-align: center;
-      padding: 80px 80px;
+      padding: 4% 4%;
       }
-  
-  
 
-      .ddd {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      /* margin-top: 5%;
-      margin-bottom: 5%; */
-  }
 
   .inputbox{
-    background-color: red;
+    background-color: white;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 10%;
+    margin-bottom: 10%;
   }
 
-  .form-inline input {
+  .inputbox input {
     vertical-align: middle;
-    margin-top: 10vh;
-    margin-bottom: 10vh;
     padding: 10px;
     background-color: #fff;
-    border: 1px solid black;
-    border-radius: 5%;
+    border: 2px solid black;
     width: 90%;
     text-align: center;
   }
-  .button {
+  .buttondesign {
     border: 1px solid black;
-    color: black;
+    background-color: rgb(39, 93, 219);
+    color: white;
     padding: 20px;
     padding-left: 40px;
     padding-right: 40px;
@@ -106,15 +77,12 @@ body {
     border-radius: 20px;
   }
   
-  .button:hover{
+  .buttondesign:hover{
       color: rgb(151, 151, 151);
   }
 
-  .div {
-    display: inline-block;
-  }
 
-  .firstline {
+  .firstline p{
     color: rgb(77, 130, 193); 
     font-size: larger; 
     font-weight: 650; 
@@ -125,19 +93,30 @@ body {
     color: black; 
     font-size: larger; 
     font-weight: 500; 
-    padding-top: 40px; 
-    padding-left: 40px; 
-    padding-right: 40px; 
+    padding-top: 2vh; 
+    padding-left: 3vw; 
+    padding-right: 3vw; 
     text-align: center; 
-    padding-bottom: 20px;
+    padding-bottom: 2vh;
   }
 
   .moreinfo {
     color: black; 
     font-size: larger; 
     font-weight: 500; 
-    padding-top: 20px; 
-    padding-left: 40px; 
-    padding-right: 40px; 
-    text-align: center;
+    padding-top: 2vh; 
+    padding-left: 3vw; 
+    padding-right: 3vw; 
+    align-items: center;
+    padding-bottom: 2vh;
+  
+
+  }
+  .moreinfo a{
+    color: black; 
+    font-size:large ; 
+    font-weight: 500; 
+    display: inline-block;
+    font-style: normal;
+    text-decoration: none;
   }
