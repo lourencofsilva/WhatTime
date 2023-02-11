@@ -206,18 +206,65 @@ function getTimetable($id, $url) {
         return(false);
     }
     if(str_starts_with($fileContent, "BEGIN:VCALENDAR")) {
-        echo("yay");
         parseTimetable($id, $fileContent);
         return(true);
     }
     else {
-        echo("bad");
+        echo("bad .ics file");
         return(false);
     }
 }
 
-function parseTimetable($id, $fileContent) {
-    echo(preg_match_all("BEGIN:VEVENT", $fileContent));
+function parseTimetable($id, $fileContent) :array {
+    /**
+     * returns all events found in $fileContent, in a 2d array.
+     * output: 2d array, where array[n] = childArray[summary of event n, start date+time of event n, end date+time of event n]
+     * its messy i know
+     */
+    $begins = [];
+    $ends = [];
+    $dt_starts = [];
+    $dt_ends = [];
+    $summary = [];
+    $AllEvents = [];
+
+
+    $offset=0;
+    $finish = '';
+    $find="BEGIN:VEVENT"; //finds index of all event starts in string
+    $find_length=  strlen($find);
+    while ($string_position = strpos($fileContent, $find, $offset)) {
+        $begins[] = $string_position;
+        $offset=$string_position+$find_length;
+    }
+
+    $find="END:VEVENT"; //finds index of all event ends in string
+    $find_length=  strlen($find);
+    $offset=0;
+    while ($string_position = strpos($fileContent, $find, $offset)) {
+        $ends[] = $string_position;
+        $offset=$string_position+$find_length;
+    }
+
+    for($i=0;$i<count($begins);$i++){
+        $current = substr($fileContent, $begins[$i], $ends[$i]);
+
+        $summary[] = substr($current, (strpos($current, "SUMMARY:") + 8), strpos($current, "UID:") - (strpos($current, "SUMMARY:") + 8));
+
+        $eventStartTime = substr($current, (strpos($current, "DTSTART:") + 8), strpos($current, "LAST-MODIFIED:") - (strpos($current, "DTSTART:") + 8));
+        $dt_starts[] = substr($eventStartTime, 0, 4) . '/' . substr($eventStartTime, 4, 2) . '/' . substr($eventStartTime, 6, 2) . ' ' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2);
+
+        //below is the code that helped me find a php bug, it was literally the above (find event start) code but altered to find the end of the event. it works though.
+        $finish = '';
+        for($j=strpos($current, "DTEND:") + 6;$j<(strpos($current, "DTSTAMP:"));$j++) {
+            $finish = $finish . $current[$j];
+            }
+        $dt_ends[] = substr($finish, 0, 4) . '/' . substr($finish, 4, 2) . '/' . substr($finish, 6, 2) . ' ' . substr($finish, 9, 2) . ":" . substr($finish, 11, 2);
+
+        $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i]]; //adds all current event information (summary,start,end) to AllEvents array.
+    }
+
+    return($AllEvents);
 }
 
 //createUser("Aran", file_get_contents("https://assets.manchester.ac.uk/corporate/images/design/logo-university-of-manchester.png" ), "a2trizzy", "aran@2trizzy.com", "test");
