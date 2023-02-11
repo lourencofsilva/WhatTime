@@ -1,5 +1,7 @@
 <?php
 
+$start_time = microtime(true); //Code to check exec time
+
 function openConn(): PDO {
     $user = "h14965lf";
     $host = "dbhost.cs.man.ac.uk";
@@ -199,15 +201,15 @@ function createGroup($name, $group_picture, $userIDS) {
     return(true);
 }
 
-function getTimetable($id, $url) {
+function getTimetable($url) {
     $fileContent = file_get_contents($url);
     if ($fileContent == false) {
         echo("error in file get");
         return(false);
     }
     if(str_starts_with($fileContent, "BEGIN:VCALENDAR")) {
-        parseTimetable($id, $fileContent);
-        return(true);
+        $events = parseTimetable($fileContent);
+        return($events);
     }
     else {
         echo("bad .ics file");
@@ -215,7 +217,7 @@ function getTimetable($id, $url) {
     }
 }
 
-function parseTimetable($id, $fileContent) :array {
+function parseTimetable($fileContent) :array {
     /**
      * returns all events found in $fileContent, in a 2d array.
      * output: 2d array, where array[n] = childArray[summary of event n, start date+time of event n, end date+time of event n]
@@ -252,14 +254,14 @@ function parseTimetable($id, $fileContent) :array {
         $summary[] = substr($current, (strpos($current, "SUMMARY:") + 8), strpos($current, "UID:") - (strpos($current, "SUMMARY:") + 8));
 
         $eventStartTime = substr($current, (strpos($current, "DTSTART:") + 8), strpos($current, "LAST-MODIFIED:") - (strpos($current, "DTSTART:") + 8));
-        $dt_starts[] = substr($eventStartTime, 0, 4) . '/' . substr($eventStartTime, 4, 2) . '/' . substr($eventStartTime, 6, 2) . ' ' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2);
+        $dt_starts[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . ' ' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
 
         //below is the code that helped me find a php bug, it was literally the above (find event start) code but altered to find the end of the event. it works though.
         $finish = '';
         for($j=strpos($current, "DTEND:") + 6;$j<(strpos($current, "DTSTAMP:"));$j++) {
             $finish = $finish . $current[$j];
             }
-        $dt_ends[] = substr($finish, 0, 4) . '/' . substr($finish, 4, 2) . '/' . substr($finish, 6, 2) . ' ' . substr($finish, 9, 2) . ":" . substr($finish, 11, 2);
+        $dt_ends[] = substr($finish, 0, 4) . '-' . substr($finish, 4, 2) . '-' . substr($finish, 6, 2) . ' ' . substr($finish, 9, 2) . ":" . substr($finish, 11, 2) . ":00";
 
         $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i]]; //adds all current event information (summary,start,end) to AllEvents array.
     }
@@ -267,9 +269,45 @@ function parseTimetable($id, $fileContent) :array {
     return($AllEvents);
 }
 
+function saveTimetable($user_id, $events) {
+
+    $pdo = openConn();
+
+    $sql = "INSERT INTO events (user_id, active, summary, dt_start, dt_end)
+ VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
+
+    $stmt = $pdo->prepare($sql);
+
+    foreach ($events as $event) {
+        $stmt->execute([
+            'user_id' => $user_id,
+            'active' => true,
+            'summary' => $event[0],
+            'dt_start' => $event[1],
+            'dt_end' => $event[2]
+        ]);
+    }
+    echo("Added all events to db");
+
+    closeConn($pdo);
+
+    return(true);
+}
+
 //createUser("Aran", file_get_contents("https://assets.manchester.ac.uk/corporate/images/design/logo-university-of-manchester.png" ), "a2trizzy", "aran@2trizzy.com", "test");
 //showDB();
 //echo(checkIfEmailExists("aran@2trizzy.com"));
 //echo(checkIfUsernameExists("a2trizzy"));
 //echo(checkIfUsernameExists("fakeUsername"));
-getTimetable(1, "https://scientia-eu-v4-api-d3-02.azurewebsites.net//api/ical/b5098763-4476-40a6-8d60-5a08e9c52964/54df08df-70ec-869d-162a-1230db79bf15/timetable.ics");
+$events = getTimetable("https://scientia-eu-v4-api-d3-02.azurewebsites.net//api/ical/b5098763-4476-40a6-8d60-5a08e9c52964/54df08df-70ec-869d-162a-1230db79bf15/timetable.ics");
+//saveTimetable(10, $events);
+
+
+
+
+
+
+// Time taken for script output (Leave at end of file)
+$end_time = microtime(true);
+$execution_time = ($end_time - $start_time);
+echo " Execution time of script = ".$execution_time." sec";
