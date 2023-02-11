@@ -171,10 +171,44 @@ function authenticateUsername($username, $password): bool
     }
 }
 
-function getTimetable($id, $url){
-    if(substr(file_get_contents($url),0,15) == "BEGIN:VCALENDAR"){
+function createGroup($name, $group_picture, $userIDS) {
+    $pdo = openConn();
+
+    $sql = "INSERT INTO groups (name, group_picture)
+ VALUES (:name, :group_picture)";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'name' => $name,
+        'group_picture' => $group_picture,
+    ]);
+
+    $group_id = $pdo->lastInsertId();
+    $sql = "INSERT INTO user_group_link (group_id, user_id)
+ VALUES (:group_id, :user_id)";
+    $stmt = $pdo->prepare($sql);
+
+    foreach ($userIDS as $user_id) {
+        $stmt->execute([
+            'group_id' => $group_id,
+            'user_id' => $user_id,
+        ]);
+    }
+
+    closeConn($pdo);
+    return(true);
+}
+
+function getTimetable($id, $url) {
+    $fileContent = file_get_contents($url);
+    if ($fileContent == false) {
+        echo("error in file get");
+        return(false);
+    }
+    if(str_starts_with($fileContent, "BEGIN:VCALENDAR")) {
         echo("yay");
-        parseTimetable($id, file_get_contents($url));
+        parseTimetable($id, $fileContent);
+        return(true);
     }
     else {
         echo("bad");
@@ -182,7 +216,7 @@ function getTimetable($id, $url){
     }
 }
 
-function parseTimetable($id, $fileContent){
+function parseTimetable($id, $fileContent) {
     echo(preg_match_all("BEGIN:VEVENT", $fileContent));
 }
 
@@ -191,7 +225,4 @@ function parseTimetable($id, $fileContent){
 //echo(checkIfEmailExists("aran@2trizzy.com"));
 //echo(checkIfUsernameExists("a2trizzy"));
 //echo(checkIfUsernameExists("fakeUsername"));
-getTimetable(1, "https://scientia-eu-v4-api-d3-02.azurewebsites.net//api/ical/b5098763-4476-40a6-8d60-5a08e9c52964/54df08df-70ec-869d-162a-1230db79bf15/timetable.ics")
-
-
-?>
+getTimetable(1, "https://scientia-eu-v4-api-d3-02.azurewebsites.net//api/ical/b5098763-4476-40a6-8d60-5a08e9c52964/54df08df-70ec-869d-162a-1230db79bf15/timetable.ics");
