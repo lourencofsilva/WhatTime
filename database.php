@@ -1,6 +1,12 @@
 <?php
 
-$start_time = microtime(true); //Code to check exec time
+function execInBackground($cmd) {
+    if (substr(php_uname(), 0, 7) == "Windows") {
+        pclose(popen("start /B ". $cmd, "r"));
+    } else {
+        exec($cmd . " > /dev/null &");
+    }
+}
 
 function openConn(): PDO {
     $user = "h14965lf";
@@ -270,44 +276,5 @@ function parseTimetable($fileContent) :array {
 }
 
 function saveTimetable($user_id, $events) {
-
-    $pdo = openConn();
-
-    $sql = "INSERT INTO events (user_id, active, summary, dt_start, dt_end)
- VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
-
-    $stmt = $pdo->prepare($sql);
-
-    foreach ($events as $event) {
-        $stmt->execute([
-            'user_id' => $user_id,
-            'active' => true,
-            'summary' => $event[0],
-            'dt_start' => $event[1],
-            'dt_end' => $event[2]
-        ]);
-    }
-    echo("Added all events to db");
-
-    closeConn($pdo);
-
-    return(true);
+    execInBackground("/Applications/MAMP/bin/php/php8.1.13/bin/php background.php " . $user_id . " " . base64_encode(serialize($events))); // Change PHP path for server
 }
-
-//createUser("Aran", file_get_contents("https://assets.manchester.ac.uk/corporate/images/design/logo-university-of-manchester.png" ), "a2trizzy", "aran@2trizzy.com", "test");
-//showDB();
-//echo(checkIfEmailExists("aran@2trizzy.com"));
-//echo(checkIfUsernameExists("a2trizzy"));
-//echo(checkIfUsernameExists("fakeUsername"));
-$events = getTimetable("https://scientia-eu-v4-api-d3-02.azurewebsites.net//api/ical/b5098763-4476-40a6-8d60-5a08e9c52964/54df08df-70ec-869d-162a-1230db79bf15/timetable.ics");
-//saveTimetable(10, $events);
-
-
-
-
-
-
-// Time taken for script output (Leave at end of file)
-$end_time = microtime(true);
-$execution_time = ($end_time - $start_time);
-echo " Execution time of script = ".$execution_time." sec";
