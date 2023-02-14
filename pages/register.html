@@ -10,33 +10,38 @@
 	<link rel="stylesheet" type="text/css" href="../css/register.css">
 </head>
 <body>
-	<div class="main">
+	<div class="header">
 		<button class="mainlogo" onClick="window.location.href = '../index.html' " id="btn" type="button"><img class="main_btn" src="../images/logo_white.png"></button>
 	</div>
 	<div class="info_box">
 		<h1 class="info_title">REGISTER</h1>
 		<div class="name">
-			<input id="name" type="text" placeholder="Name">
+			<input id="name" type="text" max="30" placeholder="Name">
 		</div>
 		<div class="username">
-			<input id="username" type="text" placeholder="Username">
+			<input id="username" type="text" max="30" placeholder="Username">
 		</div>
 		<div class="email">
-			<input id="email" type="text" placeholder="Email">
+			<input id="email" type="email" max="256" placeholder="Email">
 		</div>
 		<div class="password">
-			<input id="password" type="text" placeholder="Password">
+			<input id="password" type="password" max="128" placeholder="Password">
 		</div>
 		<div class="confirm">
-			<input id="confirm" type="text" placeholder="Confirm Password">
+			<input id="confirm" type="password" max="128" placeholder="Confirm Password">
 		</div>
 		<div class="login">
 			<p>Already Registered?</p>
-			<a href="#">Login Here</a>
+			<a href="login.html">Login Here</a>
 		</div>
 		<div class="final">
-			<button class="continue" onClick="" id="post" type="button">Continue</button>
+			<button class="continue" onClick="window.location.href = 'registration.html'" id="post" type="button">Continue</button>
 		</div>
 	</div>
+	<footer>
+	    <a href="#privacypolicy">Privacy Policy</a>
+	    <a href="#t&c">Terms & Conditions</a>
+	    <a href="#contact">Contact Us</a>
+	</footer>
 </body>
 </html>

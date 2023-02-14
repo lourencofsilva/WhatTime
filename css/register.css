@@ -5,19 +5,20 @@ body{
 	font-family: 'Overpass', sans-serif;
 	text-decoration: none;
 	border-collapse: collapse;
+	margin: 0;
 }
 
-.main > button{
+.header > button{
 	border: none;
 	background-color: transparent;
 	width: 18%;
 	height: 8vh;
 	position: absolute;
 	left: 41%;
-	top: 10vh;
+	top: 5vh;
 }
 
-.main > button > img{
+.header > button > img{
 	display: flex;
 	width: 100%;
 	cursor: pointer;
@@ -30,7 +31,7 @@ body{
 	height: 70vh;
 	position: absolute;
 	left: 25%;
-	top: 19vh;
+	top: 14vh;
 }
 
 .info_box > h1{
@@ -38,6 +39,7 @@ body{
 	font-size: 30px;
 	text-align: center;
 	cursor: default;
+	margin-top: 4%;
 }
 
 .info_box > div{
@@ -58,6 +60,14 @@ body{
 	text-align: center;
 }
 
+input:focus{
+	border: 3px rgba(51, 98, 211, 1);
+}
+
+::placeholder{
+	opacity: 0.6;
+}
+
 .info_box > .login{
 	align-items: center;
 	position: relative;
@@ -74,7 +84,7 @@ body{
 
 .info_box > .login > a{
 	color: black;
-	border: think;
+	border: thick;
 }
 
 .info_box > .final{
@@ -86,10 +96,37 @@ body{
 
 .info_box > .final > button{
 	width: 100%;
-	border: 2px solid black;
+	border: 1px solid black;
 	border-radius: 20px;
-	font-size: 20px;
+	font-size: 15px;
 	color: white;
-	background-color: rgba(51, 98, 211, 1);
+	background-color: rgba(49, 96, 211, 1);
 	cursor: pointer;
+}
+
+.info_box > .final > button:hover{
+	color: rgb(151, 151, 151);
+}
+
+footer {
+    overflow: hidden;
+    background-color: rgb(255, 255, 255);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+  
+footer a {
+    float: right;
+    display: block;
+    color: rgb(151, 151, 151);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+  
+footer a:hover {
+    background: #f1f1f1;
+    color: black;
 }
