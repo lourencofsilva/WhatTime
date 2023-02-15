@@ -9,19 +9,18 @@ function execInBackground($cmd) {
 }
 
 function openConn(): PDO {
-    $user = "h14965lf";
-    $host = "dbhost.cs.man.ac.uk";
-    $pass = "_UL37f734XT6NKJs8Cc9MMyBey7+wz";
+    require_once('config.inc.php');
+
     $name = "2022_comp10120_x3";
     try
     {
-        $pdo = new PDO("mysql:host=$host;dbname=$name", $user, $pass);
+        $pdo = new PDO("mysql:host=$database_host;dbname=$name", $database_user, $database_pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,
             PDO::ERRMODE_WARNING);
     }
     catch (PDOException $pe)
     {
-        die("Could not connect to $host :" . $pe->getMessage());
+        die("Could not connect to $database_host :" . $pe->getMessage());
     }
     echo (" CONN ");
     return $pdo;
