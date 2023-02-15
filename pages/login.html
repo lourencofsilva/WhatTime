@@ -15,19 +15,21 @@
 	</div>
 	<div class="login_box">
 		<h1 class="info_title">LOG IN</h1>
-		<div class="email">
-			<input id="email" type="email" max="256" placeholder="Email">
-		</div>
-		<div class="password">
-			<input id="password" type="password" max="128" placeholder="Password">
-		</div>
-		<div class="register">
-			<p>First Time Here?</p>
-			<a href="register.html">Register Now</a>
-		</div>
-		<div class="final">
-			<button class="continue" onClick="" id="post" type="button">Log In</button>
-		</div>
+		<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+			<div class="email">
+				<input id="email" type="email|text" name="email|username" max="256" placeholder="Email or Username" required>
+			</div>
+			<div class="password">
+				<input id="password" type="password" name="password_hash" max="128" placeholder="Password" required>
+			</div>
+			<div class="register">
+				<p>First Time Here?</p>
+				<a href="register.html">Register Now</a>
+			</div>
+			<div class="final">
+				<input class="continue" id="post" type="submit" value="Log In">
+			</div>
+		</form>
 	</div>
 	<footer>
 	    <a href="#privacypolicy">Privacy Policy</a>
