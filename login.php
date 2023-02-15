@@ -1,6 +1,10 @@
 <?php
 
 include "database.php";
+include "user-session.php";
+
+session_start();
+redirectIfLoggedIn("./index.php");
 
 $email = $password = $error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -24,8 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($passedValidation) {
-        if (authenticateUsername($email, $password)) {
+        $user = authenticateUsername($email, $password);
+        if ($user != "false") {
+            // This function will return the username, even if email was used for login.
             echo ("successful. now set cookie time, congrats :)");
+            $_SESSION['user'] = $user;
+            redirectIfLoggedIn("./index.php");
         }
         else {
             $error = $error . ("incorrect email/password.");

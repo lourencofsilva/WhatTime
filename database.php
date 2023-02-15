@@ -153,11 +153,13 @@ function checkIfUsernameExists($username): bool
         return(false);
     }
 }
-function authenticateUsername($username, $password): bool
+function authenticateUsername($username, $password): string
+// This function will return the username, even if email was used for login.
+// Returns either the username, or "false" as a string, if errored.
 {
     $pdo = openConn();
 
-    $sql = "SELECT password_hash
+    $sql = "SELECT password_hash, username
             FROM users
             WHERE username= :username OR email= :email";
 
@@ -172,18 +174,18 @@ function authenticateUsername($username, $password): bool
         if (password_verify($password, $row['password_hash'])) {
             echo("authentication successful");
             closeConn($pdo);
-            return true;
+            return ($row['username']);
         }
         else {
             echo("incorrect username or password");
             closeConn($pdo);
-            return false;
+            return ("false");
         }
     }
     else{
         echo("no");
         closeConn($pdo);
-        return(false);
+        return("false");
 
     }
 
