@@ -24,7 +24,7 @@ body{
 	cursor: pointer;
 }
 
-.info_box{
+.login_box{
 	background-color: white;
 	border-radius: 3%;
 	width: 50%;
@@ -34,24 +34,28 @@ body{
 	top: 14vh;
 }
 
-.info_box > h1{
+.login_box > h1{
 	border:	thick;
 	font-size: 30px;
 	text-align: center;
 	cursor: default;
+	margin-bottom: 22%;
 	margin-top: 4%;
 }
 
-.info_box > div{
+.login_box > div{
 	display: flex;
 	position: relative;
 	left: 10%;
-	margin-bottom: 2%;
 	width: 80%;
 	height: 7vh;
 }
 
-.info_box > div > input{
+.login_box > .email{
+	margin-bottom: 2%;
+}
+
+.login_box > div > input{
 	width: 100%;
 	height: 60%;
 	border: 2px solid black;
@@ -68,8 +72,10 @@ input:focus{
 	opacity: 0.6;
 }
 
-.info_box > .login{
+.login_box > .register{
 	align-items: center;
+	margin-top: 12%;
+	margin-bottom: 2%;
 	position: relative;
 	left: 35%;
 	display: flex;
@@ -77,24 +83,24 @@ input:focus{
 	height: 5vh;
 }
 
-.info_box > .login > p{
+.login_box > .register > p{
 	margin-right: 5px;
 	margin-left: 5%;
 }
 
-.info_box > .login > a{
+.login_box > .register > a{
 	color: black;
 	border: thick;
 }
 
-.info_box > .final{
+.login_box > .final{
 	width: 15%;
 	height: 6vh;
 	position: relative;
 	left: 42.5%;
 }
 
-.info_box > .final > button{
+.login_box > .final > button{
 	width: 100%;
 	border: 1px solid black;
 	border-radius: 20px;
@@ -104,7 +110,7 @@ input:focus{
 	cursor: pointer;
 }
 
-.info_box > .final > button:hover{
+.login_box > .final > button:hover{
 	color: rgb(151, 151, 151);
 }
 
