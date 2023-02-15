@@ -8,6 +8,9 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../css/register.css">
+	<script type="text/javascript">
+		
+	</script>
 </head>
 <body>
 	<div class="header">
@@ -15,28 +18,30 @@
 	</div>
 	<div class="info_box">
 		<h1 class="info_title">REGISTER</h1>
-		<div class="name">
-			<input id="name" type="text" max="30" placeholder="Name">
-		</div>
-		<div class="username">
-			<input id="username" type="text" max="30" placeholder="Username">
-		</div>
-		<div class="email">
-			<input id="email" type="email" max="256" placeholder="Email">
-		</div>
-		<div class="password">
-			<input id="password" type="password" max="128" placeholder="Password">
-		</div>
-		<div class="confirm">
-			<input id="confirm" type="password" max="128" placeholder="Confirm Password">
-		</div>
-		<div class="login">
-			<p>Already Registered?</p>
-			<a href="login.html">Login Here</a>
-		</div>
-		<div class="final">
-			<button class="continue" onClick="window.location.href = 'registration.html'" id="post" type="button">Continue</button>
-		</div>
+		<form action="#" method="post">
+			<div class="name">
+				<input id="name" type="text" name="name" max="30" placeholder="Name" required>
+			</div>
+			<div class="username">
+				<input id="username" type="text" name="username" max="30" placeholder="Username" required>
+			</div>
+			<div class="email">
+				<input id="email" type="email" name="email" max="256" placeholder="Email" required>
+			</div>
+			<div class="password">
+				<input id="password" type="password" name="password" max="128" placeholder="Password" required>
+			</div>
+			<div class="confirm">
+				<input id="confirm" type="password" max="128" placeholder="Confirm Password" required>
+			</div>
+			<div class="login">
+				<p>Already Registered?</p>
+				<a href="login.html">Login Here</a>
+			</div>
+			<div class="final">
+				<button class="continue" onClick="#" type="submit">Continue</button>
+			</div>
+		</form>
 	</div>
 	<footer>
 	    <a href="#privacypolicy">Privacy Policy</a>
