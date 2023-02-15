@@ -18,7 +18,7 @@
 	</div>
 	<div class="info_box">
 		<h1 class="info_title">REGISTER</h1>
-		<form action="#" method="post">
+		<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
 			<div class="name">
 				<input id="name" type="text" name="name" max="30" placeholder="Name" required>
 			</div>
@@ -29,7 +29,7 @@
 				<input id="email" type="email" name="email" max="256" placeholder="Email" required>
 			</div>
 			<div class="password">
-				<input id="password" type="password" name="password" max="128" placeholder="Password" required>
+				<input id="password" type="password" name="password_hash" max="128" placeholder="Password" required>
 			</div>
 			<div class="confirm">
 				<input id="confirm" type="password" max="128" placeholder="Confirm Password" required>
@@ -39,7 +39,7 @@
 				<a href="login.html">Login Here</a>
 			</div>
 			<div class="final">
-				<button class="continue" onClick="#" type="submit">Continue</button>
+				<input class="continue" id="post" type="submit" value="Continue">
 			</div>
 		</form>
 	</div>

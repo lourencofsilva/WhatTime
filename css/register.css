@@ -94,7 +94,7 @@ input:focus{
 	left: 42.5%;
 }
 
-.info_box > form > .final > button{
+.info_box > form > .final > input{
 	width: 100%;
 	border: 1px solid black;
 	border-radius: 20px;
@@ -104,7 +104,7 @@ input:focus{
 	cursor: pointer;
 }
 
-.info_box > form > .final > button:hover{
+.info_box > form > .final > input:hover{
 	color: rgb(151, 151, 151);
 }
 
