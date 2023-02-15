@@ -12,8 +12,8 @@ $start_time = microtime(true); //Code to check exec time
 //echo(checkIfEmailExists("aran@2trizzy.com"));
 //echo(checkIfUsernameExists("a2trizzy"));
 //echo(checkIfUsernameExists("fakeUsername"));
-$events = getTimetable("https://scientia-eu-v4-api-d3-02.azurewebsites.net//api/ical/b5098763-4476-40a6-8d60-5a08e9c52964/54df08df-70ec-869d-162a-1230db79bf15/timetable.ics");
-saveTimetable(10, $events);
+//$events = getTimetable("https://scientia-eu-v4-api-d3-02.azurewebsites.net//api/ical/b5098763-4476-40a6-8d60-5a08e9c52964/54df08df-70ec-869d-162a-1230db79bf15/timetable.ics");
+//saveTimetable(10, $events);
 
 
 

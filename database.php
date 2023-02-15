@@ -159,24 +159,35 @@ function authenticateUsername($username, $password): bool
 
     $sql = "SELECT password_hash
             FROM users
-            WHERE username= :username";
+            WHERE username= :username OR email= :email";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
-        'username' => $username
+        'username' => $username,
+        'email' => $username
     ]);
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $row = $stmt->fetch();
-
-    if (password_verify($password, $row['password_hash'])) {
-        echo("authentication successful");
+    if (isset($row['password_hash'])) {
+        if (password_verify($password, $row['password_hash'])) {
+            echo("authentication successful");
+            closeConn($pdo);
+            return true;
+        }
+        else {
+            echo("incorrect username or password");
+            closeConn($pdo);
+            return false;
+        }
+    }
+    else{
+        echo("no");
         closeConn($pdo);
-        return true;
+        return(false);
+
     }
-    else {
-        echo("incorrect username or password");
-        return false;
-    }
+
+
 }
 
 function createGroup($name, $group_picture, $userIDS) {
