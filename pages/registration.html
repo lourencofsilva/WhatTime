@@ -3,11 +3,15 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../css/registration.css">
+
 </head>
 <body>
 
   <header>
-    <button class="mainlogo" onClick="window.location.href = '../index.html' " id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
+    <div class = "logo">
+      <button class="mainlogo" onClick="window.location.href = '../index.html' " id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
+    </div>
+    
   </header>
 
   <div class = "modal">
@@ -22,19 +26,25 @@
       </div>
 
       <div class = "inputbox">
-        <input type="url" id="icslink" placeholder="Timetable URl" name="icslink">
-      </div>
-      <div class = "buttonbox">
-        <button class="buttondesign" onclick="window.location.href = '#something';">Continue</button>
-      </div>
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post"> 
+          <div class = "linkcontainer">
+            <input type="url" id="icslink" placeholder="Timetable URl" name="icslink">
+          </div>
+          
+          <div class = "buttonbox">
+            <button class="buttondesign" id = "post" type = "submit" value = "">Continue</button>
+          </div>  
 
-  </div>
+        </form>
+      </div>
+    </div>
 
-  <footer>
+  <footer id ="footer">
     <a href="#privacypolicy">Privacy Policy</a>
     <a href="#t&c">Terms & Conditions</a>
     <a href="#contact">Contact Us</a>
   </footer>
+
 
 </body>
 </html>
