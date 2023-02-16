@@ -17,3 +17,19 @@ function isLoggedIn() {
 function getLoggedInUser(): string {
     return ($_SESSION['user']);
 }
+
+function getLoggedInUsersID(): int {
+    $pdo = openConn();
+    $email = ($_SESSION['email']);
+    $sql = "SELECT id
+            FROM users
+            WHERE email= :email";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'email' => $email
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch();
+    return($row['id']);
+}

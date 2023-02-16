@@ -53,6 +53,24 @@ function showDB(): void
     closeConn($pdo);
 }
 
+function addTimetable($id, $timetable_url){
+    $pdo = openConn();
+
+    $sql = "UPDATE users 
+    SET timetable_url = :timetable_url
+    WHERE id = :id";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+            'timetable_url' => $timetable_url,
+            'id' => $id
+        ]);
+
+
+    echo("Added timetable to db");
+
+    closeConn($pdo);
+}
 function createUser($name, $profile_picture, $username, $email, $password) {
     if(checkIfUsernameExists($username)){
         echo("username already exists, please choose another. ");

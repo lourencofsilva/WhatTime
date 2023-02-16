@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // This function will return the username, even if email was used for login.
             echo ("successful. now set cookie time, congrats :)");
             $_SESSION['user'] = $user;
+            $_SESSION['email'] = $email;
             redirectIfLoggedIn("./index.php");
         }
         else {
@@ -82,6 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo("<p>". $error ."</p>");
     }
     ?>
+
 	<footer>
 	    <a href="#privacypolicy">Privacy Policy</a>
 	    <a href="#t&c">Terms & Conditions</a>

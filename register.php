@@ -40,10 +40,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     if ($passedValidation) {
-        echo("great success");
         createUser($realName,null,$username,$email,$password);
+        $user = authenticateUsername($email, $password);
+        if ($user != "false") {
+            // This function will return the username, even if email was used for login.
+            echo ("successful. now set cookie time, congrats :)");
+            $_SESSION['user'] = $user;
+            $_SESSION['email'] = $email;
+            redirectIfLoggedIn("./registration.php");
     }
-}
+}}
 ?>
 
 <!DOCTYPE html>
