@@ -6,7 +6,7 @@ include "user-session.php";
 session_start();
 redirectIfLoggedIn("./index.php");
 
-$email = $password = $error = "";
+$name = $username = $email = $password = $confirm = $error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $realName = $_POST["name"];
     $email = $_POST["email"];
@@ -15,6 +15,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password_confirm = $_POST["confirm"];
     $passedValidation = true;
 
+    if (empty($realName)) {
+        $error = $error ."Name is required. <br>";
+        $passedValidation = false;
+    }
+
+    if (empty($username)) {
+        $error = $error ."Username is required. <br>";
+        $passedValidation = false;
+    } else {
+        if (checkIfUsernameExists($username)){
+            $error = $error ."That username is taken. Please choose another. <br>";
+            $passedValidation = false;
+        }
+    }
+
     if (empty($email)) {
         $error = $error ."Email Address is required. <br>";
         $passedValidation = false;
@@ -22,22 +37,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error = $error .  "Invalid Email Address. <br>";
             $passedValidation = false;
+        } else {
+            if (checkIfEmailExists($email)){
+                $error = $error ."Email Address is already in use. Please log in. <br>";
+                $passedValidation = false;
+            }
         }
     }
-    if (checkIfEmailExists($email)){
-        $error = $error ."Email Address is already in use. Please log in. <br>";
-        $passedValidation = false;
-    }
-    if (checkIfUsernameExists($username)){
-        $error = $error ."That username is taken. Please choose another. <br>";
-        $passedValidation = false;
-    }
 
-    if ($password_confirm != $password){
+    if (empty($password) or empty($password_confirm)) {
+        $error = $error ."Password and Password Confirmation are required. <br>";
         $passedValidation = false;
-        $error = $error ."Password and confirmation do not match.";
-    }
+    } else {
+        $uppercase = preg_match('@[A-Z]@', $password);
+        $lowercase = preg_match('@[a-z]@', $password);
+        $numbers    = preg_match('@[0-9]@', $password);
+        $specialChars = preg_match('@[^\w]@', $password);
 
+        if (!$uppercase || !$lowercase || !$numbers || !$specialChars || strlen($password) < 8) {
+            $passedValidation = false;
+            $error = $error ."Password must contain at least: 1 Uppercase Character, 1 Lowercase Character, 1 Number, and 1 Special Character<br>";
+        } else {
+            if ($password_confirm != $password){
+                $passedValidation = false;
+                $error = $error ."Password and confirmation do not match.";
+            }
+        }
+    }
 
     if ($passedValidation) {
         createUser($realName,null,$username,$email,$password);
