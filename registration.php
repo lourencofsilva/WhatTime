@@ -11,6 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if(isLoggedIn()) {
             $id = getLoggedInUsersID();
             addTimetable($id, $url);
+            $events = getTimetable($url);
+            saveTimetable($id, $events);
             echo("  success, added timetable to database:   ");
             redirectIfLoggedIn("./index.php");
         }
@@ -53,9 +55,9 @@ echo($url);
         <input type="url" id="icslink" placeholder="Timetable URl" name="icslink">
       </div>
       <div class = "buttonbox">
-        <button class="buttondesign" onclick="window.location.href = '#something';">Continue</button>
+          <input class="continue" id="post" type="submit" value="Continue">
       </div>
-
+      </form>
   </div>
 
   <footer>
