@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		</div>
 		<div class="register">
 			<p>First Time Here?</p>
-			<a href="register.html">Register Now</a>
+			<a href="register.php">Register Now</a>
 		</div>
 		<div class="final">
 			<input class="continue" id="post" type="submit" value="Login">

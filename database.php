@@ -11,9 +11,11 @@ function execInBackground($cmd) {
 function openConn(): PDO {
     require_once('config.inc.php');
 
+
     $name = "2022_comp10120_x3";
     try
     {
+        include 'config.inc.php';
         $pdo = new PDO("mysql:host=$database_host;dbname=$name", $database_user, $database_pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,
             PDO::ERRMODE_WARNING);

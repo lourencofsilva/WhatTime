@@ -1,0 +1,105 @@
+<?php
+
+include "database.php";
+include "user-session.php";
+
+session_start();
+redirectIfLoggedIn("./index.php");
+
+$email = $password = $error = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $realName = $_POST["name"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $username = $_POST["username"];
+    $password_confirm = $_POST["confirm"];
+    $passedValidation = true;
+
+    if (empty($email)) {
+        $error = $error ."Email Address is required. <br>";
+        $passedValidation = false;
+    } else {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = $error .  "Invalid Email Address. <br>";
+            $passedValidation = false;
+        }
+    }
+    if (checkIfEmailExists($email)){
+        $error = $error ."Email Address is already in use. Please log in. <br>";
+        $passedValidation = false;
+    }
+    if (checkIfUsernameExists($username)){
+        $error = $error ."That username is taken. Please choose another. <br>";
+        $passedValidation = false;
+    }
+
+    if ($password_confirm != $password){
+        $passedValidation = false;
+        $error = $error ."Password and confirmation do not match.";
+    }
+
+
+    if ($passedValidation) {
+        echo("great success");
+        createUser($realName,null,$username,$email,$password);
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Get Started (Registeration) - Step 1</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../css/register.css">
+	<script type="text/javascript">
+		
+	</script>
+</head>
+<body>
+	<div class="header">
+		<button class="mainlogo" onClick="window.location.href = '../index.html' " id="btn" type="button"><img class="main_btn" src="../images/logo_white.png"></button>
+	</div>
+	<div class="info_box">
+		<h1 class="info_title">REGISTER</h1>
+		<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+			<div class="name">
+				<input id="name" type="text" name="name" max="30" placeholder="Name" required>
+			</div>
+			<div class="username">
+				<input id="username" type="text" name="username" max="30" placeholder="Username" required>
+			</div>
+			<div class="email">
+				<input id="email" type="email" name="email" max="256" placeholder="Email" required>
+			</div>
+			<div class="password">
+				<input id="password" type="password" name="password" max="128" placeholder="Password" required>
+			</div>
+			<div class="confirm">
+				<input id="confirm" type="password" name="confirm" max="128" placeholder="Confirm Password" required>
+			</div>
+			<div class="login">
+				<p>Already Registered?</p>
+				<a href="login.php">Login Here</a>
+			</div>
+			<div class="final">
+				<input class="continue" id="post" type="submit" value="Continue">
+			</div>
+		</form>
+	</div>
+    <?php
+    if ($error){
+        echo("<p>". $error ."</p>");
+    }
+    ?>
+	<footer>
+	    <a href="#privacypolicy">Privacy Policy</a>
+	    <a href="#t&c">Terms & Conditions</a>
+	    <a href="#contact">Contact Us</a>
+	</footer>
+</body>
+</html>

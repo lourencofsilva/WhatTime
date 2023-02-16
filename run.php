@@ -8,7 +8,7 @@ $start_time = microtime(true); //Code to check exec time
 
 
 //createUser("Aran", file_get_contents("https://assets.manchester.ac.uk/corporate/images/design/logo-university-of-manchester.png" ), "a2trizzy", "aran@2trizzy.com", "test");
-//showDB();
+showDB();
 //echo(checkIfEmailExists("aran@2trizzy.com"));
 //echo(checkIfUsernameExists("a2trizzy"));
 //echo(checkIfUsernameExists("fakeUsername"));
