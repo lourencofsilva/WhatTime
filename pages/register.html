@@ -36,7 +36,7 @@
 	</div>
 	<div class="info_box">
 		<h1 class="info_title">REGISTER</h1>
-		<form onsubmit="return checkAll()">
+		<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" onsubmit="return checkAll()">
 			<div class="name">
 				<input id="name" type="text" name="name" max="30" placeholder="Name" required>
 			</div>
