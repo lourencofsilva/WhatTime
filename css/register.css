@@ -71,7 +71,7 @@ input:focus{
 .info_box > form > .login{
 	align-items: center;
 	position: relative;
-	left: 35%;
+	left: 34%;
 	display: flex;
 	width: 30%;
 	height: 5vh;
@@ -80,11 +80,13 @@ input:focus{
 .info_box > form > .login > p{
 	margin-right: 5px;
 	margin-left: 5%;
+	white-space: nowrap;
 }
 
 .info_box > form > .login > a{
 	color: black;
 	border: thick;
+	white-space: nowrap;
 }
 
 .info_box > form > .final{
@@ -129,4 +131,180 @@ footer a {
 footer a:hover {
     background: #f1f1f1;
     color: black;
+}
+
+@media (orientation: portrait) and (max-width: 1279px) {
+	.header > button{
+		width: 30%;
+		position: absolute;
+		left: 35%;
+		top: 10vh;
+	}
+
+	.info_box{
+		width: 70%;
+		height: 60vh;
+		position: absolute;
+		left: 15%;
+		top: 19vh;
+	}
+}
+
+@media (orientation: portrait) and (max-width: 1023px) {
+	.info_box > form > div > input{
+		height: 50%;
+	}
+
+	.info_box > form > .login{
+		position: relative;
+		left: 30%;
+	}
+}
+
+@media (orientation: portrait) and (max-width: 767px) {
+	.info_box > h1{
+		font-size: 23px;
+	}
+
+	.info_box > form > div > input{
+		font-size: 14px;
+	}
+
+	.info_box > form > .login{
+		position: relative;
+		left: 25%;
+	}
+
+	.info_box > form > .login > p{
+		font-size: 13px;
+	}
+
+	.info_box > form > .login > a{
+		font-size: 13px;
+	}
+
+	.info_box > form > .final > input{
+		font-size: 10px;
+	}
+
+	footer > a{
+		font-size: 12px;
+	}
+}
+
+@media (orientation: portrait) and (max-width: 415px) {
+	.header > button{
+		width: 50%;
+		position: absolute;
+		left: 25%;
+	}
+
+	.info_box{
+		width: 90%;
+		position: absolute;
+		left: 5%;
+	}
+
+	.info_box > form > .login{
+		position: relative;
+		left: 23%;
+	}
+
+	.info_box > form > .final > input{
+		font-size: 8px;
+	}
+
+	footer > a{
+		font-size: 10px;
+	}
+}
+
+@media (orientation: portrait) and (max-width: 281px) {
+	.info_box > h1{
+		font-size: 20px;
+	}
+
+	.info_box > form > div > input{
+		font-size: 10px;
+	}
+
+	.info_box > form > .login{
+		position: relative;
+		left: 20%;
+	}
+
+	.info_box > form > .login > p{
+		font-size: 10px;
+	}
+
+	.info_box > form > .login > a{
+		font-size: 10px;
+	}
+
+	.info_box > form > .final > input{
+		font-size: 6px;
+	}
+
+	footer > a{
+		font-size: 8px;
+		padding: 10px 10px;
+	}
+}
+
+@media (orientation: landscape) and (max-width: 1279px) {
+	.info_box > form > .login{
+		position: relative;
+		left: 27%;
+	}
+
+	.info_box > form > .final > input{
+		font-size: 12px;
+	}	
+
+	footer > a{
+		font-size: 13px;
+		padding: 10px 10px;
+	}
+}
+
+@media (orientation: landscape) and (max-width: 915px) {
+	.info_box{
+		height: 73vh;
+	}
+
+	.info_box > h1{
+		font-size: 20px;
+	}
+
+	.info_box > form > div > input{
+		font-size: 11px;
+	}
+
+	.info_box > form > .login{
+		position: relative;
+		left: 30%;
+	}	
+
+	.info_box > form > .login > p{
+		font-size: 11px;
+	}
+
+	.info_box > form > .login > a{
+		font-size: 11px;
+	}
+
+	.info_box > form > .final > input{
+		font-size: 10px;
+	}
+
+	footer > a{
+		font-size: 10px;
+		padding: 8px 8px;
+	}
+}
+
+@media (orientation: landscape) and (max-width: 767px) {
+	.info_box > form > .final > input{
+		font-size: 9px;
+	}
 }
