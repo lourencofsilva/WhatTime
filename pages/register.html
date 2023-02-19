@@ -9,7 +9,25 @@
 	<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../css/register.css">
 	<script type="text/javascript">
-		
+		function checkAll() {
+			var regexPw = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[~!@#$%^&*()-_+=])[A-Za-z\d~!@#$%^&*()-_+=]{8,128}$/;
+			var regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			var em = document.getElementById('email').value;
+			var p1 = document.getElementById('password').value;
+			var p2 = document.getElementById('confirm').value;
+			if (!regexEmail.test(em)) {
+				alert("This is not a general email format.");
+				return false;
+			}
+			if (!regexPw.test(p1)) {
+				alert("password should contain at least\none uppercase [A-Z]\none lowercase [a-z]\none number [0-9]\none special character [~!@#$%^&*()-_+=]");
+				return false;
+			}
+			if (p1 != p2) {
+				alert("passwords do not match.");
+				return false;
+			}
+		}
 	</script>
 </head>
 <body>
@@ -18,7 +36,7 @@
 	</div>
 	<div class="info_box">
 		<h1 class="info_title">REGISTER</h1>
-		<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+		<form onsubmit="return checkAll()">
 			<div class="name">
 				<input id="name" type="text" name="name" max="30" placeholder="Name" required>
 			</div>
