@@ -3,9 +3,6 @@
 include "database.php";
 include "logging.php";
 
-doLog("ERROR1", "Adding events to db failed.", "RUNNING", "background.php");
-
-
 $user_id = $argv[1];
 $events = unserialize(base64_decode($argv[2]));
 
