@@ -1,7 +1,7 @@
 <?php
 
-include "database.php";
-include "user-session.php";
+include "php_funcs/database.php";
+include "php_funcs/user-session.php";
 
 session_start();
 

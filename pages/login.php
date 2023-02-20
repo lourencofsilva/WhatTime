@@ -69,13 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="final">
                 <input class="continue" id="post" type="submit" value="Login">
             </div>
+            <?php
+            if ($error){
+                echo("<p>". $error ."</p>");
+            }
+            ?>
         </form>
 	</div>
-    <?php
-    if ($error){
-        echo("<p>". $error ."</p>");
-    }
-    ?>
 	<footer>
 	    <a href="#privacypolicy">Privacy Policy</a>
 	    <a href="#t&c">Terms & Conditions</a>

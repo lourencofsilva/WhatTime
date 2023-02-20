@@ -4,7 +4,7 @@ include "../php_funcs/database.php";
 include "../php_funcs/user-session.php";
 
 session_start();
-redirectIfLoggedIn("./index.php");
+redirectIfLoggedIn("../index.php");
 
 $name = $username = $email = $password = $confirm = $error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

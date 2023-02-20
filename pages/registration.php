@@ -57,7 +57,7 @@ echo($url);
     <div class = "inputbox">
         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
             <div class = "linkcontainer">
-                <input type="url" id="icslink" placeholder="Timetable URl" name="icslink">
+                <input type="url" id="icslink" placeholder="Timetable URl" name="icslink" required>
             </div>
 
             <div class = "buttonbox">
