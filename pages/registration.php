@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $events = getTimetable($url);
             saveTimetable($id, $events);
             echo("  success, added timetable to database:   ");
-            redirectIfLoggedIn("./index.php");
+            redirectIfLoggedIn("../index.php");
         }
         else{
             echo("please log in first, then try again");

@@ -310,5 +310,5 @@ function parseTimetable($fileContent) :array {
 }
 
 function saveTimetable($user_id, $events) {
-    execInBackground("php background.php " . $user_id . " " . base64_encode(serialize($events))); // CHANGED PHP PATH FOR SERVER, WILL NOT WORK ON LOCAL MACHINES ANY LONGER
+    execInBackground("php php_funcs/background.php " . $user_id . " " . base64_encode(serialize($events))); // CHANGED PHP PATH FOR SERVER, WILL NOT WORK ON LOCAL MACHINES ANY LONGER
 }
