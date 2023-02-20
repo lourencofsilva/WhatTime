@@ -81,57 +81,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Get Started (Registeration) - Step 1</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../css/register.css">
-	<script type="text/javascript">
-		
-	</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Get Started (Registeration) - Step 1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/register.css">
+    <script type="text/javascript">
+        function checkAll() {
+            var regexPw = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[~!@#$%^&*()-_+=])[A-Za-z\d~!@#$%^&*()-_+=]{8,128}$/;
+            var regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            var em = document.getElementById('email').value;
+            var p1 = document.getElementById('password').value;
+            var p2 = document.getElementById('confirm').value;
+            if (!regexEmail.test(em)) {
+                document.getElementById("alert").innerHTML += "This is not a general email format.<br>";
+                return false;
+            }
+            if (!regexPw.test(p1)) {
+                document.getElementById("alert").innerHTML += "Password should be of length 8 and contain at least\none uppercase [A-Z]\none lowercase [a-z]\none number [0-9]\none special character [~!@#$%^&*()-_+=]<br>";
+                return false;
+            }
+            if (p1 != p2) {
+                document.getElementById("alert").innerHTML += "Passwords do not match.<br>";
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
-	<div class="header">
-		<button class="mainlogo" onClick="window.location.href = '../index.html' " id="btn" type="button"><img class="main_btn" src="../images/logo_white.png"></button>
-	</div>
-	<div class="info_box">
-		<h1 class="info_title">REGISTER</h1>
-		<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
-			<div class="name">
-				<input id="name" type="text" name="name" max="30" placeholder="Name" required>
-			</div>
-			<div class="username">
-				<input id="username" type="text" name="username" max="30" placeholder="Username" required>
-			</div>
-			<div class="email">
-				<input id="email" type="email" name="email" max="256" placeholder="Email" required>
-			</div>
-			<div class="password">
-				<input id="password" type="password" name="password" max="128" placeholder="Password" required>
-			</div>
-			<div class="confirm">
-				<input id="confirm" type="password" name="confirm" max="128" placeholder="Confirm Password" required>
-			</div>
-			<div class="login">
-				<p>Already Registered?</p>
-				<a href="login.php">Login Here</a>
-			</div>
-			<div class="final">
-				<input class="continue" id="post" type="submit" value="Continue">
-			</div>
-		</form>
-	</div>
-    <?php
+<div class="header">
+    <button class="mainlogo" onClick="window.location.href = '../index.html' " id="btn" type="button"><img class="main_btn" src="../images/logo_white.png"></button>
+</div>
+<div class="info_box">
+    <h1 class="info_title">REGISTER</h1>
+    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" onsubmit="return checkAll()">
+        <div class="name">
+            <input id="name" type="text" name="name" max="30" placeholder="Name" required>
+        </div>
+        <div class="username">
+            <input id="username" type="text" name="username" max="30" placeholder="Username" required>
+        </div>
+        <div class="email">
+            <input id="email" type="email" name="email" max="256" placeholder="Email" required>
+        </div>
+        <div class="password">
+            <input id="password" type="password" name="password" max="128" placeholder="Password" required>
+        </div>
+        <div class="confirm">
+            <input id="confirm" type="password" max="128" name="confirm" placeholder="Confirm Password" required>
+        </div>
+        <div class="login">
+            <p>Already Registered?</p>
+            <a href="login.html">Login Here</a>
+        </div>
+        <div class="final">
+            <input class="continue" id="post" type="submit" value="Continue">
+        </div>
+    </form>
+</div>
+<p id="alert"><?php
     if ($error){
-        echo("<p>". $error ."</p>");
+        echo($error);
     }
-    ?>
-	<footer>
-	    <a href="#privacypolicy">Privacy Policy</a>
-	    <a href="#t&c">Terms & Conditions</a>
-	    <a href="#contact">Contact Us</a>
-	</footer>
+    ?></p>
+<footer>
+    <a href="#privacypolicy">Privacy Policy</a>
+    <a href="#t&c">Terms & Conditions</a>
+    <a href="#contact">Contact Us</a>
+</footer>
 </body>
 </html>

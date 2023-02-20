@@ -13,13 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $passedValidation = true;
 
     if (empty($email)) {
-        $error = $error ."Email Address is required. <br>";
+        $error = $error ."Email Address or Username is required. <br>";
         $passedValidation = false;
-    } else {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error = $error .  "Invalid Email Address. <br>";
-            $passedValidation = false;
-        }
     }
 
     if (empty($password)) {
@@ -32,8 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user != "false") {
             // This function will return the username, even if email was used for login.
             echo ("successful. now set cookie time, congrats :)");
-            $_SESSION['user'] = $user;
-            $_SESSION['email'] = $email;
+            $_SESSION['user_id'] = $user;
             redirectIfLoggedIn("./index.php");
         }
         else {
@@ -62,11 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
 	<div class="login_box">
 		<h1 class="info_title">LOG IN</h1>
-		<div class="email">
-			<input name="email" id="email" type="email" max="256" placeholder="Email" value="<?php echo $email;?>">
+		<div class="email"> // MAY BREAK CSS ID=EMAIL
+			<input name="email" id="email" type="text" max="256" placeholder="Email or Username" value="<?php echo $email;?>" required>
 		</div>
 		<div class="password">
-			<input name="password" id="password" type="password" max="128" placeholder="Password">
+			<input name="password" id="password" type="password" max="128" placeholder="Password" required>
 		</div>
 		<div class="register">
 			<p>First Time Here?</p>

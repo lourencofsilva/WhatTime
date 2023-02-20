@@ -9,12 +9,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $url = $_POST["icslink"];
     if(str_ends_with($url, ".ics")){
         if(isLoggedIn()) {
-            $id = getLoggedInUsersID();
+            $id = getLoggedInUserId();
             addTimetable($id, $url);
             $events = getTimetable($url);
             saveTimetable($id, $events);
             echo("  success, added timetable to database:   ");
-            redirectIfLoggedIn("./index.php");
+            //redirectIfLoggedIn("./index.php");
         }
         else{
             echo("please log in first, then try again");

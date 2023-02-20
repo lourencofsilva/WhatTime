@@ -6,7 +6,7 @@ include "user-session.php";
 session_start();
 
 if (isLoggedIn()) {
-    echo getLoggedInUser();
+    echo getLoggedInUserId();
     echo "<a href='logout.php'>LOGOUT</a>";
     echo "<a href='registration.php'>Add timetable</a>";
 } else {
