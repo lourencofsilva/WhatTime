@@ -198,13 +198,13 @@ function authenticateUsername($username, $password): int
         else {
             echo("incorrect username or password");
             closeConn($pdo);
-            return ("false");
+            return (-1);
         }
     }
     else{
         echo("no");
         closeConn($pdo);
-        return("false");
+        return(-1);
 
     }
 
@@ -289,21 +289,23 @@ function parseTimetable($fileContent) :array {
     for($i=0;$i<count($begins);$i++){
         $current = substr($fileContent, $begins[$i], $ends[$i]);
 
-        $summary[] = substr($current, (strpos($current, "SUMMARY:") + 8), strpos($current, "UID:") - (strpos($current, "SUMMARY:") + 8));
+        $pos = strpos($current, "SUMMARY:") + 8;
+        $line = substr($current, $pos);
+        $summary[] = substr($current, $pos, $pos + strpos($line, PHP_EOL) - (strpos($current, "SUMMARY:") + 8));
 
-        $eventStartTime = substr($current, (strpos($current, "DTSTART:") + 8), strpos($current, "LAST-MODIFIED:") - (strpos($current, "DTSTART:") + 8));
+        $pos = strpos(substr($current, strpos($current, "DTSTART") + 7), ":") + 1 + strpos($current, "DTSTART") + 7;
+        $line = substr($current, $pos);
+        $eventStartTime = substr($current, $pos, $pos + strpos($line, PHP_EOL) - $pos);
         $dt_starts[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . ' ' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
 
-        //below is the code that helped me find a php bug, it was literally the above (find event start) code but altered to find the end of the event. it works though.
-        $finish = '';
-        for($j=strpos($current, "DTEND:") + 6;$j<(strpos($current, "DTSTAMP:"));$j++) {
-            $finish = $finish . $current[$j];
-            }
-        $dt_ends[] = substr($finish, 0, 4) . '-' . substr($finish, 4, 2) . '-' . substr($finish, 6, 2) . ' ' . substr($finish, 9, 2) . ":" . substr($finish, 11, 2) . ":00";
+        $pos = strpos(substr($current, strpos($current, "DTEND") + 5), ":") + 1 + strpos($current, "DTEND") + 5;
+        $line = substr($current, $pos);
+        $eventStartTime = substr($current, $pos, $pos + strpos($line, PHP_EOL) - $pos);
+        $dt_ends[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . ' ' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
 
         $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i]]; //adds all current event information (summary,start,end) to AllEvents array.
     }
-
+    //echo(var_dump($AllEvents));
     return($AllEvents);
 }
 

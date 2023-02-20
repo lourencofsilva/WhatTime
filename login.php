@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($passedValidation) {
         $user = authenticateUsername($email, $password);
-        if ($user != "false") {
+        if ($user != -1) {
             // This function will return the username, even if email was used for login.
             echo ("successful. now set cookie time, congrats :)");
             $_SESSION['user_id'] = $user;
