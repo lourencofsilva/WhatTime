@@ -9,13 +9,13 @@ function execInBackground($cmd) {
 }
 
 function openConn(): PDO {
-    require_once('config.inc.php');
+    require_once('../config.inc.php');
 
 
     $name = "2022_comp10120_x3";
     try
     {
-        include 'config.inc.php';
+        include '../config.inc.php';
         $pdo = new PDO("mysql:host=$database_host;dbname=$name", $database_user, $database_pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,
             PDO::ERRMODE_WARNING);
@@ -310,5 +310,5 @@ function parseTimetable($fileContent) :array {
 }
 
 function saveTimetable($user_id, $events) {
-    execInBackground("/Applications/MAMP/bin/php/php8.1.13/bin/php background.php " . $user_id . " " . base64_encode(serialize($events))); // Change PHP path for server
+    execInBackground("php background.php " . $user_id . " " . base64_encode(serialize($events))); // CHANGED PHP PATH FOR SERVER, WILL NOT WORK ON LOCAL MACHINES ANY LONGER
 }

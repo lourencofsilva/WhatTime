@@ -1,7 +1,7 @@
 <?php
 
-include "database.php";
-include "user-session.php";
+include "../php_funcs/database.php";
+include "../php_funcs/user-session.php";
 
 session_start();
 redirectIfLoggedIn("./index.php");
@@ -134,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="login">
             <p>Already Registered?</p>
-            <a href="login.html">Login Here</a>
+            <a href="login.php">Login Here</a>
         </div>
         <div class="final">
             <input class="continue" id="post" type="submit" value="Continue">

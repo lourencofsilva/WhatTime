@@ -1,10 +1,10 @@
 <?php
 
-include "database.php";
-include "user-session.php";
+include "../php_funcs/database.php";
+include "../php_funcs/user-session.php";
 
 session_start();
-redirectIfLoggedIn("./index.php");
+redirectIfLoggedIn("../index.php");
 
 $email = $password = $error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // This function will return the username, even if email was used for login.
             echo ("successful. now set cookie time, congrats :)");
             $_SESSION['user_id'] = $user;
-            redirectIfLoggedIn("./index.php");
+            redirectIfLoggedIn("../index.php");
         }
         else {
             $error = $error . ("incorrect email/password.");
@@ -53,31 +53,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<div class="header">
 		<button class="mainlogo" onClick="window.location.href = '../index.html' " id="btn" type="button"><img class="main_btn" src="../images/logo_white.png"></button>
 	</div>
-    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
 	<div class="login_box">
 		<h1 class="info_title">LOG IN</h1>
-		<div class="email"> // MAY BREAK CSS ID=EMAIL
-			<input name="email" id="email" type="text" max="256" placeholder="Email or Username" value="<?php echo $email;?>" required>
-		</div>
-		<div class="password">
-			<input name="password" id="password" type="password" max="128" placeholder="Password" required>
-		</div>
-		<div class="register">
-			<p>First Time Here?</p>
-			<a href="register.php">Register Now</a>
-		</div>
-		<div class="final">
-			<input class="continue" id="post" type="submit" value="Login">
-		</div>
-
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+            <div class="email"> <!-- MAY BREAK CSS ID=EMAIL -->
+                <input name="email" id="email" type="text" max="256" placeholder="Email or Username" value="<?php echo $email;?>" required>
+            </div>
+            <div class="password">
+                <input name="password" id="password" type="password" max="128" placeholder="Password" required>
+            </div>
+            <div class="register">
+                <p>First Time Here?</p>
+                <a href="register.php">Register Now</a>
+            </div>
+            <div class="final">
+                <input class="continue" id="post" type="submit" value="Login">
+            </div>
+        </form>
 	</div>
-    </form>
     <?php
     if ($error){
         echo("<p>". $error ."</p>");
     }
     ?>
-
 	<footer>
 	    <a href="#privacypolicy">Privacy Policy</a>
 	    <a href="#t&c">Terms & Conditions</a>
