@@ -1,14 +1,16 @@
 .left_container{
     width: 28vw;
     height: 83vh;
-    background-color: grey;
+    background-color: white;
     float: left;
+    border: 2px solid black;
+    border-radius: 1px;
 }
 
 .right_container{
     width: 72vw;
     height: 83vh;
-    background-color: darkgrey;
+    background-color: white;
     float: right;
 }
 
@@ -31,7 +33,6 @@
 .scroll_container{
     overflow-y: scroll;
     height: 73%;
-    background-color: red;
 }
 .group_row{
     width: 99%;
@@ -83,7 +84,7 @@
   }
 
   input{
-    width: 100%;
+    width: 90%;
     height: 40%;
     border: 2px solid black;
     border-radius: 5px;
