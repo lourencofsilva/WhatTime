@@ -7,7 +7,7 @@ This is the first-year team project for COMP10120 at the University of Mancheste
 
 The goal of WhatTime is to simplify the process of organising meetings, by finding the perfect time for your meetings while taking into account everyone's schedules. This way there are no clashes and there is no discussion checking if you are free or not. Our platform also provides a place where you can access all your groups.
 
-The user provides an ics file of their timetable or calendar, and this is processed and regularly updated. WHatTime protects your privacy by not sharing any details about your events, only your availability.
+The user provides an ics file of their timetable or calendar, and this is processed and regularly updated. WhatTime protects your privacy by not sharing any details about your events, only your availability.
 
 
 
