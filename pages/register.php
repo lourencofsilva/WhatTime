@@ -139,13 +139,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="final">
             <input class="continue" id="post" type="submit" value="Continue">
         </div>
+        <p id="alert"><?php
+            if ($error){
+                echo($error);
+            }
+            ?></p>
     </form>
 </div>
-<p id="alert"><?php
-    if ($error){
-        echo($error);
-    }
-    ?></p>
 <footer>
     <a href="#privacypolicy">Privacy Policy</a>
     <a href="#t&c">Terms & Conditions</a>

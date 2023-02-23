@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 function execInBackground($cmd) {
     if (substr(php_uname(), 0, 7) == "Windows") {
         pclose(popen("start /B ". $cmd, "r"));
