@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo($event[2]);
             }
             saveTimetable($id, $events);
-            echo("  success, added timetable to database:   ");
+            redirectIfLoggedIn("../index.php");
         }
         else{
             echo("please log in first, then try again");
@@ -29,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo("that isnt an .ics file, try again g");
     }
 }
-echo($url);
 ?>
 <!DOCTYPE html>
 <html>

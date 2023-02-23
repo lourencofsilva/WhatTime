@@ -28,14 +28,12 @@ function openConn(): PDO {
     {
         die("Could not connect to $database_host :" . $pe->getMessage());
     }
-    echo (" CONN ");
     return $pdo;
 }
 
 function closeConn($obj): void
 {
     $obj = null;
-    echo " DISCONN ";
 }
 
 function showDB(): void
@@ -71,17 +69,14 @@ function addTimetable($id, $timetable_url){
         ]);
 
 
-    echo("Added timetable to db");
 
     closeConn($pdo);
 }
 function createUser($name, $profile_picture, $username, $email, $password) {
     if(checkIfUsernameExists($username)){
-        echo("username already exists, please choose another. ");
         return;
     }
     if(checkIfEmailExists($email)){
-        echo("email has already been used, please choose another. ");
         return;
     }
     $pdo = openConn();
@@ -99,7 +94,6 @@ function createUser($name, $profile_picture, $username, $email, $password) {
         'email' => $email,
         'password_hash' => $password_hash
     ]);
-    echo("account: '" . $username . "' created.");
     closeConn($pdo);
 }
 
@@ -119,11 +113,9 @@ function authenticateUser($email, $password): bool
     $row = $stmt->fetch();
 
     if (password_verify($password, $row['password_hash'])) {
-        echo("authentication successful");
         closeConn($pdo);
         return true;
     }
-    echo("incorrect email or password");
     return false;
 
 
@@ -195,18 +187,15 @@ function authenticateUsername($username, $password): int
     $row = $stmt->fetch();
     if (isset($row['password_hash'])) {
         if (password_verify($password, $row['password_hash'])) {
-            echo("authentication successful");
             closeConn($pdo);
             return ($row['id']);
         }
         else {
-            echo("incorrect username or password");
             closeConn($pdo);
             return (-1);
         }
     }
     else{
-        echo("no");
         closeConn($pdo);
         return(-1);
 
@@ -246,7 +235,6 @@ function createGroup($name, $group_picture, $userIDS) {
 function getTimetable($url) {
     $fileContent = file_get_contents($url);
     if ($fileContent == false) {
-        echo("error in file get");
         return(false);
     }
     if(str_starts_with($fileContent, "BEGIN:VCALENDAR")) {
@@ -254,7 +242,6 @@ function getTimetable($url) {
         return($events);
     }
     else {
-        echo("bad .ics file");
         return(false);
     }
 }
@@ -347,12 +334,10 @@ VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
 
     if ($fails == 0) { // Set last_updated_date to the current time, or log if failed adding events.
         $sql = "UPDATE users SET timetable_last_updated='" . date('Y-m-d H:i:s') . "' WHERE id = :id";
-        echo($sql);
         $stmt = $pdo->prepare($sql);
         $result = $stmt->execute([
             'id' => $user_id,
         ]);
-        echo($result);
     } else {
         doLog("ERROR", "Adding events to db failed.", implode($errors), "background.php", $user_id);
     }
