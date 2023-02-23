@@ -62,18 +62,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="password">
                 <input name="password" id="password" type="password" max="128" placeholder="Password" required>
             </div>
-            <div class="register">
-                <p>First Time Here?</p>
-                <a href="register.php">Register Now</a>
-            </div>
-            <div class="final">
-                <input class="continue" id="post" type="submit" value="Login">
-            </div>
             <?php
             if ($error){
                 echo("<p>". $error ."</p>");
             }
             ?>
+            <div class="register">
+                <p>First Time Here?</p>
+                <a href="register.php">Register Now</a>
+            </div>
+
+            <div class="final">
+                <input class="continue" id="post" type="submit" value="Login">
+            </div>
+
         </form>
 	</div>
 	<footer>
