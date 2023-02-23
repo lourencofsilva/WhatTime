@@ -42,7 +42,8 @@ https://web.cs.manchester.ac.uk/h14965lf/x3_group_project/
 ```
 MIT License
 
-Copyright (c) 2023 X3 Team
+Copyright (c) 2023 X3 Team (Aran Campbell, Jawoon Jang, Jonathan Fesseha, Kwan
+Yu Yip, Lourenço Silva, Yeshwanth Patil, Zi Sheng Lim)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
