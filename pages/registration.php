@@ -12,6 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id = getLoggedInUserId();
             addTimetable($id, $url);
             $events = getTimetable($url);
+            foreach ($events as $event) {
+                echo($event[0]);
+                echo($event[1]);
+                echo($event[2]);
+            }
             saveTimetable($id, $events);
             echo("  success, added timetable to database:   ");
             redirectIfLoggedIn("../index.php");
