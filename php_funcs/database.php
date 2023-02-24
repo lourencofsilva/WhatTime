@@ -343,6 +343,33 @@ VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
     }
 
     closeConn($pdo);
+}
 
-    //execInBackground("php background.php " . $user_id . " " . base64_encode(serialize($events))); // CHANGED PHP PATH FOR SERVER, WILL NOT WORK ON LOCAL MACHINES ANY LONGER
+
+function getGroupInfoFromInviteLink($invite_id) {
+    $pdo = openConn();
+
+    $sql = "SELECT id, name
+            FROM groups
+            WHERE invite_id = :invite_id";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'invite_id' => $invite_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch();
+
+    closeConn($pdo);
+
+    if (isset($row['id'])) {
+        return(array('id' => $row['id'], 'name' => $row['name']));
+    }
+    else {
+        return(false);
+    }
+}
+
+function addUserToGroup($user_id, $group_id) {
+    //TODO
 }

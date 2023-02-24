@@ -28,7 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // This function will return the username, even if email was used for login.
             echo ("successful. now set cookie time, congrats :)");
             $_SESSION['user_id'] = $user;
-            redirectIfLoggedIn("../index.php");
+            if (isset($_GET["redirect"])) {
+                redirectIfLoggedIn("../" . htmlspecialchars($_GET["redirect"]));
+            } else {
+                redirectIfLoggedIn("../index.php");
+            }
         }
         else {
             $error = $error . ("incorrect email/password.");
@@ -55,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	</div>
 	<div class="login_box">
 		<h1 class="info_title">LOG IN</h1>
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
             <div class="email"> <!-- MAY BREAK CSS ID=EMAIL -->
                 <input name="email" id="email" type="text" max="256" placeholder="Email or Username" value="<?php echo $email;?>" required>
             </div>
@@ -69,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ?>
             <div class="register">
                 <p>First Time Here?</p>
-                <a href="register.php">Register Now</a>
+                <a href="<?php echo "register.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Register Now</a>
             </div>
 
             <div class="final">

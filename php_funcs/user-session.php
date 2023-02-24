@@ -7,6 +7,13 @@ function redirectIfLoggedIn($path) {
     }
 }
 
+function redirectIfNotLoggedIn($path) {
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: '.$path);
+        die();
+    }
+}
+
 function isLoggedIn() {
     if (isset($_SESSION['user_id'])) {
         return true;

@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user != "false") {
             // This function will return the id.
             $_SESSION['user_id'] = $user;
-            redirectIfLoggedIn("./registration.php");
+            redirectIfLoggedIn("./registration.php?" .  htmlspecialchars($_SERVER['QUERY_STRING']));
     }
 }}
 ?>
@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 <div class="info_box">
     <h1 class="info_title">REGISTER</h1>
-    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" onsubmit="return checkAll()">
+    <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkAll()">
         <div class="name">
             <input id="name" type="text" name="name" max="30" placeholder="Name" required>
         </div>
@@ -132,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="login">
             <p>Already Registered?</p>
-            <a href="login.php">Login Here</a>
+            <a href="<?php echo "login.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Login Here</a>
         </div>
         <div class="final">
             <input class="continue" id="post" type="submit" value="Continue">

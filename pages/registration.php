@@ -13,8 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             addTimetable($id, $url);
             $events = getTimetable($url);
             saveTimetable($id, $events);
-            redirectIfLoggedIn("../index.php");
-        }
+            if (isset($_GET["redirect"])) {
+                redirectIfLoggedIn("../" . htmlspecialchars($_GET["redirect"]));
+            } else {
+                    redirectIfLoggedIn("../index.php");
+                }
+            }
         else{
             echo("please log in first, then try again");
 
@@ -65,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class = "inputbox">
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" onsubmit="return checkURL()">
+        <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkURL()">
             <div class = "linkcontainer">
                 <input type="url" id="icslink" placeholder="Timetable URl" name="icslink" required>
             </div>
