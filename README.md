@@ -1,5 +1,4 @@
-
-![Logo](https://web.cs.manchester.ac.uk/h14965lf/x3_group_project/images/logo_white.png)
+![Logo](https://gitlab.cs.man.ac.uk/h14965lf/x3-group-project/raw/master/images/logo_white.png)
 
 
 #
