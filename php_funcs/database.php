@@ -370,6 +370,17 @@ function getGroupInfoFromInviteLink($invite_id) {
     }
 }
 
-function addUserToGroup($user_id, $group_id) {
-    //TODO
+function addUserToGroup($user_id, $group_id): void {
+    $pdo = openConn();
+
+    $sql = "INSERT INTO user_group_link (group_id, user_id)
+ VALUES (:group_id, :user_id)";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        'group_id' => $group_id,
+        'user_id' => $user_id,
+    ]);
+
+    closeConn($pdo);
 }
