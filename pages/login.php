@@ -57,30 +57,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<div class="header">
 		<button class="mainlogo" onClick="window.location.href = '../index.html' " id="btn" type="button"><img class="main_btn" src="../images/logo_white.png"></button>
 	</div>
-	<div class="login_box">
-		<h1 class="info_title">LOG IN</h1>
-        <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
-            <div class="email"> <!-- MAY BREAK CSS ID=EMAIL -->
-                <input name="email" id="email" type="text" max="256" placeholder="Email or Username" value="<?php echo $email;?>" required>
-            </div>
-            <div class="password">
-                <input name="password" id="password" type="password" max="128" placeholder="Password" required>
-            </div>
-            <?php
-            if ($error){
-                echo("<p>". $error ."</p>");
-            }
-            ?>
-            <div class="register">
-                <p>First Time Here?</p>
-                <a href="<?php echo "register.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Register Now</a>
-            </div>
+	<div class="wrapper">
+        <div class="login_box">
+    		<h1 class="info_title">LOG IN</h1>
+            <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
+                <div class="email"> <!-- MAY BREAK CSS ID=EMAIL -->
+                    <input name="email" id="email" type="text" max="256" placeholder="Email or Username" value="<?php echo $email;?>" required>
+                </div>
+                <div class="password">
+                    <input name="password" id="password" type="password" max="128" placeholder="Password" required>
+                </div>
+                <?php
+                if ($error){
+                    echo("<p>". $error ."</p>");
+                }
+                ?>
+                <div class="register">
+                    <p>First Time Here?</p>
+                    <a href="<?php echo "register.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Register Now</a>
+                </div>
 
-            <div class="final">
-                <input class="continue" id="post" type="submit" value="Login">
-            </div>
+                <div class="final">
+                    <input class="continue" id="post" type="submit" value="Login">
+                </div>
 
-        </form>
+            </form>
+        </div>
 	</div>
 	<footer>
 	    <a href="#privacypolicy">Privacy Policy</a>

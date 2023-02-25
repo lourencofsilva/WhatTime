@@ -112,37 +112,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="header">
     <button class="mainlogo" onClick="window.location.href = '../index.html' " id="btn" type="button"><img class="main_btn" src="../images/logo_white.png"></button>
 </div>
-<div class="info_box">
-    <h1 class="info_title">REGISTER</h1>
-    <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkAll()">
-        <div class="name">
-            <input id="name" type="text" name="name" max="30" placeholder="Name" required>
-        </div>
-        <div class="username">
-            <input id="username" type="text" name="username" max="30" placeholder="Username" required>
-        </div>
-        <div class="email">
-            <input id="email" type="email" name="email" max="256" placeholder="Email" required>
-        </div>
-        <div class="password">
-            <input id="password" type="password" name="password" max="128" placeholder="Password" required>
-        </div>
-        <div class="confirm">
-            <input id="confirm" type="password" max="128" name="confirm" placeholder="Confirm Password" required>
-        </div>
-        <div class="login">
-            <p>Already Registered?</p>
-            <a href="<?php echo "login.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Login Here</a>
-        </div>
-        <div class="final">
-            <input class="continue" id="post" type="submit" value="Continue">
-        </div>
-        <p id="alert"><?php
-            if ($error){
-                echo($error);
-            }
-            ?></p>
-    </form>
+<div class="wrapper">
+    <div class="info_box">
+        <h1 class="info_title">REGISTER</h1>
+        <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkAll()">
+            <div class="name">
+                <input id="name" type="text" name="name" max="30" placeholder="Name" required>
+            </div>
+            <div class="username">
+                <input id="username" type="text" name="username" max="30" placeholder="Username" required>
+            </div>
+            <div class="email">
+                <input id="email" type="email" name="email" max="256" placeholder="Email" required>
+            </div>
+            <div class="password">
+                <input id="password" type="password" name="password" max="128" placeholder="Password" required>
+            </div>
+            <div class="confirm">
+                <input id="confirm" type="password" max="128" name="confirm" placeholder="Confirm Password" required>
+            </div>
+            <div class="login">
+                <p>Already Registered?</p>
+                <a href="<?php echo "login.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Login Here</a>
+            </div>
+            <div class="final">
+                <input class="continue" id="post" type="submit" value="Continue">
+            </div>
+            <p id="alert"><?php
+                if ($error){
+                    echo($error);
+                }
+                ?></p>
+        </form>
+    </div>
 </div>
 <footer>
     <a href="#privacypolicy">Privacy Policy</a>
