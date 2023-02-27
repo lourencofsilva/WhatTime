@@ -21,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         else{
             echo("please log in first, then try again");
-
         }
     }
     else{

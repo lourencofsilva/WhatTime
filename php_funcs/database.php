@@ -97,6 +97,8 @@ function createUser($name, $profile_picture, $username, $email, $password) {
     closeConn($pdo);
 }
 
+
+
 function authenticateUser($email, $password): bool
 {
     $pdo = openConn();
@@ -204,33 +206,6 @@ function authenticateUsername($username, $password): int
 
 }
 
-function createGroup($name, $group_picture, $userIDS) {
-    $pdo = openConn();
-
-    $sql = "INSERT INTO groups (name, group_picture)
- VALUES (:name, :group_picture)";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        'name' => $name,
-        'group_picture' => $group_picture,
-    ]);
-
-    $group_id = $pdo->lastInsertId();
-    $sql = "INSERT INTO user_group_link (group_id, user_id)
- VALUES (:group_id, :user_id)";
-    $stmt = $pdo->prepare($sql);
-
-    foreach ($userIDS as $user_id) {
-        $stmt->execute([
-            'group_id' => $group_id,
-            'user_id' => $user_id,
-        ]);
-    }
-
-    closeConn($pdo);
-    return(true);
-}
 
 function getTimetable($url) {
     $fileContent = file_get_contents($url);
@@ -346,16 +321,39 @@ VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
 }
 
 
-function getGroupInfoFromInviteLink($invite_id) {
+function createGroup($name, $group_picture) {
+    $groupUID = generateUID();
     $pdo = openConn();
 
-    $sql = "SELECT id, name
-            FROM groups
-            WHERE invite_id = :invite_id";
+
+    $sql = "INSERT INTO `groups` (name, groupUID)
+ VALUES (:name, :groupUID)";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
-        'invite_id' => $invite_id
+        'name' => $name,
+        //'group_picture' => $group_picture,
+        'groupUID' => $groupUID
+    ]);
+
+
+
+    closeConn($pdo);
+    echo("group created with UID: " . $groupUID);
+    return(true);
+}
+function getGroupInfoFromInviteLink($groupUID) {//I THINK THE PROBLEM IS IN HERE (TRY TO LOAD THIS LINK):
+    //https://web.cs.manchester.ac.uk/q98040ac/X3GroupProject/pages/invite.php?id=a1465b7a81ac4f09b5a2ad2f0a094026
+    //GOOD LUCK
+    $pdo = openConn();
+
+    $sql = "SELECT id, name
+            FROM `groups`
+            WHERE groupUID = :groupUID";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'groupUID' => $groupUID
     ]);
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $row = $stmt->fetch();
@@ -384,3 +382,21 @@ function addUserToGroup($user_id, $group_id): void {
 
     closeConn($pdo);
 }
+
+function generateUID() {
+    $data = null;
+    // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
+    $data = $data ?? random_bytes(16);
+    assert(strlen($data) == 16);
+    $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+    $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+    // Output the 36 character UUID.
+    return vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex($data), 4));
+}
+
+function createGroupLink($groupName): string{
+    return ("https://web.cs.manchester.ac.uk/q98040ac/X3GroupProject/pages/invite.php?id=" . generateUID());
+}
+
+createGroup("testGroup", null);
