@@ -30,12 +30,12 @@ if (!$info) {
     die();
 }
 
-$group_id = $info["group_id"];
-$group_name = $info["group_name"];
+$group_id = $info["id"];
+$group_name = $info["name"];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_SESSION["user_id"];
-    addUserToGroup($user_id, $group_id); // TODO
+    addUserToGroup($user_id, $group_id);
     redirectIfLoggedIn("./profile.html");
 }
 ?>
@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class = "firstline">
         <p>JOIN GROUP</p>
     </div>
-    <div class = inviteinfo>
+    <div class = "inviteinfo">
         <p>You were invited to join the group <?php echo htmlspecialchars($group_name)?><br><br></p>
         <p>Would you like to join this group?<br><p>
     </div>
