@@ -393,7 +393,7 @@ function generateUID() {
 function checkTimetableExists($user_id) {
     $pdo = openConn();
 
-    $sql = "SELECT timetable_last_updated
+    $sql = "SELECT timetable_url
             FROM users
             WHERE id = :user_id";
 
@@ -406,7 +406,7 @@ function checkTimetableExists($user_id) {
 
     $pdo = null;
 
-    if (isset($row['timetable_last_updated'])) {
+    if (isset($row['timetable_url'])) {
         return(true);
     }
     else {

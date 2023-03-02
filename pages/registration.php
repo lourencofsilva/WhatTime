@@ -12,6 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id = getLoggedInUserId();
             addTimetable($id, $url);
             $events = getTimetable($url);
+            if (!$events) {
+                echo("ICS File is not valid, please retry.");
+                die();
+            }
             saveTimetable($id, $events);
             if (isset($_GET["redirect"])) {
                 redirectIfLoggedIn("../" . htmlspecialchars($_GET["redirect"]));
@@ -20,11 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
         else{
-            echo("please log in first, then try again");
+            echo("Please log in first, then try again");
         }
     }
     else{
-        echo("that isnt an .ics file, try again g");
+        echo("ICS File is not valid, please retry.");
     }
 }
 ?>
