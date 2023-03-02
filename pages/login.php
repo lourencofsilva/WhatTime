@@ -25,13 +25,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($passedValidation) {
         $user = authenticateUsername($email, $password);
         if ($user != -1) {
-            // This function will return the username, even if email was used for login.
-            echo ("successful. now set cookie time, congrats :)");
             $_SESSION['user_id'] = $user;
-            if (isset($_GET["redirect"])) {
-                redirectIfLoggedIn("../" . htmlspecialchars($_GET["redirect"]));
+            if (!checkTimetableExists($user)) {
+                if (isset($_GET["redirect"])) {
+                    redirectIfLoggedIn("../registration.php?redirect=" . htmlspecialchars($_GET["redirect"]));
+                } else {
+                    redirectIfLoggedIn("../registration.php");
+                }
             } else {
-                redirectIfLoggedIn("../index.php");
+                if (isset($_GET["redirect"])) {
+                    redirectIfLoggedIn("../" . htmlspecialchars($_GET["redirect"]));
+                } else {
+                    redirectIfLoggedIn("../index.php");
+                }
             }
         }
         else {

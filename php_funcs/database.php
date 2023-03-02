@@ -31,11 +31,6 @@ function openConn(): PDO {
     return $pdo;
 }
 
-function closeConn($obj): void
-{
-    $obj = null;
-}
-
 function showDB(): void
 {
     $pdo = openConn();
@@ -52,7 +47,7 @@ function showDB(): void
         print("<h3>" . "email: " . $row['email'] . "</h3>");
         print("<h3>" . '<img alt="Profile Picture" src="data:image/png;base64,'.base64_encode($row['profile_picture']).'"/>' . "</h3>");
     }
-    closeConn($pdo);
+    $pdo = null;
 }
 
 function addTimetable($id, $timetable_url){
@@ -70,7 +65,7 @@ function addTimetable($id, $timetable_url){
 
 
 
-    closeConn($pdo);
+    $pdo = null;
 }
 function createUser($name, $profile_picture, $username, $email, $password) {
     if(checkIfUsernameExists($username)){
@@ -94,7 +89,7 @@ function createUser($name, $profile_picture, $username, $email, $password) {
         'email' => $email,
         'password_hash' => $password_hash
     ]);
-    closeConn($pdo);
+    $pdo = null;
 }
 
 
@@ -115,7 +110,7 @@ function authenticateUser($email, $password): bool
     $row = $stmt->fetch();
 
     if (password_verify($password, $row['password_hash'])) {
-        closeConn($pdo);
+        $pdo = null;
         return true;
     }
     return false;
@@ -138,11 +133,11 @@ function checkIfEmailExists($email): bool
     $row = $stmt->fetch();
 
     if (isset($row['email'])) {
-        closeConn($pdo);
+        $pdo = null;
         return(true);
     }
     else {
-        closeConn($pdo);
+        $pdo = null;
         return(false);
     }
 }
@@ -162,11 +157,11 @@ function checkIfUsernameExists($username): bool
     $row = $stmt->fetch();
 
     if (isset($row['username'])) {
-        closeConn($pdo);
+        $pdo = null;
         return(true);
     }
     else {
-        closeConn($pdo);
+        $pdo = null;
         return(false);
     }
 }
@@ -189,16 +184,16 @@ function authenticateUsername($username, $password): int
     $row = $stmt->fetch();
     if (isset($row['password_hash'])) {
         if (password_verify($password, $row['password_hash'])) {
-            closeConn($pdo);
+            $pdo = null;
             return ($row['id']);
         }
         else {
-            closeConn($pdo);
+            $pdo = null;
             return (-1);
         }
     }
     else{
-        closeConn($pdo);
+        $pdo = null;
         return(-1);
 
     }
@@ -317,7 +312,7 @@ VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
         doLog("ERROR", "Adding events to db failed.", implode($errors), "background.php", $user_id);
     }
 
-    closeConn($pdo);
+    $pdo = null;
 }
 
 
@@ -338,7 +333,7 @@ function createGroup($name, $group_picture) {
 
 
 
-    closeConn($pdo);
+    $pdo = null;
     echo("group created with UID: " . $groupUID);
     return(true);
 }
@@ -358,7 +353,7 @@ function getGroupInfoFromInviteLink($groupUID) {//I THINK THE PROBLEM IS IN HERE
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $row = $stmt->fetch();
 
-    closeConn($pdo);
+    $pdo = null;
 
     if (isset($row['id'])) {
         return(array('id' => $row['id'], 'name' => $row['name']));
@@ -380,7 +375,7 @@ function addUserToGroup($user_id, $group_id): void {
         'user_id' => $user_id,
     ]);
 
-    closeConn($pdo);
+    $pdo = null;
 }
 
 function generateUID() {
@@ -393,6 +388,30 @@ function generateUID() {
 
     // Output the 36 character UUID.
     return vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex($data), 4));
+}
+
+function checkTimetableExists($user_id) {
+    $pdo = openConn();
+
+    $sql = "SELECT timetable_last_updated
+            FROM users
+            WHERE id = :user_id";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'user_id' => $user_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch();
+
+    $pdo = null;
+
+    if (isset($row['timetable_last_updated'])) {
+        return(true);
+    }
+    else {
+        return(false);
+    }
 }
 
 function createGroupLink($groupName): string{
