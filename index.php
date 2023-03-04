@@ -35,11 +35,11 @@ redirectIfLoggedIn("./pages/profile.html");
 		</div>
 		<div class="main">
 			<div class="hero">
-				<h2><a href="#">TIME THAT WORKS FOR EVERYONE</a></h2>
+				<h2>TIME THAT WORKS FOR EVERYONE</h2>
 			</div>
 			<!-- <div class="main"> -->
 			<div class="description">
-				<p><a href="#">A tool to simplify your group meetings. Sync your timetables and find time that works for everyone.</a></p>
+				<p>A tool to simplify your group meetings. Sync your timetables and find time that works for everyone.</p>
 			</div>
 			<div class="bullets">
 				<ul class="one">
