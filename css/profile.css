@@ -16,3 +16,7 @@ select {
     background-color: #eee;
     border-radius: 5px;
 }
+
+input:focus {
+  outline: 2px solid black;
+}
