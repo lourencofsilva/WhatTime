@@ -18,5 +18,5 @@ select {
 }
 
 input:focus {
-  outline: 2px solid black;
+  border: 2px solid rgba(51, 98, 211, 1);
 }

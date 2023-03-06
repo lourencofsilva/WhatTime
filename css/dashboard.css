@@ -80,7 +80,7 @@
   }
 
   input:focus{
-    border: 3px rgba(51, 98, 211, 1);
+    border: 2px solid rgba(51, 98, 211, 1);
   }
 
   input{
