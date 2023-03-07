@@ -260,7 +260,6 @@ function parseTimetable($fileContent) :array {
 
         $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i]]; //adds all current event information (summary,start,end) to AllEvents array.
     }
-    //echo(var_dump($AllEvents));
     return($AllEvents);
 }
 
@@ -515,4 +514,56 @@ function getBestOfficeHours($AllUsers): array{
     return([$startTime,$endTime]);
 }
 
-echo(var_dump(getBestOfficeHours([21,22,23,24,25,30])));
+function whatTime($group_id) {
+    $events = getGroupEvents($group_id);
+    $num_events = count($events);
+    $event_start_times = array();
+    $event_end_times = array();
+    $noSkipped = 0;
+
+    for ($i = 0; $i < $num_events; $i++) {
+        if($events[$i]['active'] == 1){
+            $event_start_times[$i] = $events[$i]['dt_start'];
+            $event_end_times[$i] = $events[$i]['dt_end'];
+        }
+        else {
+            $noSkipped++;
+        }
+    }
+    $num_events -= $noSkipped;
+
+    sort($event_start_times);
+    sort($event_end_times);
+
+    $num_overlaps = 0;
+    $max_overlaps = 0;
+    $overlap_start = null;
+    $overlap_end = null;
+    $overlap_times = array();
+
+    $i = 0;
+    $j = 0;
+
+    while ($i < $num_events && $j < $num_events) {
+        if ($event_start_times[$i] < $event_end_times[$j]) {
+            $num_overlaps++;
+            $max_overlaps = max($max_overlaps, $num_overlaps);
+            if ($num_overlaps > 1 && $overlap_start === null) {
+                $overlap_start = $event_start_times[$i];
+            }
+            $i++;
+        } else {
+            $num_overlaps--;
+            if ($num_overlaps === 1 && $overlap_start !== null) {
+                $overlap_end = $event_end_times[$j];
+                $overlap_times[] = array('start' => $overlap_start, 'end' => $overlap_end);
+                $overlap_start = null;
+            }
+            $j++;
+        }
+    }
+
+    return $overlap_times;
+}
+
+//echo(var_dump(whatTime(4)));
