@@ -482,5 +482,3 @@ function getGroupEvents($group_id){
 function createGroupLink($groupName): string {
     return ("https://web.cs.manchester.ac.uk/q98040ac/X3GroupProject/pages/invite.php?id=" . generateUID());
 }
-
-echo(var_dump(getGroupEvents(3)));
