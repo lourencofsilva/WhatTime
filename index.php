@@ -1,8 +1,13 @@
 <?php
 
+include "php_funcs/database.php";
 include "php_funcs/user-session.php";
 
 session_start();
+
+if (!checkTimetableExists(getLoggedInUserId())) {
+    redirectIfLoggedIn("./pages/registration.php");
+}
 redirectIfLoggedIn("./pages/profile.html");
 ?>
 

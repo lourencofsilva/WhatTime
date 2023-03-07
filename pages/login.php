@@ -28,9 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $user;
             if (!checkTimetableExists($user)) {
                 if (isset($_GET["redirect"])) {
-                    redirectIfLoggedIn("../registration.php?redirect=" . htmlspecialchars($_GET["redirect"]));
+                    redirectIfLoggedIn("./registration.php?redirect=" . htmlspecialchars($_GET["redirect"]));
                 } else {
-                    redirectIfLoggedIn("../registration.php");
+                    redirectIfLoggedIn("./registration.php");
                 }
             } else {
                 if (isset($_GET["redirect"])) {
