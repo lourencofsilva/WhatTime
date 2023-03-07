@@ -245,7 +245,7 @@ function parseTimetable($fileContent) :array {
 
         $pos = strpos($current, "SUMMARY:") + 8;
         $line = substr($current, $pos);
-        $summary[] = substr($current, $pos, $pos + strpos($line, PHP_EOL) - (strpos($current, "SUMMARY:") + 8));
+        $summary[] = str_replace('\,',',',substr($current, $pos, $pos + strpos($line, PHP_EOL) - (strpos($current, "SUMMARY:") + 8)));
 
         $pos = strpos(substr($current, strpos($current, "DTSTART") + 7), ":") + 1 + strpos($current, "DTSTART") + 7;
         $line = substr($current, $pos);
@@ -407,8 +407,68 @@ function checkTimetableExists($user_id) {
     }
 }
 
-function createGroupLink($groupName): string{
+function getGroupUsers($group_id){
+    $pdo = openConn();
+
+    $sql = "SELECT user_id
+            FROM user_group_link
+            WHERE group_id = :group_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $users = [];
+    while ($row = $stmt->fetch()){
+        $users[] = $row['user_id'];
+    }
+    $pdo = null;
+    if (empty($users)) {
+        return(false);
+    }
+    else {
+        return($users);
+    }
+}
+
+function getUserEvents($user_id){
+    $pdo = openConn();
+
+    $sql = "SELECT active, summary, dt_start, dt_end
+            FROM events
+            WHERE user_id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'user_id' => $user_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $events = [];
+    while ($row = $stmt->fetch()){
+        $events[] = $row;
+    }
+    $pdo = null;
+    if (empty($events)) {
+        return(false);
+    }
+    else {
+        return($events);
+    }
+
+}
+
+function getGroupEvents($group_id){
+    $users = getGroupUsers($group_id);
+    $allEvents = [];
+    $count = 0;
+    if(!$users){
+        foreach($users as $user){
+            $allEvents[$count] = getUserEvents($user);
+            //yep
+        }}
+}
+
+function createGroupLink($groupName): string {
     return ("https://web.cs.manchester.ac.uk/q98040ac/X3GroupProject/pages/invite.php?id=" . generateUID());
 }
 
-//createGroup("testGroup", null);
+echo(var_dump(getUserEvents(25)));
