@@ -5,7 +5,7 @@ include "php_funcs/user-session.php";
 
 session_start();
 
-if (!checkTimetableExists(getLoggedInUserId())) {
+if (isLoggedIn() && !checkTimetableExists(getLoggedInUserId())) {
     redirectIfLoggedIn("./pages/registration.php");
 }
 redirectIfLoggedIn("./pages/profile.html");
