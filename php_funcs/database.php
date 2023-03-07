@@ -457,18 +457,30 @@ function getUserEvents($user_id){
 }
 
 function getGroupEvents($group_id){
-    $users = getGroupUsers($group_id);
-    $allEvents = [];
-    $count = 0;
-    if(!$users){
-        foreach($users as $user){
-            $allEvents[$count] = getUserEvents($user);
-            //yep
-        }}
+    $pdo = openConn();
+    $sql = "SELECT active, summary, dt_start, dt_end 
+            FROM (events INNER JOIN user_group_link ON events.user_id = user_group_link.user_id) 
+            WHERE user_group_link.group_id=:group_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id //replaces :group_id in sql statement with $group_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); //who knows
+    $events = [];
+    while ($row = $stmt->fetch()){
+        $events[] = $row;
+    }
+    $pdo = null;
+    if (empty($events)) {
+        return(false);
+    }
+    else {
+        return($events);
+    }
 }
 
 function createGroupLink($groupName): string {
     return ("https://web.cs.manchester.ac.uk/q98040ac/X3GroupProject/pages/invite.php?id=" . generateUID());
 }
 
-echo(var_dump(getUserEvents(25)));
+echo(var_dump(getGroupEvents(3)));
