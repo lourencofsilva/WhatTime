@@ -5,7 +5,12 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 function openConn(): PDO {
-    require_once "./config.inc.php";
+    if (file_exists('../config.inc.php')) {
+        require '../config.inc.php';
+    } else {
+        require './config.inc.php';
+    }
+
 
     try
     {
