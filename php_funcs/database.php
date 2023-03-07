@@ -5,9 +5,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 function openConn(): PDO {
-    require_once('../config.inc.php');
-
-
     $name = "2022_comp10120_x3";
     try
     {
