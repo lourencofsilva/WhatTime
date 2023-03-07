@@ -5,10 +5,15 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 function openConn(): PDO {
+    try {
+        require_once '../config.inc.php';
+    } catch (Exception $e) {
+        require_once './config.inc.php';
+    }
+
     $name = "2022_comp10120_x3";
     try
     {
-        include '../config.inc.php';
         $pdo = new PDO("mysql:host=$database_host;dbname=$name", $database_user, $database_pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,
             PDO::ERRMODE_WARNING);
