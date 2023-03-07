@@ -189,10 +189,7 @@ function authenticateUsername($username, $password): int
     else{
         $pdo = null;
         return(-1);
-
     }
-
-
 }
 
 
