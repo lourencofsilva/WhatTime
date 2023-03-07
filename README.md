@@ -20,7 +20,7 @@ The user provides an ics file of their timetable or calendar, and this is proces
 
 ## Usage
 
-WhatTime can be accessed at:
+WhatTime can be accessed, within the University of Manchester's Network, at:
 
 https://web.cs.manchester.ac.uk/h14965lf/x3_group_project/
 ## Authors
