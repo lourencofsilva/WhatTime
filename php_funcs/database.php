@@ -432,6 +432,11 @@ function getGroupUsers($group_id){
     }
 }
 
+
+function createGroupLink($groupName): string {
+    return ("https://web.cs.manchester.ac.uk/q98040ac/X3GroupProject/pages/invite.php?id=" . generateUID());
+}
+
 function getUserEvents($user_id){
     $pdo = openConn();
 
@@ -480,6 +485,34 @@ function getGroupEvents($group_id){
     }
 }
 
-function createGroupLink($groupName): string {
-    return ("https://web.cs.manchester.ac.uk/q98040ac/X3GroupProject/pages/invite.php?id=" . generateUID());
+function getBestOfficeHours($AllUsers): array{
+    $pdo = openConn();
+
+    $sql = "SELECT office_begin, office_end
+            FROM users
+            WHERE id IN(".implode(',',$AllUsers).")";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $startTime = 0;
+    $endTime = 23;
+    while ($row = $stmt->fetch()){
+        if(!(is_null($row['office_begin']) || is_null($row['office_end']))) {
+            $currentStart = intval(substr($row['office_begin'], 11, 2));
+            $currentEnd = intval(substr($row['office_end'], 11, 2));
+            if($currentEnd == 0){
+                $currentEnd = 23;
+            }
+            if ($currentStart > $startTime) {
+                $startTime = $currentStart;
+            }
+            if ($currentEnd < $endTime) {
+                $endTime = $currentEnd;
+            }
+        }
+    }
+    $pdo = null;
+    return([$startTime,$endTime]);
 }
+
+echo(var_dump(getBestOfficeHours([21,22,23,24,25,30])));
