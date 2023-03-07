@@ -1,6 +1,6 @@
 .left_container{
     width: 28vw;
-    height: 83vh;
+    height: 85vh;
     background-color: white;
     float: left;
     border: 2px solid black;
@@ -80,7 +80,7 @@
   }
 
   input:focus{
-    border: 3px rgba(51, 98, 211, 1);
+    border: 2px solid rgba(51, 98, 211, 1);
   }
 
   input{
@@ -119,34 +119,23 @@
     height: 77.5%;
     /* overflow-y: scroll; */
 }
-.blue {
+/* .blue {
   background: #3498db;
-}
+} */
 
-.purple {
-  background: #9b59b6;
-}
-
-.navy {
-  background: #34495e;
-}
-
-.green {
-  background: #2ecc71;
-}
-
-.red {
-  background: #e74c3c;
-}
-
-.orange {
-  background: #f39c12;
-}
-
-.cs335, .cs426, .md303, .md352, .md313, .cs240 {
+/* .cs335, .cs426, .md303, .md352, .md313, .cs240 {
   font-weight: 300;
-  /* cursor: pointer; */
+  cursor: pointer;
+} */
+
+.available {
+  font-weight: 300;
+  background: #3498db;
+  border: solid;
+  border-color: #34495e;
 }
+
+
 
 /* body {
   background: #e74c3c;
