@@ -1,8 +1,13 @@
 <?php
 
+include "php_funcs/database.php";
 include "php_funcs/user-session.php";
 
 session_start();
+
+if (isLoggedIn() && !checkTimetableExists(getLoggedInUserId())) {
+    redirectIfLoggedIn("./pages/registration.php");
+}
 redirectIfLoggedIn("./pages/profile.html");
 ?>
 
@@ -18,6 +23,15 @@ redirectIfLoggedIn("./pages/profile.html");
 	<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="./css/index.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!--- FAVICONS --->
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+    <link rel="manifest" href="./site.webmanifest">
+    <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 </head>
 
 <body>

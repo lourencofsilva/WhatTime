@@ -1,0 +1,22 @@
+.tablecontainer{
+    width:100vw;
+    height:100vh;
+    background:lightblue;
+}
+
+.daysrow{
+	width: 100vw;
+	height: 10vh;
+	display: flex;
+}
+
+#empty, #monday, #tuesday, #wednesday, #thursday, #friday, #saturday, #sunday{
+
+	width: 12.5%;
+	height: 100%;
+	background: lightyellow;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}

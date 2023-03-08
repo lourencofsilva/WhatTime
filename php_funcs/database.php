@@ -4,23 +4,17 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-function execInBackground($cmd) {
-    if (substr(php_uname(), 0, 7) == "Windows") {
-        pclose(popen("start /B ". $cmd, "r"));
-    } else {
-        exec($cmd . " > /dev/null &");
-    }
-}
-
 function openConn(): PDO {
-    require_once('../config.inc.php');
+    if (file_exists('../config.inc.php')) {
+        require '../config.inc.php';
+    } else {
+        require './config.inc.php';
+    }
 
 
-    $name = "2022_comp10120_x3";
     try
     {
-        include '../config.inc.php';
-        $pdo = new PDO("mysql:host=$database_host;dbname=$name", $database_user, $database_pass);
+        $pdo = new PDO("mysql:host=$database_host;dbname=2022_comp10120_x3", $database_user, $database_pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,
             PDO::ERRMODE_WARNING);
     }
@@ -195,10 +189,7 @@ function authenticateUsername($username, $password): int
     else{
         $pdo = null;
         return(-1);
-
     }
-
-
 }
 
 
@@ -252,7 +243,7 @@ function parseTimetable($fileContent) :array {
 
         $pos = strpos($current, "SUMMARY:") + 8;
         $line = substr($current, $pos);
-        $summary[] = substr($current, $pos, $pos + strpos($line, PHP_EOL) - (strpos($current, "SUMMARY:") + 8));
+        $summary[] = str_replace('\,',',',substr($current, $pos, $pos + strpos($line, PHP_EOL) - (strpos($current, "SUMMARY:") + 8)));
 
         $pos = strpos(substr($current, strpos($current, "DTSTART") + 7), ":") + 1 + strpos($current, "DTSTART") + 7;
         $line = substr($current, $pos);
@@ -266,7 +257,6 @@ function parseTimetable($fileContent) :array {
 
         $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i]]; //adds all current event information (summary,start,end) to AllEvents array.
     }
-    //echo(var_dump($AllEvents));
     return($AllEvents);
 }
 
@@ -414,8 +404,163 @@ function checkTimetableExists($user_id) {
     }
 }
 
-function createGroupLink($groupName): string{
+function getGroupUsers($group_id){
+    $pdo = openConn();
+
+    $sql = "SELECT user_id
+            FROM user_group_link
+            WHERE group_id = :group_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $users = [];
+    while ($row = $stmt->fetch()){
+        $users[] = $row['user_id'];
+    }
+    $pdo = null;
+    if (empty($users)) {
+        return(false);
+    }
+    else {
+        return($users);
+    }
+}
+
+
+function createGroupLink($groupName): string {
     return ("https://web.cs.manchester.ac.uk/q98040ac/X3GroupProject/pages/invite.php?id=" . generateUID());
 }
 
-//createGroup("testGroup", null);
+function getUserEvents($user_id){
+    $pdo = openConn();
+
+    $sql = "SELECT active, summary, dt_start, dt_end
+            FROM events
+            WHERE user_id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'user_id' => $user_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $events = [];
+    while ($row = $stmt->fetch()){
+        $events[] = $row;
+    }
+    $pdo = null;
+    if (empty($events)) {
+        return(false);
+    }
+    else {
+        return($events);
+    }
+
+}
+
+function getGroupEvents($group_id){
+    $pdo = openConn();
+    $sql = "SELECT active, summary, dt_start, dt_end 
+            FROM (events INNER JOIN user_group_link ON events.user_id = user_group_link.user_id) 
+            WHERE user_group_link.group_id=:group_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id //replaces :group_id in sql statement with $group_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); //who knows
+    $events = [];
+    while ($row = $stmt->fetch()){
+        $events[] = $row;
+    }
+    $pdo = null;
+    if (empty($events)) {
+        return(false);
+    }
+    else {
+        return($events);
+    }
+}
+
+function getBestOfficeHours($AllUsers): array{
+    $pdo = openConn();
+
+    $sql = "SELECT office_begin, office_end
+            FROM users
+            WHERE id IN(".implode(',',$AllUsers).")";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $startTime = 0;
+    $endTime = 23;
+    while ($row = $stmt->fetch()){
+        if(!(is_null($row['office_begin']) || is_null($row['office_end']))) {
+            $currentStart = intval(substr($row['office_begin'], 11, 2));
+            $currentEnd = intval(substr($row['office_end'], 11, 2));
+            if($currentEnd == 0){
+                $currentEnd = 23;
+            }
+            if ($currentStart > $startTime) {
+                $startTime = $currentStart;
+            }
+            if ($currentEnd < $endTime) {
+                $endTime = $currentEnd;
+            }
+        }
+    }
+    $pdo = null;
+    return([$startTime,$endTime]);
+}
+
+function whatTime($group_id) {
+    $events = getGroupEvents($group_id);
+    $num_events = count($events);
+    $event_start_times = array();
+    $event_end_times = array();
+    $noSkipped = 0;
+
+    for ($i = 0; $i < $num_events; $i++) {
+        if($events[$i]['active'] == 1){
+            $event_start_times[$i] = $events[$i]['dt_start'];
+            $event_end_times[$i] = $events[$i]['dt_end'];
+        }
+        else {
+            $noSkipped++;
+        }
+    }
+    $num_events -= $noSkipped;
+
+    sort($event_start_times);
+    sort($event_end_times);
+
+    $num_overlaps = 0;
+    $max_overlaps = 0;
+    $overlap_start = null;
+    $overlap_end = null;
+    $overlap_times = array();
+
+    $i = 0;
+    $j = 0;
+
+    while ($i < $num_events && $j < $num_events) {
+        if ($event_start_times[$i] < $event_end_times[$j]) {
+            $num_overlaps++;
+            $max_overlaps = max($max_overlaps, $num_overlaps);
+            if ($num_overlaps > 1 && $overlap_start === null) {
+                $overlap_start = $event_start_times[$i];
+            }
+            $i++;
+        } else {
+            $num_overlaps--;
+            if ($num_overlaps === 1 && $overlap_start !== null) {
+                $overlap_end = $event_end_times[$j];
+                $overlap_times[] = array('start' => $overlap_start, 'end' => $overlap_end);
+                $overlap_start = null;
+            }
+            $j++;
+        }
+    }
+
+    return $overlap_times;
+}
+
+//echo(var_dump(whatTime(4)));
