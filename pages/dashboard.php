@@ -18,6 +18,7 @@ include "../php_funcs/database.php";
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
 	<link rel="stylesheet" type="text/css" href="../css/dashboard.css">
+	<script defer type="text/javascript" src="../js/create_group.js"></script>
 
 	<!--- FAVICONS --->
 	<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -132,15 +133,58 @@ include "../php_funcs/database.php";
 						<div class="group_name_container">name</div>
 					</div>
 				</div>
+<<<<<<< HEAD
+					<!-- <div class = "buttonbox"> -->
+
+						<button data-modal-target="#create_group" class="buttondesign">Create Group</button>
+					  
+					  <!-- </div> -->
+=======
 				<!-- <div class = "buttonbox"> -->
 				<button class="buttondesign" onclick="window.location.href = '#something';">Create Group</button>
 				<!-- </div> -->
+>>>>>>> eb1a527ced7f791fe3f3728607511576677f3dd3
 			</div>
+
+			<div class="modal" id="create_group">
+				<div class="modal-header" >
+					<div class="title">Create Group</div>
+					<button data-close-button class="close-button">&times;</button>
+				</div>
+				<div class="modal-body">
+					creating group stuff
+				</div>
+
+
+			</div>
+			<div id="overlay"></div>
+
+
 			<div class="right_container">
 
 				<div class="timetable_header">
+<<<<<<< HEAD
+					<p style="float: left; margin-left: 10%; margin-top: 2.5%;font-size: 150%;">Group Name</p>
+					<button data-modal-target="#manage_group" class="buttondesign" style= "float: right; margin-right: 10%; margin-top: 1%;">Manage Group</button>
+
+				</div>
+
+			<div class="modal" id="manage_group">
+				<div class="modal-header" >
+					<div class="title">Manage Group</div>
+					<button data-close-button class="close-button">&times;</button>
+				</div>
+				<div class="modal-body">
+					managing group stuff
+				</div>
+
+
+			</div>
+			<div id="overlay"></div>
+=======
 					<p id="big_text">Group Name</p>
 					<button class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;" onclick="window.location.href = '#something';">Manage Group</button>
+>>>>>>> eb1a527ced7f791fe3f3728607511576677f3dd3
 
 				</div>
 				<div class="timtable">
@@ -158,6 +202,7 @@ include "../php_funcs/database.php";
 			</ul>
 		</div>
 	</div>
+
 </body>
 
 </html>
