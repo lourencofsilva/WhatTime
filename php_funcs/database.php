@@ -457,6 +457,8 @@ function getUserEvents($user_id){
     }
 }
 
+
+
 function getGroupEvents($group_id){
     $pdo = openConn();
     $sql = "SELECT 'UNAVAILABLE' as title, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as start, DATE_FORMAT(dt_end, '%Y-%m-%dT%H:%i:%s') as 'end'
@@ -510,7 +512,8 @@ function getBestOfficeHours($AllUsers): array{
     return([$startTime,$endTime]);
 }
 
-function get_busy_time_slots($group_id): array {
+function whatTime($group_id): array
+{
     $events = getGroupEvents($group_id);
     $times = [];
 
@@ -518,8 +521,22 @@ function get_busy_time_slots($group_id): array {
         $times[] = $event['start'] . "s";
         $times[] = $event['end'] . "e";
     }
-
     sort($times);
-    return $times;
+
+    $unavailableTimes = [];
+    for($i=0;$i<count($times);$i++){
+        for($j = $i+1;$j<count($times) - 1;$j++){
+            if(substr($times[$j], -1) == 'e'){
+                if(substr($times[$j + 1], -1) == 's'){
+                    if (substr($times[$j], 0, 19) != substr($times[$j+1], 0, 19)){
+                        $unavailableTimes[] = ["title" => 'UNAVAILABLE', "start" => substr($times[$i], 0, 19), "end" =>  substr($times[$j], 0, 19)];
+                        break;
+                    }
+                }
+            }
+        }
+        $i = $j;
+    }
+    return($unavailableTimes);
 
 }

@@ -1,11 +1,6 @@
 <?php
 
 include "../php_funcs/database.php";
-$calendarEvents = [];
-
-foreach (get_busy_time_slots(4) as $event) {
-	$calendarEvents[] = array("title" => "UNAVAILABLE", "start" => str_replace(" ", "T", $event["dt_start"]), "end" => str_replace(" ", "T", $event["dt_end"]));
-}
 
 ?>
 
@@ -50,7 +45,7 @@ foreach (get_busy_time_slots(4) as $event) {
 					startTime: '10:00', // a start time (10am in this example)
 					endTime: '18:00', // an end time (6pm in this example)
 				},
-				events: <?php echo json_encode($calendarEvents); ?>
+				events: <?php echo json_encode(whatTime(4)); ?>
 
 			});
 			calendar.render();
