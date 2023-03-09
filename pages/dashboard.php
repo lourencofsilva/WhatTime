@@ -133,17 +133,13 @@ include "../php_funcs/database.php";
 						<div class="group_name_container">name</div>
 					</div>
 				</div>
-<<<<<<< HEAD
+
 					<!-- <div class = "buttonbox"> -->
 
 						<button data-modal-target="#create_group" class="buttondesign">Create Group</button>
 					  
 					  <!-- </div> -->
-=======
-				<!-- <div class = "buttonbox"> -->
-				<button class="buttondesign" onclick="window.location.href = '#something';">Create Group</button>
-				<!-- </div> -->
->>>>>>> eb1a527ced7f791fe3f3728607511576677f3dd3
+
 			</div>
 
 			<div class="modal" id="create_group">
@@ -163,8 +159,7 @@ include "../php_funcs/database.php";
 			<div class="right_container">
 
 				<div class="timetable_header">
-<<<<<<< HEAD
-					<p style="float: left; margin-left: 10%; margin-top: 2.5%;font-size: 150%;">Group Name</p>
+
 					<button data-modal-target="#manage_group" class="buttondesign" style= "float: right; margin-right: 10%; margin-top: 1%;">Manage Group</button>
 
 				</div>
@@ -181,10 +176,6 @@ include "../php_funcs/database.php";
 
 			</div>
 			<div id="overlay"></div>
-=======
-					<p id="big_text">Group Name</p>
-					<button class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;" onclick="window.location.href = '#something';">Manage Group</button>
->>>>>>> eb1a527ced7f791fe3f3728607511576677f3dd3
 
 				</div>
 				<div class="timtable">
