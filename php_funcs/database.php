@@ -248,12 +248,12 @@ function parseTimetable($fileContent) :array {
         $pos = strpos(substr($current, strpos($current, "DTSTART") + 7), ":") + 1 + strpos($current, "DTSTART") + 7;
         $line = substr($current, $pos);
         $eventStartTime = substr($current, $pos, $pos + strpos($line, PHP_EOL) - $pos);
-        $dt_starts[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . ' ' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
+        $dt_starts[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . 'T' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
 
         $pos = strpos(substr($current, strpos($current, "DTEND") + 5), ":") + 1 + strpos($current, "DTEND") + 5;
         $line = substr($current, $pos);
         $eventStartTime = substr($current, $pos, $pos + strpos($line, PHP_EOL) - $pos);
-        $dt_ends[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . ' ' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
+        $dt_ends[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . 'T' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
 
         $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i]]; //adds all current event information (summary,start,end) to AllEvents array.
     }
@@ -436,7 +436,7 @@ function createGroupLink($groupName): string {
 function getUserEvents($user_id){
     $pdo = openConn();
 
-    $sql = "SELECT active, summary, dt_start, dt_end
+    $sql = "SELECT active, summary, DATE_FORMAT(dt_start, '%Y-%M-%eT%H:%i:%'), DATE_FORMAT(dt_end, '%Y-%M-%eT%H:%i:%')
             FROM events
             WHERE user_id = :user_id";
     $stmt = $pdo->prepare($sql);
@@ -460,7 +460,7 @@ function getUserEvents($user_id){
 
 function getGroupEvents($group_id){
     $pdo = openConn();
-    $sql = "SELECT active, summary, dt_start, dt_end 
+    $sql = "SELECT active, summary, DATE_FORMAT(dt_start, '%Y-%M-%eT%H:%i:%'), DATE_FORMAT(dt_end, '%Y-%M-%eT%H:%i:%')
             FROM (events INNER JOIN user_group_link ON events.user_id = user_group_link.user_id) 
             WHERE user_group_link.group_id=:group_id";
     $stmt = $pdo->prepare($sql);
@@ -511,103 +511,6 @@ function getBestOfficeHours($AllUsers): array{
     return([$startTime,$endTime]);
 }
 
-function whatTime($group_id) {
-    $events = getGroupEvents($group_id);
-    $num_events = count($events);
-    $event_start_times = array();
-    $event_end_times = array();
-    $noSkipped = 0;
-
-    for ($i = 0; $i < $num_events; $i++) {
-        if($events[$i]['active'] == 1){
-            $event_start_times[$i] = $events[$i]['dt_start'];
-            $event_end_times[$i] = $events[$i]['dt_end'];
-        }
-        else {
-            $noSkipped++;
-        }
-    }
-    $num_events -= $noSkipped;
-
-    sort($event_start_times);
-    sort($event_end_times);
-
-    $overlap_events = array();
-    $num_overlap_events = 0;
-
-    $i = 0;
-    $j = 0;
-
-    while ($i < $num_events && $j < $num_events) {
-        if ($event_start_times[$i] <= $event_end_times[$j]) {
-            $start_time = $event_start_times[$i];
-            $i++;
-        } else {
-            $start_time = $event_end_times[$j];
-            $j++;
-        }
-
-        while ($i < $num_events && $event_start_times[$i] <= $start_time) {
-            $i++;
-        }
-
-        while ($j < $num_events && $event_end_times[$j] < $start_time) {
-            $j++;
-        }
-
-        if ($num_overlap_events === 0 || $start_time > $overlap_events[$num_overlap_events - 1]['end']) {
-            $overlap_events[$num_overlap_events] = array('start' => $start_time, 'end' => null);
-            $num_overlap_events++;
-        } elseif ($start_time > $overlap_events[$num_overlap_events - 1]['start']) {
-            $overlap_events[$num_overlap_events - 1]['end'] = $start_time;
-        }
-    }
-
-    while ($i < $num_events) {
-        if ($num_overlap_events === 0 || $event_start_times[$i] > $overlap_events[$num_overlap_events - 1]['end']) {
-            $overlap_events[$num_overlap_events] = array('start' => $event_start_times[$i], 'end' => null);
-            $num_overlap_events++;
-        }
-        $i++;
-    }
-
-    while ($j < $num_events) {
-        if ($num_overlap_events === 0 || $event_end_times[$j] > $overlap_events[$num_overlap_events - 1]['end']) {
-            $overlap_events[$num_overlap_events - 1]['end'] = $event_end_times[$j];
-        }
-        $j++;
-    }
-
-    $num_overlap_events = count($overlap_events);
-
-    $result = array();
-
-    for ($i = 0; $i < $num_overlap_events; $i++) {
-        $event_start = $overlap_events[$i]['start'];
-        $event_end = $overlap_events[$i]['end'];
-
-        $overlap_count = 0;
-
-        for ($j = 0; $j < $num_events; $j++) {
-            if ($event_start <= $events[$j]['end'] && $event_end >= $events[$j]['start']) {
-                $overlap_count++;
-                if ($event_start > $events[$j]['start']) {
-                    $event_start = $events[$j]['start'];
-                }
-                if ($event_end < $events[$j]['end']) {
-                    $event_end = $events[$j]['end'];
-                }
-            }
-        }
-
-        $result[] = array('start' => $event_start, 'end' => $event_end);
-
-        $i += $overlap_count - 1;
-    }
-
-    return $result;
-}
-
 function get_busy_time_slots($group_id): array {
     $events = getGroupEvents($group_id);
     return $events;
@@ -632,5 +535,3 @@ function get_busy_time_slots($group_id): array {
     return $busy_times;
 
 }
-
-//echo(var_dump(whatTime(4)));
