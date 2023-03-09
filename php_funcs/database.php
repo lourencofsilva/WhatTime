@@ -438,7 +438,7 @@ function getUserEvents($user_id){
 
     $sql = "SELECT active, summary, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as dt_start, DATE_FORMAT(dt_end, '%Y-%m-%eT%H:%i:%s') as dt_end
             FROM events
-            WHERE user_id = :user_id";
+            WHERE user_id = :user_id AND active = 1";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         'user_id' => $user_id
@@ -462,7 +462,7 @@ function getGroupEvents($group_id){
     $pdo = openConn();
     $sql = "SELECT active,'UNAVAILABLE' as title, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as dt_start, DATE_FORMAT(dt_end, '%Y-%m-%eT%H:%i:%s') as dt_end
             FROM (events INNER JOIN user_group_link ON events.user_id = user_group_link.user_id) 
-            WHERE user_group_link.group_id=:group_id";
+            WHERE user_group_link.group_id=:group_id AND events.active = 1";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         'group_id' => $group_id //replaces :group_id in sql statement with $group_id
