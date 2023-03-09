@@ -436,7 +436,7 @@ function createGroupLink($groupName): string {
 function getUserEvents($user_id){
     $pdo = openConn();
 
-    $sql = "SELECT active, summary, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%') as dt_start, DATE_FORMAT(dt_end, '%Y-%m-%eT%H:%i:%') as dt_end
+    $sql = "SELECT active, summary, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as dt_start, DATE_FORMAT(dt_end, '%Y-%m-%eT%H:%i:%s') as dt_end
             FROM events
             WHERE user_id = :user_id";
     $stmt = $pdo->prepare($sql);
@@ -460,7 +460,7 @@ function getUserEvents($user_id){
 
 function getGroupEvents($group_id){
     $pdo = openConn();
-    $sql = "SELECT active,'UNAVAILABLE' as title, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%') as dt_start, DATE_FORMAT(dt_end, '%Y-%m-%eT%H:%i:%') as dt_end
+    $sql = "SELECT active,'UNAVAILABLE' as title, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as dt_start, DATE_FORMAT(dt_end, '%Y-%m-%eT%H:%i:%s') as dt_end
             FROM (events INNER JOIN user_group_link ON events.user_id = user_group_link.user_id) 
             WHERE user_group_link.group_id=:group_id";
     $stmt = $pdo->prepare($sql);
