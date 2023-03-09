@@ -532,35 +532,105 @@ function whatTime($group_id) {
     sort($event_start_times);
     sort($event_end_times);
 
-    $num_overlaps = 0;
-    $max_overlaps = 0;
-    $overlap_start = null;
-    $overlap_end = null;
-    $overlap_times = array();
+    $overlap_events = array();
+    $num_overlap_events = 0;
 
     $i = 0;
     $j = 0;
 
     while ($i < $num_events && $j < $num_events) {
-        if ($event_start_times[$i] < $event_end_times[$j]) {
-            $num_overlaps++;
-            $max_overlaps = max($max_overlaps, $num_overlaps);
-            if ($num_overlaps > 1 && $overlap_start === null) {
-                $overlap_start = $event_start_times[$i];
-            }
+        if ($event_start_times[$i] <= $event_end_times[$j]) {
+            $start_time = $event_start_times[$i];
             $i++;
         } else {
-            $num_overlaps--;
-            if ($num_overlaps === 1 && $overlap_start !== null) {
-                $overlap_end = $event_end_times[$j];
-                $overlap_times[] = array('start' => $overlap_start, 'end' => $overlap_end);
-                $overlap_start = null;
-            }
+            $start_time = $event_end_times[$j];
             $j++;
+        }
+
+        while ($i < $num_events && $event_start_times[$i] <= $start_time) {
+            $i++;
+        }
+
+        while ($j < $num_events && $event_end_times[$j] < $start_time) {
+            $j++;
+        }
+
+        if ($num_overlap_events === 0 || $start_time > $overlap_events[$num_overlap_events - 1]['end']) {
+            $overlap_events[$num_overlap_events] = array('start' => $start_time, 'end' => null);
+            $num_overlap_events++;
+        } elseif ($start_time > $overlap_events[$num_overlap_events - 1]['start']) {
+            $overlap_events[$num_overlap_events - 1]['end'] = $start_time;
         }
     }
 
-    return $overlap_times;
+    while ($i < $num_events) {
+        if ($num_overlap_events === 0 || $event_start_times[$i] > $overlap_events[$num_overlap_events - 1]['end']) {
+            $overlap_events[$num_overlap_events] = array('start' => $event_start_times[$i], 'end' => null);
+            $num_overlap_events++;
+        }
+        $i++;
+    }
+
+    while ($j < $num_events) {
+        if ($num_overlap_events === 0 || $event_end_times[$j] > $overlap_events[$num_overlap_events - 1]['end']) {
+            $overlap_events[$num_overlap_events - 1]['end'] = $event_end_times[$j];
+        }
+        $j++;
+    }
+
+    $num_overlap_events = count($overlap_events);
+
+    $result = array();
+
+    for ($i = 0; $i < $num_overlap_events; $i++) {
+        $event_start = $overlap_events[$i]['start'];
+        $event_end = $overlap_events[$i]['end'];
+
+        $overlap_count = 0;
+
+        for ($j = 0; $j < $num_events; $j++) {
+            if ($event_start <= $events[$j]['end'] && $event_end >= $events[$j]['start']) {
+                $overlap_count++;
+                if ($event_start > $events[$j]['start']) {
+                    $event_start = $events[$j]['start'];
+                }
+                if ($event_end < $events[$j]['end']) {
+                    $event_end = $events[$j]['end'];
+                }
+            }
+        }
+
+        $result[] = array('start' => $event_start, 'end' => $event_end);
+
+        $i += $overlap_count - 1;
+    }
+
+    return $result;
+}
+
+function get_busy_time_slots($group_id): array {
+    $events = getGroupEvents($group_id);
+    return $events;
+    $busy_times = array();
+
+    foreach ($events as $event) {
+        $start_time = strtotime($event['dt_start']);
+        $end_time = strtotime($event['dt_end']);
+
+        // Check if this event overlaps with any existing busy time
+        $merged = false;
+
+        // If this event didn't overlap with any existing busy time, add it as a new one
+        if (!$merged) {
+            $busy_times[] = array(
+                'start' => $event['dt_start'],
+                'end' => $event['dt_end']
+            );
+        }
+    }
+
+    return $busy_times;
+
 }
 
 //echo(var_dump(whatTime(4)));
