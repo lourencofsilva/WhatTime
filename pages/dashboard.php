@@ -148,7 +148,9 @@ foreach (get_busy_time_slots(4) as $event) {
 					<button class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;" onclick="window.location.href = '#something';">Manage Group</button>
 
 				</div>
-				<div id="calendar" style="width: 100%;"></div>
+				<div class="timtable">
+					<div id="calendar"></div>
+				</div>
 			</div>
 		</div>
 
