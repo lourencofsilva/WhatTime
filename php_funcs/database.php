@@ -512,25 +512,14 @@ function getBestOfficeHours($AllUsers): array{
 
 function get_busy_time_slots($group_id): array {
     $events = getGroupEvents($group_id);
-    return $events;
-    $busy_times = array();
+    $times = [];
 
     foreach ($events as $event) {
-        $start_time = strtotime($event['dt_start']);
-        $end_time = strtotime($event['dt_end']);
-
-        // Check if this event overlaps with any existing busy time
-        $merged = false;
-
-        // If this event didn't overlap with any existing busy time, add it as a new one
-        if (!$merged) {
-            $busy_times[] = array(
-                'start' => $event['dt_start'],
-                'end' => $event['dt_end']
-            );
-        }
+        $times[] = $event['start'] . "s";
+        $times[] = $event['end'] . "e";
     }
 
-    return $busy_times;
+    sort($times);
+    return $times;
 
 }
