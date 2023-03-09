@@ -4,7 +4,7 @@ include "../php_funcs/database.php";
 $calendarEvents = [];
 
 foreach (get_busy_time_slots(4) as $event) {
-    $calendarEvents[] = array("title" => "UNAVAILABLE", "start" => str_replace(" ", "T", $event["dt_start"]), "end" => str_replace(" ", "T", $event["dt_end"]));
+	$calendarEvents[] = array("title" => "UNAVAILABLE", "start" => str_replace(" ", "T", $event["dt_start"]), "end" => str_replace(" ", "T", $event["dt_end"]));
 }
 
 ?>
@@ -12,6 +12,7 @@ foreach (get_busy_time_slots(4) as $event) {
 <!DOCTYPE html>
 
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +35,6 @@ foreach (get_busy_time_slots(4) as $event) {
 
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
 	<script>
-
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -45,31 +45,30 @@ foreach (get_busy_time_slots(4) as $event) {
 				slotMaxTime: "18:00:00",
 				businessHours: {
 					// days of week. an array of zero-based day of week integers (0=Sunday)
-					daysOfWeek: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
+					daysOfWeek: [1, 2, 3, 4, 5], // Monday - Thursday
 
 					startTime: '10:00', // a start time (10am in this example)
 					endTime: '18:00', // an end time (6pm in this example)
 				},
-				events:
-						<?php echo json_encode($calendarEvents); ?>
+				events: <?php echo json_encode($calendarEvents); ?>
 
-		});
+			});
 			calendar.render();
 		});
-
 	</script>
 </head>
+
 <body>
 	<div class="wrap">
-			<div class="header">
-				<button class="mainlogo" onClick="window.location.reload()" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
-				<div class="nav">
-					<button class="profile"><i class="fa-regular fa-user"></i></button> 
-					<ul>
-						<li><a href="./logout.php">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log Out</a></li>
-					</ul>
-				</div>
+		<div class="header">
+			<button class="mainlogo" onClick="window.location.reload()" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
+			<div class="nav">
+				<button class="profile"><i class="fa-regular fa-user"></i></button>
+				<ul>
+					<li><a href="./logout.php">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log Out</a></li>
+				</ul>
 			</div>
+		</div>
 
 		<div class="main">
 			<div class="left_container">
@@ -138,18 +137,18 @@ foreach (get_busy_time_slots(4) as $event) {
 						<div class="group_name_container">name</div>
 					</div>
 				</div>
-					<!-- <div class = "buttonbox"> -->
-						<button class="buttondesign" onclick="window.location.href = '#something';">Create Group</button>
-					  <!-- </div> -->
+				<!-- <div class = "buttonbox"> -->
+				<button class="buttondesign" onclick="window.location.href = '#something';">Create Group</button>
+				<!-- </div> -->
 			</div>
 			<div class="right_container">
 
 				<div class="timetable_header">
-					<p style="float: left; margin-left: 10%; margin-top: 2.5%;font-size: 150%;">Group Name</p>
-					<button class="buttondesign" style= "float: right; margin-right: 10%; margin-top: 1%;"onclick="window.location.href = '#something';">Manage Group</button>
+					<p id="big_text">Group Name</p>
+					<button class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;" onclick="window.location.href = '#something';">Manage Group</button>
 
 				</div>
-				<div id="calendar"></div>
+				<div id="calendar" style="width: 100%;"></div>
 			</div>
 		</div>
 
@@ -163,4 +162,5 @@ foreach (get_busy_time_slots(4) as $event) {
 		</div>
 	</div>
 </body>
+
 </html>

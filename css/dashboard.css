@@ -18,14 +18,12 @@
     width: 100%;
     height: 13%;
     text-align: center;
-    /* border: 2px solid black; */
 }
 
 .search_container>input{
     width: 70%;
     height: 50%;
     margin-top: 5%;
-    /* border: 2px solid black; */
 	border-radius: 5px;
 	font-size: 17px;
 }
@@ -37,7 +35,6 @@
 .group_row{
     width: 99%;
     height: 15%;
-    /* border-width: 2px; */
     border-color: black;
     border-style: solid;
     background-color: aqua;
@@ -102,11 +99,9 @@
 
   .timetable_header {
     height: 11.5%;
-    /* background-color: #2ecc71; */
   }
   .timetable_footer {
     height: 11%;
-    /* background-color: #2ecc71; */
   }
 
 
@@ -117,16 +112,7 @@
 .timetable {
     margin-left: 0%;
     height: 77.5%;
-    /* overflow-y: scroll; */
 }
-/* .blue {
-  background: #3498db;
-} */
-
-/* .cs335, .cs426, .md303, .md352, .md313, .cs240 {
-  font-weight: 300;
-  cursor: pointer;
-} */
 
 .available {
   font-weight: 300;
@@ -137,10 +123,6 @@
 
 
 
-/* body {
-  background: #e74c3c;
-  padding: 20px;
-} */
 
 *, *:before, *:after {
   margin: 0;
@@ -178,9 +160,6 @@ table th{
   text-align: center;
 }
 
-/* .time {
-  width: 3em !important;
-} */
 
 
 /* left and right button  */
@@ -191,8 +170,6 @@ table th{
   }
 
 .arrowbtn {
-    /* position: absolute; */
-   
     color: black;
     cursor: pointer;
     transition: all 0.25s ease-in-out;
@@ -241,13 +218,28 @@ table th{
 
 
 
-  tbody {
+  /* tbody {
     height: 56vh;
     overflow-y: scroll;
     display: block;
-  }
+  } */
  
-  thead {
+  /* thead {
     display: block;
-  }
+  } */
 
+.fc {
+  height: 50%;
+  width: 100%;
+}
+
+.fc-timegrid-slot-label-cushion {
+  float: left;
+}
+
+#big_text {
+  float: left;
+  margin-left: 10%;
+  margin-top: 2.5%;
+  font-size: 250%;
+}
