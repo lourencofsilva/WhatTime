@@ -267,7 +267,6 @@ VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
             $errors[] = implode(error_get_last());
         }
     }
-    echo($fails);
 
     if ($fails == 0) { // Set last_updated_date to the current time, or log if failed adding events.
         $sql = "UPDATE users SET timetable_last_updated='" . date('Y-m-d H:i:s') . "' WHERE id = :id";
@@ -301,7 +300,6 @@ function createGroup($name, $group_picture) {
 
 
     $pdo = null;
-    echo("group created with UID: " . $groupUID);
     return(true);
 }
 function getGroupInfoFromInviteLink($groupUID) {//I THINK THE PROBLEM IS IN HERE (TRY TO LOAD THIS LINK):
