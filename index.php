@@ -8,7 +8,7 @@ session_start();
 if (isLoggedIn() && !checkTimetableExists(getLoggedInUserId())) {
     redirectIfLoggedIn("./pages/registration.php");
 }
-redirectIfLoggedIn("./pages/profile.html");
+redirectIfLoggedIn("./pages/dashboard.php");
 ?>
 
 <!DOCTYPE html>

@@ -1,3 +1,20 @@
+<?php
+
+include "../php_funcs/database.php";
+include "../php_funcs/user-session.php";
+
+session_start();
+redirectIfNotLoggedIn("./login.php");
+if (isLoggedIn() && !checkTimetableExists(getLoggedInUserId())) {
+    redirectIfLoggedIn("./pages/registration.php");
+}
+
+if (!updateTimetable(getLoggedInUserId())) {
+    errorRedirect("Error updating your timetable. Please try again later.");
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

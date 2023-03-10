@@ -25,6 +25,11 @@ function openConn(): PDO {
     return $pdo;
 }
 
+function errorRedirect($error_message) {
+    header('Location: ' . "./pages/error.php?error=" . $error_message);
+    die();
+}
+
 function showDB(): void
 {
     $pdo = openConn();
@@ -57,8 +62,6 @@ function addTimetable($id, $timetable_url){
             'id' => $id
         ]);
 
-
-
     $pdo = null;
 }
 function createUser($name, $profile_picture, $username, $email, $password) {
@@ -84,32 +87,6 @@ function createUser($name, $profile_picture, $username, $email, $password) {
         'password_hash' => $password_hash
     ]);
     $pdo = null;
-}
-
-
-
-function authenticateUser($email, $password): bool
-{
-    $pdo = openConn();
-
-    $sql = "SELECT password_hash
-            FROM users
-            WHERE email= :email";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        'email' => $email
-    ]);
-    $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    $row = $stmt->fetch();
-
-    if (password_verify($password, $row['password_hash'])) {
-        $pdo = null;
-        return true;
-    }
-    return false;
-
-
 }
 
 function checkIfEmailExists($email): bool
@@ -461,7 +438,7 @@ function getUserEvents($user_id){
 
 function getGroupEvents($group_id){
     $pdo = openConn();
-    $sql = "SELECT 'UNAVAILABLE' as title, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as start, DATE_FORMAT(dt_end, '%Y-%m-%dT%H:%i:%s') as 'end'
+    $sql = "SELECT DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as start, DATE_FORMAT(dt_end, '%Y-%m-%dT%H:%i:%s') as 'end'
             FROM (events INNER JOIN user_group_link ON events.user_id = user_group_link.user_id) 
             WHERE user_group_link.group_id=:group_id AND events.active = 1";
     $stmt = $pdo->prepare($sql);
@@ -538,5 +515,41 @@ function whatTime($group_id): array
         $i = $j;
     }
     return($unavailableTimes);
+}
 
+function updateTimetable($user_id){
+    $pdo = openConn();
+
+    $sql = "SELECT timetable_url, timetable_last_updated
+            FROM users
+            WHERE id = :user_id";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'user_id' => $user_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch();
+
+    $pdo = null;
+
+    if (!isset($row['timetable_url'])) {
+        return false;
+    }
+
+    if (isset($row['timetable_last_updated'])) {
+        $last_updated = new DateTime($row['timetable_last_updated']);
+        $now = new DateTime();
+        $diff = $now->diff($last_updated);
+        if ($diff->days < 1) {
+            return(true);
+        }
+    } else {
+        return false;
+    }
+
+    $events = getTimetable($row['timetable_url']);
+    saveTimetable($user_id, $events);
+
+    return true;
 }
