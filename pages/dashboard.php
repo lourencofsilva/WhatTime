@@ -186,7 +186,7 @@ if (!updateTimetable(getLoggedInUserId())) {
 			<div id="overlay"></div>
 
 				</div>
-				<div class="timtable">
+				<div class="timetable">
 					<div id="calendar"></div>
 				</div>
 			</div>

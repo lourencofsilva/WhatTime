@@ -37,6 +37,30 @@ if (!updateTimetable(getLoggedInUserId())) {
 	<link rel="mask-icon" href="../safari-pinned-tab.svg" color="#5bbad5">
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                weekends: false,
+                firstDay: 1,
+                slotMinTime: "09:00:00",
+                slotMaxTime: "18:00:00",
+                businessHours: {
+                    // days of week. an array of zero-based day of week integers (0=Sunday)
+                    daysOfWeek: [1, 2, 3, 4, 5], // Monday - Thursday
+
+                    startTime: '10:00', // a start time (10am in this example)
+                    endTime: '18:00', // an end time (6pm in this example)
+                },
+                events: <?php echo json_encode(getUserEvents(getLoggedInUserId())); ?>
+
+            });
+            calendar.render();
+        });
+    </script>
 </head>
 <body>
 	<div class="wrap">
@@ -146,13 +170,8 @@ if (!updateTimetable(getLoggedInUserId())) {
 						<button class="buttondesign" onclick="window.location.href = '#something';">Create Group</button>
 			</div>
 			<div class="right_container">
-
-				<div class="timetable_header">
-					<p id="big_text">Name</p>
-
-				</div>
 				
-				<div id="calendar" style="width: 100%;"></div>
+				<div id="calendar"></div>
 
 			</div>
 		</div>

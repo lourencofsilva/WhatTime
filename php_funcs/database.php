@@ -413,7 +413,7 @@ function createGroupLink($groupName): string {
 function getUserEvents($user_id){
     $pdo = openConn();
 
-    $sql = "SELECT summary, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as start, DATE_FORMAT(dt_end, '%Y-%m-%dT%H:%i:%s') as 'end'
+    $sql = "SELECT summary as title, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as start, DATE_FORMAT(dt_end, '%Y-%m-%dT%H:%i:%s') as 'end'
             FROM events
             WHERE user_id = :user_id AND active = 1";
     $stmt = $pdo->prepare($sql);
