@@ -28,7 +28,7 @@ function openConn(): PDO {
 }
 
 function errorRedirect($error_message) {
-    header('Location: ' . "./pages/error.php?error=" . $error_message);
+    header('Location: ' . "./error.php?error=" . $error_message);
     die();
 }
 
