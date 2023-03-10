@@ -4,6 +4,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+include "logging.php";
+
 function openConn(): PDO {
     if (file_exists('../config.inc.php')) {
         require '../config.inc.php';
@@ -172,7 +174,7 @@ function authenticateUsername($username, $password): int
 
 function getTimetable($url) {
     $fileContent = file_get_contents($url);
-    if ($fileContent == false) {
+    if (!$fileContent) {
         return(false);
     }
     if(str_starts_with($fileContent, "BEGIN:VCALENDAR")) {
@@ -547,6 +549,9 @@ function updateTimetable($user_id){
     }
 
     $events = getTimetable($row['timetable_url']);
+    if (!$events) {
+        return false;
+    }
     saveTimetable($user_id, $events);
 
     return true;
