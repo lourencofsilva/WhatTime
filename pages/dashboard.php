@@ -87,6 +87,43 @@ foreach (getGroupUsers($group_id) as $user) {
 			});
 			calendar.render();
 		});
+
+
+        // Function to handle creating group
+        function createGroup() {
+            let $group_name = document.getElementById("group-name").value;
+
+            //FRONTEND: Add validation for the group name (no special characters, max 30 characters)
+
+            var ajaxRequest;
+            try {
+                ajaxRequest = new XMLHttpRequest();
+            }catch (e) {
+                // Internet Explorer Browsers
+                try {
+                    ajaxRequest = new ActiveXObject("Msxm l2.XMLHTTP");
+                }catch (e) {
+                    try{
+                        ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                    }catch (e){
+                        alert("An error occured!");
+                        return false;
+                    }
+                }
+            }
+            ajaxRequest.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("createGroupResponse").innerHTML = this.responseText;
+                }
+            };
+            ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent($group_name), true);
+            ajaxRequest.send(null);
+
+        }
+
+
+
+
 	</script>
 </head>
 
@@ -143,11 +180,12 @@ foreach (getGroupUsers($group_id) as $user) {
 						<div class="form_info">
 							<div class="input_container">
 								<label>Group Name:</label>
-								<input type="text" placeholder="Group Name">
+								<input type="text" id="group-name" placeholder="Group Name">
+                                <div id="createGroupResponse"></div><!-- FRONTEND: Please style this, backend added it -->
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button id="createGroupBtn" class="buttondesign">Save Changes</button>
+							<button id="createGroupBtn" onclick="createGroup()" class="buttondesign">Save Changes</button>
 						</div>
 
 					</div>

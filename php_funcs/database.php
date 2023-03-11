@@ -284,10 +284,28 @@ VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
 }
 
 
-function createGroup($name, $group_picture) {
+function createGroup($name, $user_id) {
     $groupUID = generateUID();
+    $name = trim($name); //Remove leading and trailing spaces
     $pdo = openConn();
 
+    // Check if the user already has a group with the same name. If so, error.
+    $sql = "SELECT `groups`.`id`
+            FROM `groups` INNER JOIN `user_group_link` ON `groups`.`id` = `user_group_link`.`group_id`
+            WHERE `groups`.name = :name AND `user_group_link`.`user_id` = :user_id";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'name' => $name,
+        'user_id' => $user_id
+    ]);
+
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch();
+
+    if (isset($row["id"])) {
+        return false;
+    }
 
     $sql = "INSERT INTO `groups` (name, groupUID)
  VALUES (:name, :groupUID)";
@@ -295,18 +313,15 @@ function createGroup($name, $group_picture) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         'name' => $name,
-        //'group_picture' => $group_picture,
         'groupUID' => $groupUID
     ]);
 
-
-
+    addUserToGroup($user_id, $pdo->lastInsertId());
     $pdo = null;
-    return(true);
+
+    return "https://web.cs.manchester.ac.uk/h14965lf/x3_group_project/pages/invite.php?id=" . $groupUID;
 }
-function getGroupInfoFromInviteLink($groupUID) {//I THINK THE PROBLEM IS IN HERE (TRY TO LOAD THIS LINK):
-    //https://web.cs.manchester.ac.uk/q98040ac/X3GroupProject/pages/invite.php?id=a1465b7a81ac4f09b5a2ad2f0a094026
-    //GOOD LUCK
+function getGroupInfoFromInviteLink($groupUID) {
     $pdo = openConn();
 
     $sql = "SELECT id, name
@@ -398,11 +413,6 @@ function getGroupUsers($group_id){
     }
     $pdo = null;
     return($users);
-}
-
-
-function createGroupLink($groupName): string {
-    return ("https://web.cs.manchester.ac.uk/q98040ac/X3GroupProject/pages/invite.php?id=" . generateUID());
 }
 
 function getUserEvents($user_id){
@@ -535,7 +545,7 @@ function updateTimetable($user_id){
         $now = new DateTime();
         $diff = $now->diff($last_updated);
         if ($diff->days < 1) {
-            return(true);
+            return true;
         }
     } else {
         return false;

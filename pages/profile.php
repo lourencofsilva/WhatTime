@@ -88,7 +88,7 @@ if (!updateTimetable(getLoggedInUserId())) {
                             }
                         }
                     }
-                    ajaxRequest.open("GET", "api.php?event=" + info.event.id, true);
+                    ajaxRequest.open("GET", "api.php?endpoint=profile-events&event=" + info.event.id, true);
                     ajaxRequest.send(null);
                 },
                 events: <?php echo json_encode(getUserEvents(getLoggedInUserId())); ?>
