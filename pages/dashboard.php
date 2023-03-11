@@ -12,24 +12,6 @@ if (!updateTimetable(getLoggedInUserId())) {
 	errorRedirect("Error updating your timetable. Please try again later.");
 }
 
-if (isset($_GET["group"])) {
-	$group = htmlspecialchars($_GET["group"]);
-} else {
-	$group = 0;
-}
-
-$groups = getUserGroupInfo(getLoggedInUserId());
-
-if ($group >= count($groups)) {
-	$group = 0;
-}
-
-$group_id = $groups[$group]["id"];
-
-foreach (getGroupUsers($group_id) as $user) {
-	updateTimetable($user);
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -82,7 +64,7 @@ foreach (getGroupUsers($group_id) as $user) {
 					startTime: '09:00', // a start time (10am in this example)
 					endTime: '18:00', // an end time (6pm in this example)
 				},
-				events: <?php echo json_encode(whatTime($group_id)); ?>
+				events: <?php echo json_encode(whatTime(4)); ?>
 
 			});
 			calendar.render();
@@ -110,23 +92,16 @@ foreach (getGroupUsers($group_id) as $user) {
 				<div class="scroll_container">
 					<?php
 					$groups = getUserGroupInfo(getLoggedInUserId());
-
-					if (empty($groups)) {
-						echo "<h2>You are not currently part of any groups</h2>";
-					} else {
-						$count = 0;
-						foreach ($groups as $group) {
-							echo "<a href='./dashboard.php?group=" . $count . "'>";
-							echo "<div class='group_row'>";
-							echo "<div class='group_image_container'>";
-							echo "<img class='group_image' src='../images/group.png'>";
-							echo "</div>";
-							echo "<div class='group_name_container'>" . $group["name"] . "</div>";
-							echo "</div>";
-							echo "</a>";
-							$count++;
-						}
+					foreach ($groups as $group) {
+						echo "<div class='group_row'>";
+						echo "<div class='group_image_container'>";
+						echo "<img class='group_image' src='../images/group.png'>";
+						echo "</div>";
+						echo "<div class='group_name_container'>" . $group["name"] . "</div>";
+						echo "</div>";
 					}
+
+
 					?>
 
 
@@ -167,16 +142,6 @@ foreach (getGroupUsers($group_id) as $user) {
 					<button data-modal-target="#manage_group" class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;">Manage Group</button>
 
 				</div>
-				<!-- 
-			<div class="modal" id="manage_group">
-				<div class="modal-header" >
-					<div class="title">Manage Group</div>
-					<button data-close-button class="close-button">&times;</button>
-				</div>
-				<div class="modal-body">
-					managing group stuff
-				</div>
-
 
 				<div id="overlay"></div>
 				<div class="timetable">
