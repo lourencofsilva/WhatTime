@@ -13,21 +13,21 @@ if (!updateTimetable(getLoggedInUserId())) {
 }
 
 if (isset($_GET["group"])) {
-    $group = htmlspecialchars($_GET["group"]);
+	$group = htmlspecialchars($_GET["group"]);
 } else {
-    $group = 0;
+	$group = 0;
 }
 
 $groups = getUserGroupInfo(getLoggedInUserId());
 
 if ($group >= count($groups)) {
-    $group = 0;
+	$group = 0;
 }
 
 $group_id = $groups[$group]["id"];
 
 foreach (getGroupUsers($group_id) as $user) {
-    updateTimetable($user);
+	updateTimetable($user);
 }
 
 ?>
@@ -108,24 +108,24 @@ foreach (getGroupUsers($group_id) as $user) {
 					<input type="text" placeholder="search">
 				</div>
 				<div class="scroll_container">
-                    <?php
-                        if (empty($groups)) {
-                            echo "<h2>You are not currently part of any groups</h2>";
-                        } else {
-                            $count = 0;
-                            foreach ($groups as $group) {
-                                echo "<a href='./dashboard.php?group=" . $count . "'>";
-                                echo "<div class='group_row'>";
-                                echo "<div class='group_image_container'>";
-                                echo "<img class='group_image' src='../images/group.png'>";
-                                echo "</div>";
-                                echo "<div class='group_name_container'>" . $group["name"] . "</div>";
-                                echo "</div>";
-                                echo "</a>";
-                                $count++;
-                            }
-                        }
-                    ?>
+					<?php
+					if (empty($groups)) {
+						echo "<h2>You are not currently part of any groups</h2>";
+					} else {
+						$count = 0;
+						foreach ($groups as $group) {
+							echo "<a href='./dashboard.php?group=" . $count . "'>";
+							echo "<div class='group_row'>";
+							echo "<div class='group_image_container'>";
+							echo "<img class='group_image' src='../images/group.png'>";
+							echo "</div>";
+							echo "<div class='group_name_container'>" . $group["name"] . "</div>";
+							echo "</div>";
+							echo "</a>";
+							$count++;
+						}
+					}
+					?>
 
 
 					<button id="createGroupBtn" class="buttondesign" style="margin-left: 30%;">Create Group</button>
@@ -138,12 +138,12 @@ foreach (getGroupUsers($group_id) as $user) {
 
 					<!-- Modal content -->
 					<div class="modal-content">
-						<span class="close">&times;</span>
+						<span class="close closeCreate">&times;</span>
 						<p style="font-size: 30px;">Create Group</p>
 						<div class="form_info">
 							<div class="input_container">
 								<label>Group Name:</label>
-								<input type="text">
+								<input type="text" placeholder="Group Name">
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -159,12 +159,25 @@ foreach (getGroupUsers($group_id) as $user) {
 
 					<!-- Modal content -->
 					<div class="modal-content">
-						<span class="close">&times;</span>
+						<span class="close closeManage">&times;</span>
 						<p style="font-size: 30px;">Create Group</p>
 						<div class="form_info">
 							<div class="input_container">
 								<label>Group Name:</label>
-								<input type="text">
+								<input type="text" placeholder="Group Name">
+							</div>
+							<br>
+							<div class="input_container" style="padding-top: 5%;">
+								<label>Add Member:</label>
+								<input type="text" placeholder="Username">
+							</div>
+							<div class="input_container" style="padding-top: 5%;">
+								<label>Members:</label>
+								<div class="scroll_container" style="height: 20vh;border: 2px solid black;width:50%;margin-left:23%;width:80%">
+									<div style="height:10vh;width:100%;background-color: red;border: 1px solid black;"></div>
+									<div style="height:10vh;width:100%;background-color: red;border: 1px solid black;"></div>
+									<div style="height:10vh;width:100%;background-color: red;border: 1px solid black;"></div>
+								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -182,7 +195,7 @@ foreach (getGroupUsers($group_id) as $user) {
 
 				<div class="timetable_header">
 
-					<button data-modal-target="#manage_group" class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;">Manage Group</button>
+					<button id="manageGroupBtn" class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;">Manage Group</button>
 
 				</div>
 
