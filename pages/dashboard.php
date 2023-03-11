@@ -27,7 +27,8 @@ if (!updateTimetable(getLoggedInUserId())) {
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
 	<link rel="stylesheet" type="text/css" href="../css/dashboard.css">
-	<script defer type="text/javascript" src="../js/create_group.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/modal.css">
+	<script defer type="text/javascript" src="../js/createGroupModal.js"></script>
 
 	<!--- FAVICONS --->
 	<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -104,20 +105,33 @@ if (!updateTimetable(getLoggedInUserId())) {
 					?>
 
 
-					<button data-modal-target="#create_group" class="buttondesign">Create Group</button>
+					<button id="createGroupBtn" class="buttondesign" style="margin-left: 30%;">Create Group</button>
 
 
 				</div>
 
-				<!-- <div class="modal" id="create_group">
-					<div class="modal-header">
-						<div class="title">Create Group</div>
-						<button data-close-button class="close-button">&times;</button>
+				<!-- The Modal -->
+				<div id="myModal" class="modal">
+
+					<!-- Modal content -->
+					<div class="modal-content">
+						<span class="close">&times;</span>
+						<p style="font-size: 30px;">Create Group</p>
+						<div class="form_info">
+							<div class="input_container">
+								<label>Group Name:</label>
+								<input type="text">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button id="createGroupBtn" class="buttondesign">Save Changes</button>
+						</div>
+
 					</div>
-					<div class="modal-body">
-						creating group stuff
-					</div>
-				</div> -->
+
+				</div>
+
+
 				<div id="overlay"></div>
 
 			</div>
@@ -128,18 +142,7 @@ if (!updateTimetable(getLoggedInUserId())) {
 					<button data-modal-target="#manage_group" class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;">Manage Group</button>
 
 				</div>
-				<!-- 
-			<div class="modal" id="manage_group">
-				<div class="modal-header" >
-					<div class="title">Manage Group</div>
-					<button data-close-button class="close-button">&times;</button>
-				</div>
-				<div class="modal-body">
-					managing group stuff
-				</div>
 
-
-			</div> -->
 				<div id="overlay"></div>
 				<div class="timetable">
 					<div id="calendar"></div>
