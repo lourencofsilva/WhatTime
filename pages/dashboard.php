@@ -12,6 +12,24 @@ if (!updateTimetable(getLoggedInUserId())) {
     errorRedirect("Error updating your timetable. Please try again later.");
 }
 
+if (isset($_GET["group"])) {
+    $group = htmlspecialchars($_GET["group"]);
+} else {
+    $group = 0;
+}
+
+$groups = getUserGroupInfo(getLoggedInUserId());
+
+if ($group >= count($groups)) {
+    $group = 0;
+}
+
+$group_id = $groups[$group]["id"];
+
+foreach (getGroupUsers($group_id) as $user) {
+    updateTimetable($user);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +80,7 @@ if (!updateTimetable(getLoggedInUserId())) {
 					startTime: '09:00', // a start time (10am in this example)
 					endTime: '18:00', // an end time (6pm in this example)
 				},
-				events: <?php echo json_encode(whatTime(4)); ?>
+				events: <?php echo json_encode(whatTime($group_id)); ?>
 
 			});
 			calendar.render();
@@ -90,16 +108,23 @@ if (!updateTimetable(getLoggedInUserId())) {
 				<div class="scroll_container">
                     <?php
                         $groups = getUserGroupInfo(getLoggedInUserId());
-                        foreach ($groups as $group) {
-                            echo "<div class='group_row'>";
-                            echo "<div class='group_image_container'>";
-                            echo "<img class='group_image' src='../images/group.png'>";
-                            echo "</div>";
-                            echo "<div class='group_name_container'>" . $group["name"] . "</div>";
-                            echo "</div>";
+
+                        if (empty($groups)) {
+                            echo "<h2>You are not currently part of any groups</h2>";
+                        } else {
+                            $count = 0;
+                            foreach ($groups as $group) {
+                                echo "<a href='./dashboard.php?group=" . $count . "'>";
+                                echo "<div class='group_row'>";
+                                echo "<div class='group_image_container'>";
+                                echo "<img class='group_image' src='../images/group.png'>";
+                                echo "</div>";
+                                echo "<div class='group_name_container'>" . $group["name"] . "</div>";
+                                echo "</div>";
+                                echo "</a>";
+                                $count++;
+                            }
                         }
-
-
                     ?>
 
 					<!-- <div class = "buttonbox"> -->

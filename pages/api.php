@@ -6,5 +6,5 @@ include "../php_funcs/user-session.php";
 session_start();
 
 if (isset($_GET["event"]) and isLoggedIn()) {
-    makeEventInactiveAPI($_GET["event"], getLoggedInUserId());
+    makeEventInactiveAPI(htmlspecialchars($_GET["event"]), getLoggedInUserId());
 }
