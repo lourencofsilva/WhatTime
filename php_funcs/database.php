@@ -556,3 +556,24 @@ function updateTimetable($user_id){
 
     return true;
 }
+
+
+function getUserGroupInfo($user_id){
+    $pdo = openConn();
+
+    $sql = "SELECT *
+            FROM `groups`  
+            INNER JOIN `user_group_link` ON `groups`.`id` = `user_group_link`.`group_id`
+            WHERE `user_group_link`.`user_id` = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'user_id' => $user_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $groupInfo = [];
+    while ($row = $stmt->fetch()){
+        $groupInfo[] = $row;
+    }
+    $pdo = null;
+    return($groupInfo);
+}

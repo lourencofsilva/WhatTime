@@ -85,67 +85,19 @@ if (!updateTimetable(getLoggedInUserId())) {
 					<input type="text" placeholder="search">
 				</div>
 				<div class="scroll_container">
+                    <?php
+                        $groups = getUserGroupInfo(getLoggedInUserId());
+                        foreach ($groups as $group) {
+                            echo "<div class='group_row'>";
+                            echo "<div class='group_image_container'>";
+                            echo "<img class='group_image' src='../images/group.png'>";
+                            echo "</div>";
+                            echo "<div class='group_name_container'>" . $group["name"] . "</div>";
+                            echo "</div>";
+                        }
 
-					<div class="group_row">
-						<div class="group_image_container">
-						</div>
-						<div class="group_name_container">name</div>
-					</div>
 
-					<div class="group_row">
-						<div class="group_image_container">
-						</div>
-						<div class="group_name_container">name</div>
-					</div>
-
-					<div class="group_row">
-						<div class="group_image_container">
-						</div>
-						<div class="group_name_container">name</div>
-					</div>
-
-					<div class="group_row">
-						<div class="group_image_container">
-						</div>
-						<div class="group_name_container">name</div>
-					</div>
-
-					<div class="group_row">
-						<div class="group_image_container">
-						</div>
-						<div class="group_name_container">name</div>
-					</div>
-
-					<div class="group_row">
-						<div class="group_image_container">
-						</div>
-						<div class="group_name_container">name</div>
-					</div>
-
-					<div class="group_row">
-						<div class="group_image_container">
-						</div>
-						<div class="group_name_container">name</div>
-					</div>
-
-					<div class="group_row">
-						<div class="group_image_container">
-						</div>
-						<div class="group_name_container">name</div>
-					</div>
-
-					<div class="group_row">
-						<div class="group_image_container">
-						</div>
-						<div class="group_name_container">name</div>
-					</div>
-
-					<div class="group_row">
-						<div class="group_image_container">
-						</div>
-						<div class="group_name_container">name</div>
-					</div>
-				</div>
+                    ?>
 
 					<!-- <div class = "buttonbox"> -->
 
@@ -168,7 +120,7 @@ if (!updateTimetable(getLoggedInUserId())) {
 			</div>
 			<div id="overlay"></div>
 
-
+            </div>
 			<div class="right_container">
 
 				<div class="timetable_header">
@@ -189,11 +141,10 @@ if (!updateTimetable(getLoggedInUserId())) {
 
 			</div>
 			<div id="overlay"></div>
-
-				</div>
 				<div class="timetable">
 					<div id="calendar"></div>
 				</div>
+            </div>
 			</div>
 		</div>
 

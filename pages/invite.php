@@ -36,7 +36,7 @@ $group_name = $info["name"];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_SESSION["user_id"];
     addUserToGroup($user_id, $group_id);
-    redirectIfLoggedIn("./profile.php");
+    redirectIfLoggedIn("./dashboard.php");
 }
 ?>
 
