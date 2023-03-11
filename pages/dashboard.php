@@ -111,7 +111,7 @@ if (!updateTimetable(getLoggedInUserId())) {
 				</div>
 
 				<!-- The Modal -->
-				<div id="myModal" class="modal">
+				<div id="createGroupModal" class="modal">
 
 					<!-- Modal content -->
 					<div class="modal-content">
@@ -131,6 +131,26 @@ if (!updateTimetable(getLoggedInUserId())) {
 
 				</div>
 
+				<!-- The Modal -->
+				<div id="manageGroupModal" class="modal">
+
+					<!-- Modal content -->
+					<div class="modal-content">
+						<span class="close">&times;</span>
+						<p style="font-size: 30px;">Create Group</p>
+						<div class="form_info">
+							<div class="input_container">
+								<label>Group Name:</label>
+								<input type="text">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button id="createGroupBtn" class="buttondesign">Save Changes</button>
+						</div>
+
+					</div>
+
+				</div>
 
 				<div id="overlay"></div>
 

@@ -1,5 +1,5 @@
 // Get the modal
-let modal = document.getElementById("myModal");
+let modal = document.getElementById("createGroupModal");
 
 // Get the button that opens the modal
 let btn = document.getElementById("createGroupBtn");
