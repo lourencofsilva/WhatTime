@@ -6,16 +6,17 @@ include "../php_funcs/user-session.php";
 session_start();
 redirectIfNotLoggedIn("./login.php");
 if (isLoggedIn() && !checkTimetableExists(getLoggedInUserId())) {
-    redirectIfLoggedIn("./registration.php");
+	redirectIfLoggedIn("./registration.php");
 }
 if (!updateTimetable(getLoggedInUserId())) {
-    errorRedirect("Error updating your timetable. Please try again later.");
+	errorRedirect("Error updating your timetable. Please try again later.");
 }
 
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,14 +48,14 @@ if (!updateTimetable(getLoggedInUserId())) {
 				firstDay: 1,
 				slotMinTime: "09:00",
 				slotMaxTime: "18:00",
-                eventTimeFormat: {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false
-                },
-                expandRows: true,
-                eventColor: 'rgba(49, 95, 211, 1)',
-                eventTextColor: 'white',
+				eventTimeFormat: {
+					hour: '2-digit',
+					minute: '2-digit',
+					hour12: false
+				},
+				expandRows: true,
+				eventColor: 'rgba(49, 95, 211, 1)',
+				eventTextColor: 'white',
 				businessHours: {
 					// days of week. an array of zero-based day of week integers (0=Sunday)
 					daysOfWeek: [1, 2, 3, 4, 5], // Monday - Thursday
@@ -73,7 +74,7 @@ if (!updateTimetable(getLoggedInUserId())) {
 <body>
 	<div class="wrap">
 		<div class="header">
-			<button class="mainlogo" onClick="window.location.reload()" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
+			<a class="mainlogo" href="../index.php"><img class="main-img" src="../images/logo_white.png"></a>
 			<div class="nav">
 				<button class="profile"><i class="fa-regular fa-user"></i></button>
 				<ul>
@@ -88,50 +89,46 @@ if (!updateTimetable(getLoggedInUserId())) {
 					<input type="text" placeholder="search">
 				</div>
 				<div class="scroll_container">
-                    <?php
-                        $groups = getUserGroupInfo(getLoggedInUserId());
-                        foreach ($groups as $group) {
-                            echo "<div class='group_row'>";
-                            echo "<div class='group_image_container'>";
-                            echo "<img class='group_image' src='../images/group.png'>";
-                            echo "</div>";
-                            echo "<div class='group_name_container'>" . $group["name"] . "</div>";
-                            echo "</div>";
-                        }
+					<?php
+					$groups = getUserGroupInfo(getLoggedInUserId());
+					foreach ($groups as $group) {
+						echo "<div class='group_row'>";
+						echo "<div class='group_image_container'>";
+						echo "<img class='group_image' src='../images/group.png'>";
+						echo "</div>";
+						echo "<div class='group_name_container'>" . $group["name"] . "</div>";
+						echo "</div>";
+					}
 
 
-                    ?>
+					?>
 
-					<!-- <div class = "buttonbox"> -->
 
-						<button data-modal-target="#create_group" class="buttondesign">Create Group</button>
-					  
-					  <!-- </div> -->
+					<button data-modal-target="#create_group" class="buttondesign">Create Group</button>
 
-			</div>
 
-			<div class="modal" id="create_group">
-				<div class="modal-header" >
-					<div class="title">Create Group</div>
-					<button data-close-button class="close-button">&times;</button>
-				</div>
-				<div class="modal-body">
-					creating group stuff
 				</div>
 
+				<!-- <div class="modal" id="create_group">
+					<div class="modal-header">
+						<div class="title">Create Group</div>
+						<button data-close-button class="close-button">&times;</button>
+					</div>
+					<div class="modal-body">
+						creating group stuff
+					</div>
+				</div> -->
+				<div id="overlay"></div>
 
 			</div>
-			<div id="overlay"></div>
-
-            </div>
 			<div class="right_container">
 
 				<div class="timetable_header">
 
-					<button data-modal-target="#manage_group" class="buttondesign" style= "float: right; margin-right: 10%; margin-top: 1%;">Manage Group</button>
+					<button data-modal-target="#manage_group" class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;">Manage Group</button>
 
 				</div>
-
+				<!-- 
 			<div class="modal" id="manage_group">
 				<div class="modal-header" >
 					<div class="title">Manage Group</div>
@@ -142,23 +139,23 @@ if (!updateTimetable(getLoggedInUserId())) {
 				</div>
 
 
-			</div>
-			<div id="overlay"></div>
+			</div> -->
+				<div id="overlay"></div>
 				<div class="timetable">
 					<div id="calendar"></div>
 				</div>
-            </div>
 			</div>
 		</div>
+	</div>
 
-		<div class="footer">
-			<a>©</a>
-			<ul>
-				<li><a href="#">Contact US</a></li>
-				<li><a href="#">Terms & Conditions</a></li>
-				<li><a href="#">Privacy Policy</a></li>
-			</ul>
-		</div>
+	<div class="footer">
+		<a>©</a>
+		<ul>
+			<li><a href="#">Contact US</a></li>
+			<li><a href="#">Terms & Conditions</a></li>
+			<li><a href="#">Privacy Policy</a></li>
+		</ul>
+	</div>
 	</div>
 
 </body>
