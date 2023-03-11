@@ -91,7 +91,7 @@ foreach (getGroupUsers($group_id) as $user) {
 <body>
 	<div class="wrap">
 		<div class="header">
-			<button class="mainlogo" onClick="window.location.reload()" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
+			<a class="mainlogo" href="../index.php"><img class="main-img" src="../images/logo_white.png"></a>
 			<div class="nav">
 				<button class="profile"><i class="fa-regular fa-user"></i></button>
 				<ul>
@@ -127,36 +127,32 @@ foreach (getGroupUsers($group_id) as $user) {
                         }
                     ?>
 
-					<!-- <div class = "buttonbox"> -->
 
-						<button data-modal-target="#create_group" class="buttondesign">Create Group</button>
-					  
-					  <!-- </div> -->
+					<button data-modal-target="#create_group" class="buttondesign">Create Group</button>
 
-			</div>
 
-			<div class="modal" id="create_group">
-				<div class="modal-header" >
-					<div class="title">Create Group</div>
-					<button data-close-button class="close-button">&times;</button>
-				</div>
-				<div class="modal-body">
-					creating group stuff
 				</div>
 
+				<!-- <div class="modal" id="create_group">
+					<div class="modal-header">
+						<div class="title">Create Group</div>
+						<button data-close-button class="close-button">&times;</button>
+					</div>
+					<div class="modal-body">
+						creating group stuff
+					</div>
+				</div> -->
+				<div id="overlay"></div>
 
 			</div>
-			<div id="overlay"></div>
-
-            </div>
 			<div class="right_container">
 
 				<div class="timetable_header">
 
-					<button data-modal-target="#manage_group" class="buttondesign" style= "float: right; margin-right: 10%; margin-top: 1%;">Manage Group</button>
+					<button data-modal-target="#manage_group" class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;">Manage Group</button>
 
 				</div>
-
+				<!--
 			<div class="modal" id="manage_group">
 				<div class="modal-header" >
 					<div class="title">Manage Group</div>
@@ -167,23 +163,23 @@ foreach (getGroupUsers($group_id) as $user) {
 				</div>
 
 
-			</div>
-			<div id="overlay"></div>
+			</div> -->
+				<div id="overlay"></div>
 				<div class="timetable">
 					<div id="calendar"></div>
 				</div>
-            </div>
 			</div>
 		</div>
+	</div>
 
-		<div class="footer">
-			<a>©</a>
-			<ul>
-				<li><a href="#">Contact US</a></li>
-				<li><a href="#">Terms & Conditions</a></li>
-				<li><a href="#">Privacy Policy</a></li>
-			</ul>
-		</div>
+	<div class="footer">
+		<a>©</a>
+		<ul>
+			<li><a href="#">Contact US</a></li>
+			<li><a href="#">Terms & Conditions</a></li>
+			<li><a href="#">Privacy Policy</a></li>
+		</ul>
+	</div>
 	</div>
 
 </body>

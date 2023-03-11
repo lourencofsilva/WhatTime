@@ -16,37 +16,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $passedValidation = true;
 
     if (empty($realName)) {
-        $error = $error ."Name is required. <br>";
+        $error = $error . "Name is required. <br>";
         $passedValidation = false;
     }
 
     if (empty($username)) {
-        $error = $error ."Username is required. <br>";
+        $error = $error . "Username is required. <br>";
         $passedValidation = false;
     } else {
-        if (checkIfUsernameExists($username)){
-            $error = $error ."That username is taken. Please choose another. <br>";
+        if (checkIfUsernameExists($username)) {
+            $error = $error . "That username is taken. Please choose another. <br>";
             $passedValidation = false;
         }
     }
 
     if (empty($email)) {
-        $error = $error ."Email Address is required. <br>";
+        $error = $error . "Email Address is required. <br>";
         $passedValidation = false;
     } else {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error = $error .  "Invalid Email Address. <br>";
             $passedValidation = false;
         } else {
-            if (checkIfEmailExists($email)){
-                $error = $error ."Email Address is already in use. Please log in. <br>";
+            if (checkIfEmailExists($email)) {
+                $error = $error . "Email Address is already in use. Please log in. <br>";
                 $passedValidation = false;
             }
         }
     }
 
     if (empty($password) or empty($password_confirm)) {
-        $error = $error ."Password and Password Confirmation are required. <br>";
+        $error = $error . "Password and Password Confirmation are required. <br>";
         $passedValidation = false;
     } else {
         $uppercase = preg_match('@[A-Z]@', $password);
@@ -56,28 +56,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (!$uppercase || !$lowercase || !$numbers || !$specialChars || strlen($password) < 8) {
             $passedValidation = false;
-            $error = $error ."Password must contain at least: 1 Uppercase Character, 1 Lowercase Character, 1 Number, and 1 Special Character<br>";
+            $error = $error . "Password must contain at least: 1 Uppercase Character, 1 Lowercase Character, 1 Number, and 1 Special Character<br>";
         } else {
-            if ($password_confirm != $password){
+            if ($password_confirm != $password) {
                 $passedValidation = false;
-                $error = $error ."Password and confirmation do not match.";
+                $error = $error . "Password and confirmation do not match.";
             }
         }
     }
 
     if ($passedValidation) {
-        createUser($realName,null,$username,$email,$password);
+        createUser($realName, null, $username, $email, $password);
         $user = authenticateUsername($email, $password);
         if ($user != "false") {
             // This function will return the id.
             $_SESSION['user_id'] = $user;
             redirectIfLoggedIn("./registration.php?" .  htmlspecialchars($_SERVER['QUERY_STRING']));
+        }
     }
-}}
+}
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -118,48 +120,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </script>
 </head>
+
 <body>
-<div class="header">
-    <button class="mainlogo" onClick="window.location.href = '../index.html' " id="btn" type="button"><img class="main_btn" src="../images/logo_white.png"></button>
-</div>
-<div class="wrapper">
-    <div class="info_box">
-        <h1 class="info_title">REGISTER</h1>
-        <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkAll()">
-            <div class="name">
-                <input id="name" type="text" name="name" max="30" placeholder="Name" required>
-            </div>
-            <div class="username">
-                <input id="username" type="text" name="username" max="30" placeholder="Username" required>
-            </div>
-            <div class="email">
-                <input id="email" type="email" name="email" max="256" placeholder="Email" required>
-            </div>
-            <div class="password">
-                <input id="password" type="password" name="password" max="128" placeholder="Password" required>
-            </div>
-            <div class="confirm">
-                <input id="confirm" type="password" max="128" name="confirm" placeholder="Confirm Password" required>
-            </div>
-            <div class="login">
-                <p>Already Registered?</p>
-                <a href="<?php echo "login.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Login Here</a>
-            </div>
-            <div class="final">
-                <input class="continue" id="post" type="submit" value="Continue">
-            </div>
-            <p id="alert"><?php
-                if ($error){
-                    echo($error);
-                }
-                ?></p>
-        </form>
+    <div class="header">
+        <button class="mainlogo" onClick="window.location.href = '../index.php' " id="btn" type="button"><img class="main_btn" src="../images/logo_white.png"></button>
     </div>
-</div>
-<footer>
-    <a href="#privacypolicy">Privacy Policy</a>
-    <a href="#t&c">Terms & Conditions</a>
-    <a href="#contact">Contact Us</a>
-</footer>
+    <div class="wrapper">
+        <div class="info_box">
+            <h1 class="info_title">REGISTER</h1>
+            <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkAll()">
+                <div class="name">
+                    <input id="name" type="text" name="name" max="30" placeholder="Name" required>
+                </div>
+                <div class="username">
+                    <input id="username" type="text" name="username" max="30" placeholder="Username" required>
+                </div>
+                <div class="email">
+                    <input id="email" type="email" name="email" max="256" placeholder="Email" required>
+                </div>
+                <div class="password">
+                    <input id="password" type="password" name="password" max="128" placeholder="Password" required>
+                </div>
+                <div class="confirm">
+                    <input id="confirm" type="password" max="128" name="confirm" placeholder="Confirm Password" required>
+                </div>
+                <div class="login">
+                    <p>Already Registered?</p>
+                    <a href="<?php echo "login.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Login Here</a>
+                </div>
+                <div class="final">
+                    <input class="continue" id="post" type="submit" value="Continue">
+                </div>
+                <p id="alert"><?php
+                                if ($error) {
+                                    echo ($error);
+                                }
+                                ?></p>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <a href="#privacypolicy">Privacy Policy</a>
+        <a href="#t&c">Terms & Conditions</a>
+        <a href="#contact">Contact Us</a>
+    </footer>
 </body>
+
 </html>
