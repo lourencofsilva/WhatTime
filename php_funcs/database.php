@@ -397,12 +397,7 @@ function getGroupUsers($group_id){
         $users[] = $row['user_id'];
     }
     $pdo = null;
-    if (empty($users)) {
-        return(false);
-    }
-    else {
-        return($users);
-    }
+    return($users);
 }
 
 
@@ -559,7 +554,7 @@ function updateTimetable($user_id){
 function getUserGroupInfo($user_id){
     $pdo = openConn();
 
-    $sql = "SELECT *
+    $sql = "SELECT groups.id, groups.name, groups.group_picture
             FROM `groups`  
             INNER JOIN `user_group_link` ON `groups`.`id` = `user_group_link`.`group_id`
             WHERE `user_group_link`.`user_id` = :user_id";
