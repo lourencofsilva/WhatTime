@@ -48,6 +48,11 @@ if (!updateTimetable(getLoggedInUserId())) {
                 firstDay: 1,
                 slotMinTime: "09:00:00",
                 slotMaxTime: "18:00:00",
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                },
                 businessHours: {
                     // days of week. an array of zero-based day of week integers (0=Sunday)
                     daysOfWeek: [1, 2, 3, 4, 5], // Monday - Thursday
