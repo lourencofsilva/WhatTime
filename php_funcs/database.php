@@ -413,9 +413,9 @@ function createGroupLink($groupName): string {
 function getUserEvents($user_id){
     $pdo = openConn();
 
-    $sql = "SELECT summary as title, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as start, DATE_FORMAT(dt_end, '%Y-%m-%dT%H:%i:%s') as 'end'
+    $sql = "SELECT IF(active, 'rgb(49, 95, 211)', 'rgb(200, 30, 65)') as color, id, summary as title, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as start, DATE_FORMAT(dt_end, '%Y-%m-%dT%H:%i:%s') as 'end'
             FROM events
-            WHERE user_id = :user_id AND active = 1";
+            WHERE user_id = :user_id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         'user_id' => $user_id
@@ -433,8 +433,6 @@ function getUserEvents($user_id){
         return($events);
     }
 }
-
-
 
 function getGroupEvents($group_id){
     $pdo = openConn();
@@ -576,4 +574,18 @@ function getUserGroupInfo($user_id){
     }
     $pdo = null;
     return($groupInfo);
+}
+
+function makeEventInactiveAPI($event_id, $user_id) {
+    $pdo = openConn();
+
+    $sql = "UPDATE events
+            SET active = !active
+            WHERE id = :event_id AND user_id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'event_id' => $event_id,
+        'user_id' => $user_id
+    ]);
+    $pdo = null;
 }

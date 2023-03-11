@@ -22,5 +22,5 @@ function doLog($log_type, $summary = NULL, $log = NULL, $function = NULL, $user_
         'function_name' => $function,
     ]);
 
-    closeConn($pdo);
+    $pdo = null;
 }

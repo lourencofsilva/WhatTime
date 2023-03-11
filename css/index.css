@@ -8,7 +8,15 @@ html{
 	border-collapse: collapse;
 	margin:0;
 	padding:0;
-	color:#000;
+	/*color:#000; This messes with the timetable text color*/
+}
+
+.fc-event-time{ /*Changes the font size for the timetable*/
+	font-size: 1.2rem !important;
+}
+
+.fc-event-title { /*Changes the font size for the timetable*/
+	font-size: 1.2rem !important;
 }
 
 .header{

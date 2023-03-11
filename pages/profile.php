@@ -38,27 +38,58 @@ if (!updateTimetable(getLoggedInUserId())) {
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
 
+    <script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'timeGridWeek',
+                dayHeaderFormat: 'dddd DD/MM',
                 weekends: false,
                 firstDay: 1,
-                slotMinTime: "09:00:00",
-                slotMaxTime: "18:00:00",
+                slotMinTime: "09:00",
+                slotMaxTime: "18:00",
                 eventTimeFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
                 },
+                eventTextColor: 'white',
                 businessHours: {
-                    // days of week. an array of zero-based day of week integers (0=Sunday)
-                    daysOfWeek: [1, 2, 3, 4, 5], // Monday - Thursday
+                    daysOfWeek: [1, 2, 3, 4, 5],
+                    startTime: '09:00',
+                    endTime: '18:00',
+                },
+                expandRows: true,
+                eventClick: function(info) {
+                    if (info.el.style.backgroundColor === 'rgb(200, 30, 65)') {
+                        info.el.style.backgroundColor = 'rgb(49, 95, 211)'; // Change the background color
+                        info.el.style.borderColor = 'rgb(49, 95, 211)'; // Change the border color
+                    } else {
+                        info.el.style.backgroundColor = 'rgb(200, 30, 65)'; // Change the background color
+                        info.el.style.borderColor = 'rgb(200, 30, 65)'; // Change the border color
+                    }
 
-                    startTime: '10:00', // a start time (10am in this example)
-                    endTime: '18:00', // an end time (6pm in this example)
+                    var ajaxRequest;
+                    try {
+                        ajaxRequest = new XMLHttpRequest();
+                    }catch (e) {
+                        // Internet Explorer Browsers
+                        try {
+                            ajaxRequest = new ActiveXObject("Msxm l2.XMLHTTP");
+                        }catch (e) {
+                            try{
+                                ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                            }catch (e){
+                                alert("An error occured!");
+                                return false;
+                            }
+                        }
+                    }
+                    ajaxRequest.open("GET", "api.php?event=" + info.event.id, true);
+                    ajaxRequest.send(null);
                 },
                 events: <?php echo json_encode(getUserEvents(getLoggedInUserId())); ?>
 
