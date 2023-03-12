@@ -78,6 +78,23 @@ input:focus{
 	opacity: 0.6;
 }
 
+.info_box > form > .error{
+	margin-top: 0%;
+	margin-bottom: 0%;
+	text-align: center;
+	height: 2vh;
+	max-width: 100;
+}
+
+.info_box > form > .error > p{
+    display: inline-block;
+    margin: auto;
+    white-space: nowrap;
+    font-size: 1.6rem;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
 .info_box > form > .login{
 	position: relative;
 	left: 25%;
@@ -179,6 +196,10 @@ footer a:hover {
 		font-size: 1.2rem;
 	}
 
+	.info_box > form > .error > p{
+		font-size: 1.2rem;
+	}
+
 	.info_box > form > .login > a{
 		font-size: 1.2rem;
 	}
@@ -209,6 +230,11 @@ footer a:hover {
 		font-size: 1.1rem;
 	}
 
+
+	.info_box > form > .error > p{
+		font-size: 1.1rem;
+	}
+
 	.info_box > form > .login > a{
 		font-size: 1.1rem;
 	}
@@ -233,6 +259,11 @@ footer a:hover {
 	}
 
 	.info_box > form > .login > p{
+		font-size: 1rem;
+	}
+
+
+	.info_box > form > .error > p{
 		font-size: 1rem;
 	}
 
@@ -287,6 +318,11 @@ footer a:hover {
 		font-size: 0.8rem;
 	}
 
+
+	.info_box > form > .error > p{
+		font-size: 0.8rem;
+	}
+
 	.info_box > form > .login > a{
 		font-size: 0.8rem;
 	}
@@ -311,6 +347,11 @@ footer a:hover {
 	}
 
 	.info_box > form > .login > p{
+		font-size: 1.3rem;
+	}
+
+
+	.info_box > form > .error > p{
 		font-size: 1.3rem;
 	}
 
@@ -341,6 +382,11 @@ footer a:hover {
 		font-size: 1.1rem;
 	}
 
+
+	.info_box > form > .error > p{
+		font-size: 1.1rem;
+	}
+
 	.info_box > form > .login > a{
 		font-size: 1.1rem;
 	}
@@ -364,6 +410,11 @@ footer a:hover {
 	}
 
 	.info_box > form > .login > p{
+		font-size: 1rem;
+	}
+
+
+	.info_box > form > .error > p{
 		font-size: 1rem;
 	}
 
@@ -391,6 +442,10 @@ footer a:hover {
 	}
 
 	.info_box > form > .login > p{
+		font-size: 0.9rem;
+	}
+
+	.info_box > form > .error > p{
 		font-size: 0.9rem;
 	}
 
