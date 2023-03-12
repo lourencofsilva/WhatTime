@@ -47,6 +47,8 @@ foreach (getGroupUsers($group_id) as $user) {
 	<link rel="stylesheet" type="text/css" href="../css/dashboard.css">
 	<link rel="stylesheet" type="text/css" href="../css/modal.css">
 	<script defer type="text/javascript" src="../js/createGroupModal.js"></script>
+	<script defer type="text/javascript" src="../js/manageGroupModal.js"></script>
+
 
 	<!--- FAVICONS --->
 	<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -170,7 +172,7 @@ foreach (getGroupUsers($group_id) as $user) {
 
 				</div>
 
-				<!-- The Modal -->
+				<!-- Create Group Modal -->
 				<div id="createGroupModal" class="modal">
 
 					<!-- Modal content -->
@@ -192,22 +194,21 @@ foreach (getGroupUsers($group_id) as $user) {
 
 				</div>
 
-				<!-- The Modal -->
+				<!-- Manage Group Modal -->
 				<div id="manageGroupModal" class="modal">
 
 					<!-- Modal content -->
 					<div class="modal-content">
 						<span class="close closeManage">&times;</span>
-						<p style="font-size: 30px;">Create Group</p>
-						<div class="form_info">
-							<div class="input_container">
+						<p style="font-size: 30px;">Manage Group</p>
+						<div class="group_information">
+							<div class="input_container" style="padding-top: 5%;">
 								<label>Group Name:</label>
 								<input type="text" placeholder="Group Name">
 							</div>
-							<br>
 							<div class="input_container" style="padding-top: 5%;">
-								<label>Add Member:</label>
-								<input type="text" placeholder="Username">
+								<label>Invite link:</label>
+								<input type="text" readonly="readonly" value="www.google.comwwwwwwwwwwwwwwwweee">
 							</div>
 							<div class="input_container" style="padding-top: 5%;">
 								<label>Members:</label>
@@ -219,7 +220,8 @@ foreach (getGroupUsers($group_id) as $user) {
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button id="createGroupBtn" class="buttondesign">Save Changes</button>
+							<button id="deleteGroupBtn" class="deleteGroupBtnDesign">Delete Group</button>
+							<button id="savechanges" class="buttondesign">Save Changes</button>
 						</div>
 
 					</div>
@@ -233,7 +235,7 @@ foreach (getGroupUsers($group_id) as $user) {
 
 				<div class="timetable_header">
 
-					<button id="manageGroupBtn" class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;">Manage Group</button>
+					<button id="manageGroupBtn" class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;" onclick="showModal()">Manage Group</button>
 
 				</div>
 
