@@ -49,6 +49,7 @@ foreach (getGroupUsers($group_id) as $user) {
 	<script defer type="text/javascript" src="../js/createGroupModal.js"></script>
 	<script defer type="text/javascript" src="../js/manageGroupModal.js"></script>
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 	<!--- FAVICONS --->
 	<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -123,6 +124,21 @@ foreach (getGroupUsers($group_id) as $user) {
 
         }
 
+	    function search() {
+	        	let text = document.getElementById("search").value.toLowerCase();
+	        	$('.group_row').each(function(i, obj) {
+	        		var name = document.getElementsByClassName('group_name_container')[i].innerHTML.toLowerCase();
+	        		if (name.includes(text)) {
+	        			obj.style.display = "block";
+	        		} else {
+	        			obj.style.display = "none";
+	        		}
+	        	});
+	        }
+
+
+
+
 
 
 
@@ -134,7 +150,7 @@ foreach (getGroupUsers($group_id) as $user) {
 		<div class="header">
 			<a class="mainlogo" href="../index.php"><img class="main-img" src="../images/logo_white.png"></a>
 			<div class="nav">
-				<button class="profile"><i class="fa-regular fa-user"></i></button>
+				<button class="profile"><i class="fa-regular fa-user" onclick="window.location.href = './profile.php'"></i></button>
 				<ul>
 					<li><a href="./logout.php">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log Out</a></li>
 				</ul>
@@ -144,7 +160,7 @@ foreach (getGroupUsers($group_id) as $user) {
 		<div class="main">
 			<div class="left_container">
 				<div class="search_container">
-					<input type="text" placeholder="search">
+					<input type="text" id="search" placeholder="search" onkeyup="search()">
 				</div>
 				<div class="scroll_container">
 					<?php
@@ -167,9 +183,9 @@ foreach (getGroupUsers($group_id) as $user) {
 					?>
 
 
-					<button id="createGroupBtn" class="buttondesign" style="margin-left: 30%;">Create Group</button>
-
-
+				</div>
+				<div class="btn_container">
+					<button id="createGroupBtn" class="button" style="margin-left: 30%;">Create Group</button>
 				</div>
 
 				<!-- Create Group Modal -->

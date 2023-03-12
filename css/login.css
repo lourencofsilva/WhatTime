@@ -78,6 +78,19 @@ input:focus{
 	opacity: 0.6;
 }
 
+.login_box > form > .error{
+	margin-top: 0%;
+	text-align: center;
+	height: 3vh;
+}
+
+.login_box > form > .error > p{
+    display: inline-block; /* or display: block; */
+    margin: auto;
+    white-space: nowrap;
+    font-size: 1.6rem;
+}
+
 .login_box > form > .register{
 	margin-top: 15%;
 	position: relative;

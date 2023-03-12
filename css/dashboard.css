@@ -1,6 +1,19 @@
+.header > a{
+  width: 15%;
+}
+
+.header > a > img{
+  width: 100%;
+  height: 6vh;
+}
+
+.header > .nav{
+  line-height: 6vh;
+}
+
 .left_container{
     width: 28vw;
-    height: 85vh;
+    height: 89vh;
     background-color: white;
     float: left;
     border: 2px solid black;
@@ -9,7 +22,7 @@
 
 .right_container{
     width: 72vw;
-    height: 83vh;
+    height: 89vh;
     background-color: white;
     float: right;
 }
@@ -58,6 +71,21 @@
     height: 14%;
     background-color: aquamarine;
     text-align: center;
+}
+
+.btn_container {
+  width: 100%;
+  background-color: yellow;
+  
+}
+
+.button {
+  border: 1px solid black;
+  background-color: rgb(39, 93, 219);
+  color: white;
+  font-size: 16px;
+  border-radius: 20px;
+  margin: auto auto auto auto;
 }
 
 .buttondesign {
