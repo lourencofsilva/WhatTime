@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (!$uppercase || !$lowercase || !$numbers || !$specialChars || strlen($password) < 8) {
             $passedValidation = false;
-            $error = $error . "Password must contain at least: 1 Uppercase Character, 1 Lowercase Character, 1 Number, and 1 Special Character<br>";
+            $error = $error . "Password must contain at least:<br>1 Uppercase Character, 1 Lowercase Character<br>1 Number, 1 Special Character<br>";
         } else {
             if ($password_confirm != $password) {
                 $passedValidation = false;
@@ -144,6 +144,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="confirm">
                     <input id="confirm" type="password" max="128" name="confirm" placeholder="Confirm Password" required>
                 </div>
+
+                <div class="error">
+                <?php
+                if ($error) {
+                    echo ("<p>" . $error . "</p>");
+                }
+                ?>
+                </div>
+                           
                 <div class="login">
                     <p>Already Registered?</p>
                     <a href="<?php echo "login.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Login Here</a>
@@ -151,11 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="final">
                     <input class="continue" id="post" type="submit" value="Continue">
                 </div>
-                <p id="alert"><?php
-                                if ($error) {
-                                    echo ($error);
-                                }
-                                ?></p>
+
             </form>
         </div>
     </div>

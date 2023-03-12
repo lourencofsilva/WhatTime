@@ -148,7 +148,7 @@ foreach (getGroupUsers($group_id) as $user) {
 		<div class="header">
 			<a class="mainlogo" href="../index.php"><img class="main-img" src="../images/logo_white.png"></a>
 			<div class="nav">
-				<button class="profile"><i class="fa-regular fa-user"></i></button>
+				<button class="profile"><i class="fa-regular fa-user" onclick="window.location.href = './profile.php'"></i></button>
 				<ul>
 					<li><a href="./logout.php">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log Out</a></li>
 				</ul>

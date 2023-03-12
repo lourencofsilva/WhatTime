@@ -83,12 +83,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="password">
                     <input name="password" id="password" type="password" max="128" placeholder="Password" required>
                 </div>
+
+                <div class="error">
                 <?php
                 if ($error) {
                     echo ("<p>" . $error . "</p>");
                 }
                 ?>
+                </div>
+
                 <div class="register">
+
                     <p>First Time Here?</p>
                     <a href="<?php echo "register.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Register Now</a>
                 </div>
