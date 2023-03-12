@@ -47,6 +47,7 @@ foreach (getGroupUsers($group_id) as $user) {
 	<link rel="stylesheet" type="text/css" href="../css/dashboard.css">
 	<link rel="stylesheet" type="text/css" href="../css/modal.css">
 	<script defer type="text/javascript" src="../js/createGroupModal.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 	<!--- FAVICONS --->
 	<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -121,6 +122,21 @@ foreach (getGroupUsers($group_id) as $user) {
 
         }
 
+	    function search() {
+	        	let text = document.getElementById("search").value.toLowerCase();
+	        	$('.group_row').each(function(i, obj) {
+	        		var name = document.getElementsByClassName('group_name_container')[i].innerHTML.toLowerCase();
+	        		if (name.includes(text)) {
+	        			obj.style.display = "block";
+	        		} else {
+	        			obj.style.display = "none";
+	        		}
+	        	});
+	        }
+
+
+
+
 
 
 
@@ -142,7 +158,7 @@ foreach (getGroupUsers($group_id) as $user) {
 		<div class="main">
 			<div class="left_container">
 				<div class="search_container">
-					<input type="text" placeholder="search">
+					<input type="text" id="search" placeholder="search" onkeyup="search()">
 				</div>
 				<div class="scroll_container">
 					<?php
@@ -165,11 +181,10 @@ foreach (getGroupUsers($group_id) as $user) {
 					?>
 
 
-					<button id="createGroupBtn" class="buttondesign" style="margin-left: 30%;">Create Group</button>
-
-
 				</div>
-
+				<div class="btn_container">
+					<button id="createGroupBtn" class="button">Create Group</button>
+				</div>
 				<!-- The Modal -->
 				<div id="createGroupModal" class="modal">
 

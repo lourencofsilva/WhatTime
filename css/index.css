@@ -20,11 +20,9 @@ html{
 }
 
 .header{
-	/*position: sticky;
-	top: 0;*/
 	display:flex;
 	width:100%;
-	height:8vh;
+	height: 6vh;
 	margin:auto auto auto auto;
 	justify-content: space-between;
 	align-items: center;
@@ -33,7 +31,6 @@ html{
 
 .header > button{
 	width: 18%;
-	height: 8vh;
 	border: none;
 	background-color: rgba(49, 95, 211, 1);
 	margin: auto auto auto 3%;
@@ -42,14 +39,13 @@ html{
 .header > button > img{
 	display: flex;
 	width: 100%;
-	height: 100%;
+	height: 5vh;
 	background-color: rgba(49, 95, 211, 1);
 	cursor: pointer;
 }
 
 .header > a{
 	width: 18%;
-	height: 8vh;
 	border: none;
 	background-color: rgba(49, 95, 211, 1);
 	margin: auto auto auto 3%;
@@ -58,7 +54,6 @@ html{
 .header > a > img{
 	display: flex;
 	width: 100%;
-	height: 100%;
 	background-color: rgba(49, 95, 211, 1);
 	cursor: pointer;
 }
@@ -69,11 +64,10 @@ html{
 }
 
 .nav > ul{
-	height: 8vh;
 	list-style: none;
 	display: flex;
 	white-space: nowrap;
-	line-height: 8vh;
+	line-height: 5vh;
 	padding-right: 25%;
 	background-color: rgba(49, 95, 211, 1);
 }
@@ -102,14 +96,16 @@ html{
 }
 
 .hero{
-	background: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url("room.jpg");
+	background: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url("");
 	width:100%;
-	height:55vh;
+	height: 61vh;
 }
 
 .hero > h2{
-	text-align: center;
-	line-height: 55vh;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	margin:0 auto;
 	border:thick;
 	color:#FFF;
@@ -117,7 +113,6 @@ html{
 	text-align: center;
 	cursor: default;
 	white-space: nowrap;
-	/*text-shadow: 2px, 2px, 10px, rgba(87,89,91,1);*/
 }
 
 .description{
@@ -169,7 +164,7 @@ html{
 .footer{
 	display:flex;
 	width:100%;
-	height:7vh;
+	height:5vh;
 	margin: auto auto auto auto;
 	justify-content: space-between;
 	align-items: center;
@@ -187,7 +182,7 @@ html{
 .footer > ul{
 	list-style: none;
 	display: flex;
-	line-height: 6vh;
+	line-height: 5vh;
 	margin-right: 7%;
 	background-color: rgba(49, 95, 211, 1);
 }
@@ -195,7 +190,7 @@ html{
 .footer > ul > li{
 	padding-right: 7%;
 	white-space: nowrap;
-	height: 6vh;
+	height: 5vh;
 	background-color: rgba(49, 95, 211, 1);
 }
 
@@ -376,6 +371,12 @@ html{
 	}
 	.footer > a{
 		font-size: 1.1rem;
+	}
+}
+
+@media (orientation: landscape) and (min-width: 1440px) {
+	.header > button{
+		width: 13%;
 	}
 }
 
