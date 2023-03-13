@@ -185,7 +185,7 @@ foreach (getGroupUsers($group_id) as $user) {
 
 				</div>
 				<div class="btn_container">
-					<button id="createGroupBtn" class="button" style="margin-left: 30%;">Create Group</button>
+					<button id="createGroupBtn" class="button">Create Group</button>
 				</div>
 
 				<!-- Create Group Modal -->
@@ -251,7 +251,7 @@ foreach (getGroupUsers($group_id) as $user) {
 
 				<div class="timetable_header">
 
-					<button id="manageGroupBtn" class="buttondesign" style="float: right; margin-right: 10%; margin-top: 1%;" onclick="showModal()">Manage Group</button>
+					<button id="manageGroupBtn" class="buttondesign" onclick="showModal()">Manage Group</button>
 
 				</div>
 
