@@ -318,8 +318,7 @@ function createGroup($name, $user_id) {
 
     addUserToGroup($user_id, $pdo->lastInsertId());
     $pdo = null;
-
-    return "https://web.cs.manchester.ac.uk/h14965lf/x3_group_project/pages/invite.php?id=" . $groupUID;
+    return dirname($_SERVER["HTTP_HOST"] . $_SERVER['REQUEST_URI'], 1) . "/invite.php?id=" . $groupUID;
 }
 function getGroupInfoFromInviteLink($groupUID) {
     $pdo = openConn();
@@ -361,15 +360,44 @@ function addUserToGroup($user_id, $group_id): void {
 }
 
 function generateUID() {
-    $data = null;
-    // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
-    $data = $data ?? random_bytes(16);
-    assert(strlen($data) == 16);
-    $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
-    $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+    while(true) {
+        $data = null;
+        // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
+        $data = $data ?? random_bytes(16);
+        assert(strlen($data) == 16);
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
 
-    // Output the 36 character UUID.
-    return vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex($data), 4));
+        $groupUID = vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex($data), 4));
+
+        // Output the 36 character UUID.
+        if(!doesUIDExist($groupUID)){
+            break;
+        }
+    }
+    return($groupUID);
+}
+
+function doesUIDExist($groupUID){
+    $pdo = openConn();
+    $sql = "SELECT groupUID
+            FROM `groups`
+            WHERE groupUID = :groupUID";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'groupUID' => $groupUID
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch();
+    if (isset($row['groupUID'])) {
+        $pdo = null;
+        return(true);
+    }
+    else {
+        $pdo = null;
+        return(false);
+    }
 }
 
 function checkTimetableExists($user_id) {
@@ -594,3 +622,5 @@ function makeEventInactiveAPI($event_id, $user_id) {
     ]);
     $pdo = null;
 }
+
+
