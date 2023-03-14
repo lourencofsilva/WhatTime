@@ -234,7 +234,7 @@ function parseTimetable($fileContent) :array {
         $eventStartTime = substr($current, $pos, $pos + strpos($line, PHP_EOL) - $pos);
         $dt_ends[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . 'T' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
 
-        $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i]]; //adds all current event information (summary,start,end) to AllEvents array.
+        $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i],true]; //adds all current event information (summary,start,end) to AllEvents array.
     }
     return($AllEvents);
 }
@@ -259,7 +259,7 @@ VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
     foreach ($events as $event) {
         $result = $stmt->execute([
             'user_id' => $user_id,
-            'active' => true,
+            'active' => $event[3],
             'summary' => $event[0],
             'dt_start' => $event[1],
             'dt_end' => $event[2]
@@ -548,6 +548,39 @@ function whatTime($group_id): array
     return($unavailableTimes);
 }
 
+function preserveInactiveEvents($user_id, $newEvents){
+    $pdo = openConn();
+
+    $sql = "SELECT summary, dt_start, dt_end
+            FROM events
+            WHERE id = :user_id AND active = 0";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'user_id' => $user_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch();
+
+    $pdo = null;
+    $savedEvents = [];
+    for($j=0;$j>count($newEvents['summary']);$j++){
+        for($i=0;$i>count($row['summary']);$i++){
+            if($row['summary'][$i] == $newEvents['summary'][$j]){
+                if($row['dt_start'][$i] == $newEvents['dt_start'][$j]){
+                    if($row['dt_end'][$i] == $newEvents['dt_end'][$j]){
+                        $savedEvents[] = [$newEvents['summary'][$j],$newEvents['dt_start'][$j],$newEvents['dt_end'][$j],false];
+                        continue;
+                    }
+                }
+            }
+            $savedEvents[] = [$newEvents['summary'][$j],$newEvents['dt_start'][$j],$newEvents['dt_end'][$j],true];
+
+        }
+    }
+    return($savedEvents);
+}
+
 function updateTimetable($user_id){
     $pdo = openConn();
 
@@ -583,7 +616,7 @@ function updateTimetable($user_id){
     if (!$events) {
         return false;
     }
-    saveTimetable($user_id, $events);
+    saveTimetable($user_id, preserveInactiveEvents($user_id, $events));
 
     return true;
 }
