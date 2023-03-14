@@ -553,6 +553,33 @@ function getBestOfficeHours($AllUsers): array{
     return([$startTime,$endTime]);
 }
 
+function getUserOfficeHours($id): array{
+    $pdo = openConn();
+
+    $sql = "SELECT office_begin, office_end
+            FROM users
+            WHERE id = :id";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+    $row = $stmt->fetch();
+
+    if (empty($row["office_begin"]) || empty($row["office_end"])) {
+        $startTime = 0;
+        $endTime = 23;
+    } else {
+        $startTime = intval(substr($row['office_begin'], 11, 2));
+        $endTime = intval(substr($row['office_end'], 11, 2));
+    }
+
+    $pdo = null;
+
+    return [$startTime, $endTime];
+
+}
+
 function whatTime($group_id): array
 {
     $events = getGroupEvents($group_id);

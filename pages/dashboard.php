@@ -9,7 +9,7 @@ if (isLoggedIn() && !checkTimetableExists(getLoggedInUserId())) {
 	redirectIfLoggedIn("./registration.php");
 }
 if (!updateTimetable(getLoggedInUserId())) {
-	//errorRedirect("Error updating your timetable. Please try again later.");
+	errorRedirect("Error updating your timetable. Please try again later.");
 }
 
 if (isset($_GET["group"])) {
@@ -25,9 +25,11 @@ if ($group >= count($groups)) {
 }
 
 $group_id = $groups[$group]["id"];
+$group_users = getGroupUsers($group_id);
+$office_hours = getBestOfficeHours($group_users);
 
-foreach (getGroupUsers($group_id) as $user) {
-	//updateTimetable($user);
+foreach ($group_users as $user) {
+	//updateTimetable($user); TODO: Remove current user from updating.
 }
 
 ?>
@@ -68,8 +70,8 @@ foreach (getGroupUsers($group_id) as $user) {
 				initialView: 'timeGridWeek',
 				weekends: false,
 				firstDay: 1,
-				slotMinTime: "09:00",
-				slotMaxTime: "18:00",
+				slotMinTime: "<?php echo $office_hours[0] ?>:00",
+				slotMaxTime: "<?php echo $office_hours[1] ?>:00",
 				eventTimeFormat: {
 					hour: '2-digit',
 					minute: '2-digit',
@@ -78,13 +80,6 @@ foreach (getGroupUsers($group_id) as $user) {
 				expandRows: true,
 				eventColor: 'rgba(49, 95, 211, 1)',
 				eventTextColor: 'white',
-				businessHours: {
-					// days of week. an array of zero-based day of week integers (0=Sunday)
-					daysOfWeek: [1, 2, 3, 4, 5], // Monday - Thursday
-
-					startTime: '09:00', // a start time (10am in this example)
-					endTime: '18:00', // an end time (6pm in this example)
-				},
 				events: <?php echo json_encode(whatTime($group_id)); ?>
 
 			});
