@@ -29,7 +29,9 @@ $group_users = getGroupUsers($group_id);
 $office_hours = getBestOfficeHours($group_users);
 
 foreach ($group_users as $user) {
-	//updateTimetable($user); TODO: Remove current user from updating.
+    if ($user != getLoggedInUserId()) {
+        updateTimetable($user);
+    }
 }
 
 ?>

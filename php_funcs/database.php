@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -27,31 +29,14 @@ function openConn(): PDO {
     return $pdo;
 }
 
-function errorRedirect($error_message) {
+#[NoReturn] function errorRedirect($error_message): void
+{
     header('Location: ' . "./error.php?error=" . $error_message);
     die();
 }
 
-function showDB(): void
+function addTimetable($id, $timetable_url): void
 {
-    $pdo = openConn();
-    $sql = "SELECT * FROM users";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    while ($row = $stmt->fetch())
-    {
-        print("<h3>" . "id: " . $row['id'] . "</h3>");
-        print("<h3>" . "Name: " . $row['name'] . "</h3>");
-        print("<h3>" . "Username: " . $row['username'] . "</h3>");
-        print("<h3>" . "passHash: " . $row['password_hash'] . "</h3>");
-        print("<h3>" . "email: " . $row['email'] . "</h3>");
-        print("<h3>" . '<img alt="Profile Picture" src="data:image/png;base64,'.base64_encode($row['profile_picture']).'"/>' . "</h3>");
-    }
-    $pdo = null;
-}
-
-function addTimetable($id, $timetable_url){
     $pdo = openConn();
 
     $sql = "UPDATE users 
@@ -66,7 +51,8 @@ function addTimetable($id, $timetable_url){
 
     $pdo = null;
 }
-function createUser($name, $profile_picture, $username, $email, $password) {
+function createUser($name, $profile_picture, $username, $email, $password): void
+{
     if(checkIfUsernameExists($username)){
         return;
     }
@@ -105,12 +91,11 @@ function checkIfEmailExists($email): bool
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $row = $stmt->fetch();
 
+    $pdo = null;
     if (isset($row['email'])) {
-        $pdo = null;
         return(true);
     }
     else {
-        $pdo = null;
         return(false);
     }
 }
@@ -129,12 +114,11 @@ function checkIfUsernameExists($username): bool
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $row = $stmt->fetch();
 
+    $pdo = null;
     if (isset($row['username'])) {
-        $pdo = null;
         return(true);
     }
     else {
-        $pdo = null;
         return(false);
     }
 }
@@ -155,24 +139,23 @@ function authenticateUsername($username, $password): int
     ]);
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $row = $stmt->fetch();
+    $pdo = null;
     if (isset($row['password_hash'])) {
         if (password_verify($password, $row['password_hash'])) {
-            $pdo = null;
             return ($row['id']);
         }
         else {
-            $pdo = null;
             return (-1);
         }
     }
     else{
-        $pdo = null;
         return(-1);
     }
 }
 
 
-function getTimetable($url) {
+function getTimetable($url): bool|array
+{
     $fileContent = file_get_contents($url);
     if (!$fileContent) {
         return(false);
@@ -238,7 +221,7 @@ function parseTimetable($fileContent) :array {
     return($AllEvents);
 }
 
-function remove_emoji($string)
+function remove_emoji($string): array|string|null
 {
     $string = str_replace('\n','', $string);
     // Match Enclosed Alphanumeric Supplement
@@ -267,12 +250,11 @@ function remove_emoji($string)
 
     // Match Dingbats
     $regex_dingbats = '/[\x{2700}-\x{27BF}]/u';
-    $clear_string = preg_replace($regex_dingbats, '', $clear_string);
-
-    return $clear_string;
+    return preg_replace($regex_dingbats, '', $clear_string);
 }
 
-function saveTimetable($user_id, $events) {
+function saveTimetable($user_id, $events): void
+{
     $pdo = openConn();
 
     $sql = "DELETE FROM events WHERE user_id=:user_id"; // Delete current events first
@@ -317,7 +299,8 @@ VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
 }
 
 
-function createGroup($name, $user_id) {
+function createGroup($name, $user_id): bool|string
+{
     $groupUID = generateUID();
     $name = trim($name); //Remove leading and trailing spaces
     $pdo = openConn();
@@ -351,9 +334,10 @@ function createGroup($name, $user_id) {
 
     addUserToGroup($user_id, $pdo->lastInsertId());
     $pdo = null;
-    return dirname($_SERVER["HTTP_HOST"] . $_SERVER['REQUEST_URI'], 1) . "/invite.php?id=" . $groupUID;
+    return dirname($_SERVER["HTTP_HOST"] . $_SERVER['REQUEST_URI']) . "/invite.php?id=" . $groupUID;
 }
-function getGroupInfoFromInviteLink($groupUID) {
+function getGroupInfoFromInviteLink($groupUID): bool|array
+{
     $pdo = openConn();
 
     $sql = "SELECT id, name
@@ -411,7 +395,8 @@ function generateUID() {
     return($groupUID);
 }
 
-function doesUIDExist($groupUID){
+function doesUIDExist($groupUID): bool
+{
     $pdo = openConn();
     $sql = "SELECT groupUID
             FROM `groups`
@@ -423,17 +408,17 @@ function doesUIDExist($groupUID){
     ]);
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $row = $stmt->fetch();
+    $pdo = null;
     if (isset($row['groupUID'])) {
-        $pdo = null;
         return(true);
     }
     else {
-        $pdo = null;
         return(false);
     }
 }
 
-function checkTimetableExists($user_id) {
+function checkTimetableExists($user_id): bool
+{
     $pdo = openConn();
 
     $sql = "SELECT timetable_url
@@ -457,7 +442,8 @@ function checkTimetableExists($user_id) {
     }
 }
 
-function getGroupUsers($group_id){
+function getGroupUsers($group_id): array
+{
     $pdo = openConn();
 
     $sql = "SELECT user_id
@@ -476,7 +462,8 @@ function getGroupUsers($group_id){
     return($users);
 }
 
-function getUserEvents($user_id){
+function getUserEvents($user_id): bool|array
+{
     $pdo = openConn();
 
     $sql = "SELECT IF(active, 'rgb(49, 95, 211)', 'rgb(200, 30, 65)') as color, id, summary as title, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as start, DATE_FORMAT(dt_end, '%Y-%m-%dT%H:%i:%s') as 'end'
@@ -500,7 +487,8 @@ function getUserEvents($user_id){
     }
 }
 
-function getGroupEvents($group_id){
+function getGroupEvents($group_id): bool|array
+{
     $pdo = openConn();
     $sql = "SELECT DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as start, DATE_FORMAT(dt_end, '%Y-%m-%dT%H:%i:%s') as 'end'
             FROM (events INNER JOIN user_group_link ON events.user_id = user_group_link.user_id) 
@@ -561,7 +549,9 @@ function getUserOfficeHours($id): array{
             WHERE id = :id";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([
+        'id' => $id
+    ]);
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
     $row = $stmt->fetch();
@@ -594,8 +584,8 @@ function whatTime($group_id): array
     $unavailableTimes = [];
     for($i=0;$i<count($times);$i++){
         for($j = $i+1;$j<count($times) - 1;$j++){
-            if(substr($times[$j], -1) == 'e'){
-                if(substr($times[$j + 1], -1) == 's'){
+            if(str_ends_with($times[$j], 'e')){
+                if(str_ends_with($times[$j + 1], 's')){
                     if (substr($times[$j], 0, 19) != substr($times[$j+1], 0, 19)){
                         $unavailableTimes[] = ["title" => 'UNAVAILABLE', "start" => substr($times[$i], 0, 19), "end" =>  substr($times[$j], 0, 19)];
                         break;
@@ -650,7 +640,8 @@ function preserveInactiveEvents($user_id, $newEvents): array{
 
 }
 
-function updateTimetable($user_id){
+function updateTimetable($user_id): bool
+{
     $pdo = openConn();
 
     $sql = "SELECT timetable_url, timetable_last_updated
@@ -691,7 +682,8 @@ function updateTimetable($user_id){
 }
 
 
-function getUserGroupInfo($user_id){
+function getUserGroupInfo($user_id): array
+{
     $pdo = openConn();
 
     $sql = "SELECT groups.id, groups.name, groups.group_picture
@@ -711,7 +703,8 @@ function getUserGroupInfo($user_id){
     return($groupInfo);
 }
 
-function makeEventInactiveAPI($event_id, $user_id) {
+function makeEventInactiveAPI($event_id, $user_id): void
+{
     $pdo = openConn();
 
     $sql = "UPDATE events
