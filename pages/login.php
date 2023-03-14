@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Log In</title>
+    <title>Log In · WhatTime?</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1 class="info_title">LOG IN</h1>
             <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
                 <div class="email"> <!-- MAY BREAK CSS ID=EMAIL -->
-                    <input name="email" id="email" type="text" max="256" placeholder="Email or Username" value="<?php echo $email; ?>" required>
+                    <input name="email" id="email" type="text" max="256" placeholder="Email or Username" value="<?php echo htmlspecialchars($email); ?>" required>
                 </div>
                 <div class="password">
                     <input name="password" id="password" type="password" max="128" placeholder="Password" required>

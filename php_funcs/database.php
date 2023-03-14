@@ -686,7 +686,7 @@ function getUserGroupInfo($user_id): array
 {
     $pdo = openConn();
 
-    $sql = "SELECT groups.id, groups.name, groups.group_picture
+    $sql = "SELECT groups.id, groups.name, groups.group_picture, groups.groupUID
             FROM `groups`  
             INNER JOIN `user_group_link` ON `groups`.`id` = `user_group_link`.`group_id`
             WHERE `user_group_link`.`user_id` = :user_id";
@@ -716,4 +716,21 @@ function makeEventInactiveAPI($event_id, $user_id): void
         'user_id' => $user_id
     ]);
     $pdo = null;
+}
+
+function getUserInfo($user_id) {
+    $pdo = openConn();
+
+    $sql = "SELECT name, profile_picture, email, timetable_url, DATE_FORMAT(office_begin, '%H:%i') as office_begin, DATE_FORMAT(office_end, '%H:%i') as office_end
+            FROM users
+            WHERE id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'user_id' => $user_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $pdo = null;
+    $row = $stmt->fetch();
+
+    return($row);
 }

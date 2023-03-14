@@ -25,6 +25,8 @@ if ($group >= count($groups)) {
 }
 
 $group_id = $groups[$group]["id"];
+$group_name = $groups[$group]["name"];
+$invite_link = dirname($_SERVER["HTTP_HOST"] . $_SERVER['REQUEST_URI']) . "/invite.php?id=" . $groups[$group]["groupUID"];
 $group_users = getGroupUsers($group_id);
 $office_hours = getBestOfficeHours($group_users);
 
@@ -42,7 +44,7 @@ foreach ($group_users as $user) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>dashboard</title>
+	<title>Dashboard · WhatTime?</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
@@ -64,12 +66,15 @@ foreach ($group_users as $user) {
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
 
-	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				initialView: 'timeGridWeek',
+                dayHeaderFormat: 'dddd DD/MM',
 				weekends: false,
 				firstDay: 1,
 				slotMinTime: "<?php echo $office_hours[0] ?>:00",
@@ -217,11 +222,11 @@ foreach ($group_users as $user) {
 						<div class="group_information">
 							<div class="input_container" style="padding-top: 5%;">
 								<label>Group Name:</label>
-								<input type="text" placeholder="Group Name">
+								<input type="text" placeholder="Group Name" value="<?php echo htmlspecialchars($group_name) ?>">
 							</div>
 							<div class="input_container" style="padding-top: 5%;">
 								<label>Invite link:</label>
-								<input type="text" readonly="readonly" value="www.google.comwwwwwwwwwwwwwwwweee">
+								<input type="text" readonly="readonly" value="<?php echo htmlspecialchars($invite_link) ?>">
 							</div>
 							<div class="input_container" style="padding-top: 5%;">
 								<label>Members:</label>

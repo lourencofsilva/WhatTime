@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Get Started (Registeration) - Step 1</title>
+    <title>Get Started · WhatTime?</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
@@ -130,13 +130,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1 class="info_title">REGISTER</h1>
             <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkAll()">
                 <div class="name">
-                    <input id="name" type="text" name="name" max="30" placeholder="Name" required>
+                    <input id="name" type="text" name="name" max="30" placeholder="Name" value="<?php echo htmlspecialchars($realName); ?>" required>
                 </div>
                 <div class="username">
-                    <input id="username" type="text" name="username" max="30" placeholder="Username" required>
+                    <input id="username" type="text" name="username" max="30" placeholder="Username" value="<?php echo htmlspecialchars($username); ?>" required>
                 </div>
                 <div class="email">
-                    <input id="email" type="email" name="email" max="256" placeholder="Email" required>
+                    <input id="email" type="email" name="email" max="256" placeholder="Email" value="<?php echo htmlspecialchars($email); ?>" required>
                 </div>
                 <div class="password">
                     <input id="password" type="password" name="password" max="128" placeholder="Password" required>

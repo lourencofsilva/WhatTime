@@ -14,6 +14,7 @@ if (!updateTimetable(getLoggedInUserId())) {
 }
 
 $office_hours = getUserOfficeHours(getLoggedInUserId());
+$user_info = getUserInfo(getLoggedInUserId());
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +22,7 @@ $office_hours = getUserOfficeHours(getLoggedInUserId());
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Profile</title>
+	<title>Profile · WhatTime?</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
@@ -44,6 +45,10 @@ $office_hours = getUserOfficeHours(getLoggedInUserId());
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Set office hours selected to current value
+            document.getElementById("office_hour_start").value = "<?php echo htmlspecialchars($user_info["office_begin"]) ?>";
+            document.getElementById("office_hour_end").value = "<?php echo htmlspecialchars($user_info["office_end"]) ?>";
+
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'timeGridWeek',
@@ -111,18 +116,18 @@ $office_hours = getUserOfficeHours(getLoggedInUserId());
 
                 <div class="input_container">
                     <div class="text">Name:</div>
-                    <input id="name" type="text" name="name" max="30" placeholder="Username" required>
+                    <input id="name" type="text" name="name" max="30" placeholder="Name" value="<?php echo htmlspecialchars($user_info["name"]) ?>" required>
                 </div>
 
 				<div class="input_container">
                     <div class="text">Email Address:</div>
-                    <input id="email" type="text" name="name" max="30" placeholder="Email Address" required>
+                    <input id="email" type="text" name="name" max="30" placeholder="Email Address" value="<?php echo htmlspecialchars($user_info["email"]) ?>" required>
                 </div>
 
 				<div class="input_container">
                     <div class="text">Office Hours:</div>
 	
-					<select name="office_hour_start" style="margin-right: 20%;">
+					<select name="office_hour_start" id="office_hour_start" style="margin-right: 20%;">
 						<option value="00:00">00:00</option>
 						<option value="01:00">01:00</option>
 						<option value="02:00">02:00</option>
@@ -149,7 +154,7 @@ $office_hours = getUserOfficeHours(getLoggedInUserId());
 						<option value="23:00">23:00</option>
 					  </select>
 
-					  <select name="office_hour_end">
+					  <select name="office_hour_end" id="office_hour_end">
 						<option value="00:00">00:00</option>
 						<option value="01:00">01:00</option>
 						<option value="02:00">02:00</option>
@@ -195,7 +200,7 @@ $office_hours = getUserOfficeHours(getLoggedInUserId());
 
 				<div class="input_container">
                     <div class="text">Timetable URL:</div>
-                    <input id="timetable_url" type="text" name="name" max="30" placeholder="URL" required>
+                    <input id="timetable_url" type="text" name="name" max="30" placeholder="URL" value="<?php echo htmlspecialchars($user_info["timetable_url"]) ?>" required>
                 </div>
 
 
