@@ -221,7 +221,7 @@ function parseTimetable($fileContent) :array {
 
         $pos = strpos($current, "SUMMARY:") + 8;
         $line = substr($current, $pos);
-        $summary[] = str_replace('\,',',',substr($current, $pos, $pos + strpos($line, PHP_EOL) - (strpos($current, "SUMMARY:") + 8)));
+        $summary[] = remove_emoji(str_replace('\,',',',substr($current, $pos, $pos + strpos($line, PHP_EOL) - (strpos($current, "SUMMARY:") + 8))));
 
         $pos = strpos(substr($current, strpos($current, "DTSTART") + 7), ":") + 1 + strpos($current, "DTSTART") + 7;
         $line = substr($current, $pos);
@@ -236,6 +236,40 @@ function parseTimetable($fileContent) :array {
         $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i],1]; //adds all current event information (summary,start,end) to AllEvents array.
     }
     return($AllEvents);
+}
+
+function remove_emoji($string)
+{
+    $string = str_replace('\n','', $string);
+    // Match Enclosed Alphanumeric Supplement
+    $regex_alphanumeric = '/[\x{1F100}-\x{1F1FF}]/u';
+    $clear_string = preg_replace($regex_alphanumeric, '', $string);
+
+    // Match Miscellaneous Symbols and Pictographs
+    $regex_symbols = '/[\x{1F300}-\x{1F5FF}]/u';
+    $clear_string = preg_replace($regex_symbols, '', $clear_string);
+
+    // Match Emoticons
+    $regex_emoticons = '/[\x{1F600}-\x{1F64F}]/u';
+    $clear_string = preg_replace($regex_emoticons, '', $clear_string);
+
+    // Match Transport And Map Symbols
+    $regex_transport = '/[\x{1F680}-\x{1F6FF}]/u';
+    $clear_string = preg_replace($regex_transport, '', $clear_string);
+
+    // Match Supplemental Symbols and Pictographs
+    $regex_supplemental = '/[\x{1F900}-\x{1F9FF}]/u';
+    $clear_string = preg_replace($regex_supplemental, '', $clear_string);
+
+    // Match Miscellaneous Symbols
+    $regex_misc = '/[\x{2600}-\x{26FF}]/u';
+    $clear_string = preg_replace($regex_misc, '', $clear_string);
+
+    // Match Dingbats
+    $regex_dingbats = '/[\x{2700}-\x{27BF}]/u';
+    $clear_string = preg_replace($regex_dingbats, '', $clear_string);
+
+    return $clear_string;
 }
 
 function saveTimetable($user_id, $events) {
@@ -272,7 +306,7 @@ VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
     if ($fails == 0) { // Set last_updated_date to the current time, or log if failed adding events.
         $sql = "UPDATE users SET timetable_last_updated='" . date('Y-m-d H:i:s') . "' WHERE id = :id";
         $stmt = $pdo->prepare($sql);
-        $result = $stmt->execute([
+        $stmt->execute([
             'id' => $user_id,
         ]);
     } else {

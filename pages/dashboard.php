@@ -9,7 +9,7 @@ if (isLoggedIn() && !checkTimetableExists(getLoggedInUserId())) {
 	redirectIfLoggedIn("./registration.php");
 }
 if (!updateTimetable(getLoggedInUserId())) {
-	errorRedirect("Error updating your timetable. Please try again later.");
+	//errorRedirect("Error updating your timetable. Please try again later.");
 }
 
 if (isset($_GET["group"])) {
