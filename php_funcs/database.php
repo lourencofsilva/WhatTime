@@ -201,7 +201,6 @@ function parseTimetable($fileContent) :array {
 
 
     $offset=0;
-    $finish = '';
     $find="BEGIN:VEVENT"; //finds index of all event starts in string
     $find_length=  strlen($find);
     while ($string_position = strpos($fileContent, $find, $offset)) {
@@ -227,14 +226,14 @@ function parseTimetable($fileContent) :array {
         $pos = strpos(substr($current, strpos($current, "DTSTART") + 7), ":") + 1 + strpos($current, "DTSTART") + 7;
         $line = substr($current, $pos);
         $eventStartTime = substr($current, $pos, $pos + strpos($line, PHP_EOL) - $pos);
-        $dt_starts[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . 'T' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
+        $dt_starts[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . ' ' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
 
         $pos = strpos(substr($current, strpos($current, "DTEND") + 5), ":") + 1 + strpos($current, "DTEND") + 5;
         $line = substr($current, $pos);
         $eventStartTime = substr($current, $pos, $pos + strpos($line, PHP_EOL) - $pos);
-        $dt_ends[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . 'T' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
+        $dt_ends[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . ' ' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
 
-        $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i],true]; //adds all current event information (summary,start,end) to AllEvents array.
+        $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i],1]; //adds all current event information (summary,start,end) to AllEvents array.
     }
     return($AllEvents);
 }
@@ -548,37 +547,46 @@ function whatTime($group_id): array
     return($unavailableTimes);
 }
 
-function preserveInactiveEvents($user_id, $newEvents){
+function preserveInactiveEvents($user_id, $newEvents): array{
     $pdo = openConn();
 
     $sql = "SELECT summary, dt_start, dt_end
             FROM events
-            WHERE id = :user_id AND active = 0";
+            WHERE user_id = :user_id AND active = 0";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         'user_id' => $user_id
     ]);
-    $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    $row = $stmt->fetch();
-
+    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $pdo = null;
+
     $savedEvents = [];
-    for($j=0;$j>count($newEvents['summary']);$j++){
-        for($i=0;$i>count($row['summary']);$i++){
-            if($row['summary'][$i] == $newEvents['summary'][$j]){
-                if($row['dt_start'][$i] == $newEvents['dt_start'][$j]){
-                    if($row['dt_end'][$i] == $newEvents['dt_end'][$j]){
-                        $savedEvents[] = [$newEvents['summary'][$j],$newEvents['dt_start'][$j],$newEvents['dt_end'][$j],false];
-                        continue;
+    if(empty($row)){
+        return($newEvents);
+    }
+
+
+
+    foreach($newEvents as $newEvent){
+        $flag = true;
+        foreach($row as $cRow){
+            if($cRow['summary'] == $newEvent[0]){
+                if($cRow['dt_start'] == str_replace("\r", "", $newEvent[1])){
+                    if($cRow['dt_end'] == $newEvent[2]){
+                        $savedEvents[] = [$newEvent[0],$newEvent[1],$newEvent[2],0];
+                        $flag = false;
+                        break;
                     }
                 }
             }
-            $savedEvents[] = [$newEvents['summary'][$j],$newEvents['dt_start'][$j],$newEvents['dt_end'][$j],true];
-
+        }
+        if($flag) {
+            $savedEvents[] = [$newEvent[0], $newEvent[1], $newEvent[2], 1];
         }
     }
     return($savedEvents);
+
 }
 
 function updateTimetable($user_id){
@@ -655,5 +663,3 @@ function makeEventInactiveAPI($event_id, $user_id) {
     ]);
     $pdo = null;
 }
-
-

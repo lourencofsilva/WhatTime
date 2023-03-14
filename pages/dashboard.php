@@ -27,7 +27,7 @@ if ($group >= count($groups)) {
 $group_id = $groups[$group]["id"];
 
 foreach (getGroupUsers($group_id) as $user) {
-	updateTimetable($user);
+	//updateTimetable($user);
 }
 
 ?>
