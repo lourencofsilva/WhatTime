@@ -100,21 +100,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script type="text/javascript">
         function checkAll() {
-            var regexPw = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[~!@#$%^&*()-_+=])[A-Za-z\d~!@#$%^&*()-_+=]{8,128}$/;
+
+            //regex 
+            var regexPw = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,128}$/;
             var regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            var regexUsername = /^[0-9a-zA-Z]{1,20}$/;
+
+
             var em = document.getElementById('email').value;
             var p1 = document.getElementById('password').value;
             var p2 = document.getElementById('confirm').value;
+            var username = document.getElementById('username').value;
+
+            if (!regexUsername.test(username)) {
+                document.getElementById("error").innerHTML = ("Username must be 1-20 alphanumeric characters.");
+                return false;
+            }
             if (!regexEmail.test(em)) {
-                document.getElementById("alert").innerHTML += "This is not a general email format.<br>";
+                document.getElementById("error").innerHTML = "This is not a general email format.<br>";
                 return false;
             }
             if (!regexPw.test(p1)) {
-                document.getElementById("alert").innerHTML += "Password should be of length 8 and contain at least\none uppercase [A-Z]\none lowercase [a-z]\none number [0-9]\none special character [~!@#$%^&*()-_+=]<br>";
+                document.getElementById("error").innerHTML = "Password should be of length 8 and contain at least\none uppercase [A-Z]\none lowercase [a-z]\none number [0-9]\none special character [~!@#$%^&*()-_+=]<br>";
                 return false;
             }
             if (p1 != p2) {
-                document.getElementById("alert").innerHTML += "Passwords do not match.<br>";
+                document.getElementById("error").innerHTML = "Passwords do not match.<br>";
                 return false;
             }
         }
@@ -145,12 +156,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input id="confirm" type="password" max="128" name="confirm" placeholder="Confirm Password" required>
                 </div>
 
-                <div class="error">
+                <div id = "error" class="error">
                 <?php
-                if ($error) {
-                    echo ("<p>" . $error . "</p>");
+                if (isset($passedValidation)){
+                    if (!$passedValidation) {
+                        echo ("<p>" . $error . "</p>");
+                    } 
                 }
+                    
                 ?>
+
                 </div>
                            
                 <div class="login">
