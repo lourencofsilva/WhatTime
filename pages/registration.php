@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isLoggedIn()) {
             $id = getLoggedInUserId();
             addTimetable($id, $url);
-            $events = getTimetable($url);
+            $events = getTimetable($url, $id);
             if (!$events) {
                 echo ("ICS File is not valid, please retry.");
                 die();
@@ -90,7 +90,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="linkcontainer">
                     <input type="url" id="icslink" placeholder="Timetable URl" name="icslink" required>
                 </div>
-
                 <div class="buttonbox">
                     <button class="buttondesign" id="post" type="submit" value="">Continue</button>
                 </div>

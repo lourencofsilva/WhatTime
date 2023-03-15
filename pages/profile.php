@@ -55,8 +55,8 @@ $user_info = getUserInfo(getLoggedInUserId());
                 dayHeaderFormat: 'dddd DD/MM',
                 weekends: false,
                 firstDay: 1,
-                slotMinTime: "<?php echo $office_hours[0] ?>:00",
-                slotMaxTime: "<?php echo $office_hours[1] ?>:00",
+                slotMinTime: "<?php echo $office_hours[2] //[2] = earliest start time found in user events?>",
+                slotMaxTime: "<?php echo $office_hours[3] //[3] = latest end time found in user events?>",
                 eventTimeFormat: {
                     hour: '2-digit',
                     minute: '2-digit',

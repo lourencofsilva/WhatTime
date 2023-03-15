@@ -154,14 +154,14 @@ function authenticateUsername($username, $password): int
 }
 
 
-function getTimetable($url): bool|array
+function getTimetable($url, $user_id): bool|array
 {
     $fileContent = file_get_contents($url);
     if (!$fileContent) {
         return(false);
     }
     if(str_starts_with($fileContent, "BEGIN:VCALENDAR")) {
-        $events = parseTimetable($fileContent);
+        $events = parseTimetable($fileContent, $user_id);
         return($events);
     }
     else {
@@ -169,7 +169,7 @@ function getTimetable($url): bool|array
     }
 }
 
-function parseTimetable($fileContent) :array {
+function parseTimetable($fileContent, $user_id) :array {
     /**
      * returns all events found in $fileContent, in a 2d array.
      * output: 2d array, where array[n] = childArray[summary of event n, start date+time of event n, end date+time of event n]
@@ -181,6 +181,8 @@ function parseTimetable($fileContent) :array {
     $dt_ends = [];
     $summary = [];
     $AllEvents = [];
+    $profileStarts = [];
+    $profileEnds = [];
 
 
     $offset=0;
@@ -210,14 +212,33 @@ function parseTimetable($fileContent) :array {
         $line = substr($current, $pos);
         $eventStartTime = substr($current, $pos, $pos + strpos($line, PHP_EOL) - $pos);
         $dt_starts[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . ' ' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
+        $profileStarts[] = substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
 
         $pos = strpos(substr($current, strpos($current, "DTEND") + 5), ":") + 1 + strpos($current, "DTEND") + 5;
         $line = substr($current, $pos);
         $eventStartTime = substr($current, $pos, $pos + strpos($line, PHP_EOL) - $pos);
         $dt_ends[] = substr($eventStartTime, 0, 4) . '-' . substr($eventStartTime, 4, 2) . '-' . substr($eventStartTime, 6, 2) . ' ' . substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
+        $profileEnds[] = substr($eventStartTime, 9, 2) . ":" . substr($eventStartTime, 11, 2) . ":00";
 
         $AllEvents[] = [$summary[$i],$dt_starts[$i], $dt_ends[$i],1]; //adds all current event information (summary,start,end) to AllEvents array.
     }
+    $profileStart = min($profileStarts);
+    $profileEnd = max($profileEnds);
+    $pdo = openConn();
+
+    $sql = "UPDATE users 
+            SET profileStart = :profileStart, profileEnd = :profileEnd
+            WHERE id = :user_id";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        'profileStart' => $profileStart,
+        'profileEnd' => $profileEnd,
+        'user_id' => $user_id,
+    ]);
+
+    $pdo = null;
+
     return($AllEvents);
 }
 
@@ -297,7 +318,6 @@ VALUES (:user_id, :active, :summary, :dt_start, :dt_end)";
 
     $pdo = null;
 }
-
 
 function createGroup($name, $user_id): bool|string
 {
@@ -544,7 +564,7 @@ function getBestOfficeHours($AllUsers): array{
 function getUserOfficeHours($id): array{
     $pdo = openConn();
 
-    $sql = "SELECT office_begin, office_end
+    $sql = "SELECT office_begin, office_end, profileStart, profileEnd
             FROM users
             WHERE id = :id";
 
@@ -566,7 +586,7 @@ function getUserOfficeHours($id): array{
 
     $pdo = null;
 
-    return [$startTime, $endTime];
+    return [$startTime, $endTime, $row['profileStart'],$row['profileEnd']];
 
 }
 
@@ -623,7 +643,7 @@ function preserveInactiveEvents($user_id, $newEvents): array{
         $flag = true;
         foreach($row as $cRow){
             if($cRow['summary'] == $newEvent[0]){
-                if($cRow['dt_start'] == str_replace("\r", "", $newEvent[1])){
+                if($cRow['dt_start'] == $newEvent[1]){
                     if($cRow['dt_end'] == $newEvent[2]){
                         $savedEvents[] = [$newEvent[0],$newEvent[1],$newEvent[2],0];
                         $flag = false;
@@ -672,7 +692,7 @@ function updateTimetable($user_id): bool
         return false;
     }
 
-    $events = getTimetable($row['timetable_url']);
+    $events = getTimetable($row['timetable_url'], $user_id);
     if (!$events) {
         return false;
     }
@@ -734,3 +754,5 @@ function getUserInfo($user_id) {
 
     return($row);
 }
+
+getTimetable("https://scientia-eu-v4-api-d3-02.azurewebsites.net//api/ical/b5098763-4476-40a6-8d60-5a08e9c52964/b6e0e420-4903-8c85-67cc-ab4573ad3a13/timetable.ics", 41);
