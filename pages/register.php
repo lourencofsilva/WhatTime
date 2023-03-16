@@ -141,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1 class="info_title">REGISTER</h1>
             <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkAll()">
                 <div class="name">
-                    <input id="name" type="text" name="name" max="30" placeholder="Name" value="<?php echo htmlspecialchars($realName); ?>" required>
+                    <input id="name" type="text" name="name" max="30" placeholder="Name" value="<?php echo htmlspecialchars($realName ?? ''); ?>" required>
                 </div>
                 <div class="username">
                     <input id="username" type="text" name="username" max="30" placeholder="Username" value="<?php echo htmlspecialchars($username); ?>" required>
