@@ -6,7 +6,7 @@ include "../php_funcs/user-session.php";
 session_start();
 redirectIfLoggedIn("../index.php");
 
-$name = $username = $email = $password = $confirm = $error = "";
+$realName = $username = $email = $password = $password_confirm = $error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $realName = $_POST["name"];
     $email = $_POST["email"];

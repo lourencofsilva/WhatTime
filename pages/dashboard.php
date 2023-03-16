@@ -52,6 +52,7 @@ foreach ($group_users as $user) {
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
 	<link rel="stylesheet" type="text/css" href="../css/dashboard.css">
 	<link rel="stylesheet" type="text/css" href="../css/modal.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<script defer type="text/javascript" src="../js/createGroupModal.js"></script>
 	<script defer type="text/javascript" src="../js/manageGroupModal.js"></script>
 
@@ -94,9 +95,78 @@ foreach ($group_users as $user) {
 		});
 
 
+<<<<<<< HEAD
 		// Function to handle creating group
 		function createGroup() {
 			let $group_name = document.getElementById("group-name").value;
+=======
+        // Function to handle creating group
+        function createGroup() {
+            let $group_name = document.getElementById("group-name").value;
+
+            //FRONTEND: Add validation for the group name (no special characters, max 30 characters)
+
+            var ajaxRequest;
+            try {
+                ajaxRequest = new XMLHttpRequest();
+            }catch (e) {
+                // Internet Explorer Browsers
+                try {
+                    ajaxRequest = new ActiveXObject("Msxm l2.XMLHTTP");
+                }catch (e) {
+                    try{
+                        ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                    }catch (e){
+                        alert("An error occured!");
+                        return false;
+                    }
+                }
+            }
+            ajaxRequest.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("createGroupResponse").innerHTML = this.responseText;
+                }
+            };
+            ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent($group_name), true);
+            ajaxRequest.send(null);
+
+        }
+
+        // Function for searching group names
+	    function search() {
+	        	let text = document.getElementById("search").value.toLowerCase();
+	        	$('.group_row').each(function(i, obj) {
+	        		var name = document.getElementsByClassName('group_name_container')[i].innerHTML.toLowerCase();
+	        		if (name.includes(text)) {
+	        			obj.style.display = "block";
+	        		} else {
+	        			obj.style.display = "none";
+	        		}
+	        	});
+	        }
+
+	    // Function for detection devices (sitll being worked by Jawoon)
+	    $( document ).ready(function() {      
+    		var is_mobile = false;
+    		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    			is_mobile = true;
+			}
+
+    		if (is_mobile == true) {
+        		$('.hamburger_menu').css('display') = 'block';
+        		$('.left_container').css('display') = 'none';
+    		} else {
+    			$('.hamburger_menu').css('display') = 'none';
+    			$('.left_container').css('display') = 'block';
+    		}
+ 		});
+
+		// Function for hamburger menu (still being worked by Jawoon)
+	    function hamburger() {
+
+	    }
+
+>>>>>>> ac3a47d0669b9f8c4a81d9158d2c588cc63b1124
 
 			//FRONTEND: Add validation for the group name (no special characters, max 30 characters)
 
@@ -245,6 +315,8 @@ foreach ($group_users as $user) {
 			<div class="right_container">
 
 				<div class="timetable_header">
+
+					<button class="hamburger_menu" onclick="hamburger()"><i class="fa-solid fa-bars"></i></button>
 
 					<button id="manageGroupBtn" class="buttondesign" onclick="showModal()">Manage Group</button>
 
