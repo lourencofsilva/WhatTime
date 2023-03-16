@@ -52,6 +52,7 @@ foreach ($group_users as $user) {
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
 	<link rel="stylesheet" type="text/css" href="../css/dashboard.css">
 	<link rel="stylesheet" type="text/css" href="../css/modal.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<script defer type="text/javascript" src="../js/createGroupModal.js"></script>
 	<script defer type="text/javascript" src="../js/manageGroupModal.js"></script>
 
@@ -126,6 +127,7 @@ foreach ($group_users as $user) {
 
         }
 
+        // Function for searching group names
 	    function search() {
 	        	let text = document.getElementById("search").value.toLowerCase();
 	        	$('.group_row').each(function(i, obj) {
@@ -138,7 +140,26 @@ foreach ($group_users as $user) {
 	        	});
 	        }
 
+	    // Function for detection devices (sitll being worked by Jawoon)
+	    $( document ).ready(function() {      
+    		var is_mobile = false;
+    		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    			is_mobile = true;
+			}
 
+    		if (is_mobile == true) {
+        		$('.hamburger_menu').css('display') = 'block';
+        		$('.left_container').css('display') = 'none';
+    		} else {
+    			$('.hamburger_menu').css('display') = 'none';
+    			$('.left_container').css('display') = 'block';
+    		}
+ 		});
+
+		// Function for hamburger menu (still being worked by Jawoon)
+	    function hamburger() {
+
+	    }
 
 
 
@@ -252,6 +273,8 @@ foreach ($group_users as $user) {
 			<div class="right_container">
 
 				<div class="timetable_header">
+
+					<button class="hamburger_menu" onclick="hamburger()"><i class="fa-solid fa-bars"></i></button>
 
 					<button id="manageGroupBtn" class="buttondesign" onclick="showModal()">Manage Group</button>
 
