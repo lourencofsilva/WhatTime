@@ -45,6 +45,7 @@ $user_info = getUserInfo(getLoggedInUserId());
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            let tmz = new Date().getTimezoneOffset() / 60;
             // Set office hours selected to current value
             document.getElementById("office_hour_start").value = "<?php echo htmlspecialchars($user_info["office_begin"]) ?>";
             document.getElementById("office_hour_end").value = "<?php echo htmlspecialchars($user_info["office_end"]) ?>";
@@ -55,8 +56,8 @@ $user_info = getUserInfo(getLoggedInUserId());
                 dayHeaderFormat: 'dddd DD/MM',
                 weekends: false,
                 firstDay: 1,
-                slotMinTime: "<?php echo $office_hours[2] //[2] = earliest start time found in user events?>",
-                slotMaxTime: "<?php echo $office_hours[3] //[3] = latest end time found in user events?>",
+                slotMinTime: parseInt(<?php echo $office_hours[0] ?>) - tmz + ":00",
+                slotMaxTime: parseInt(<?php echo $office_hours[1] ?>) - tmz + ":00",
                 eventTimeFormat: {
                     hour: '2-digit',
                     minute: '2-digit',

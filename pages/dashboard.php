@@ -72,14 +72,15 @@ foreach ($group_users as $user) {
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
+            let tmz = new Date().getTimezoneOffset() / 60;
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				initialView: 'timeGridWeek',
                 dayHeaderFormat: 'dddd DD/MM',
 				weekends: false,
 				firstDay: 1,
-				slotMinTime: "<?php echo $office_hours[0] ?>:00",
-				slotMaxTime: "<?php echo $office_hours[1] ?>:00",
+				slotMinTime: parseInt(<?php echo $office_hours[0] ?>) - tmz + ":00",
+				slotMaxTime: parseInt(<?php echo $office_hours[1] ?>) - tmz + ":00",
 				eventTimeFormat: {
 					hour: '2-digit',
 					minute: '2-digit',

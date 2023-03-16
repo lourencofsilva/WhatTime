@@ -7,6 +7,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include "logging.php";
+date_default_timezone_set('GMT');
 
 function openConn(): PDO {
     if (file_exists('../config.inc.php')) {
@@ -486,7 +487,7 @@ function getUserEvents($user_id): bool|array
 {
     $pdo = openConn();
 
-    $sql = "SELECT IF(active, 'rgb(49, 95, 211)', 'rgb(200, 30, 65)') as color, id, summary as title, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%s') as start, DATE_FORMAT(dt_end, '%Y-%m-%dT%H:%i:%s') as 'end'
+    $sql = "SELECT IF(active, 'rgb(49, 95, 211)', 'rgb(200, 30, 65)') as color, id, summary as title, DATE_FORMAT(dt_start, '%Y-%m-%dT%H:%i:%sZ') as start, DATE_FORMAT(dt_end, '%Y-%m-%dT%H:%i:%sZ') as 'end'
             FROM events
             WHERE user_id = :user_id";
     $stmt = $pdo->prepare($sql);
@@ -562,32 +563,31 @@ function getBestOfficeHours($AllUsers): array{
 }
 
 function getUserOfficeHours($id): array{
-    $pdo = openConn();
+        $pdo = openConn();
 
-    $sql = "SELECT office_begin, office_end, profileStart, profileEnd
+        $sql = "SELECT profileStart, profileEnd
             FROM users
             WHERE id = :id";
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        'id' => $id
-    ]);
-    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'id' => $id
+        ]);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-    $row = $stmt->fetch();
+        $row = $stmt->fetch();
 
-    if (empty($row["office_begin"]) || empty($row["office_end"])) {
-        $startTime = 0;
-        $endTime = 23;
-    } else {
-        $startTime = intval(substr($row['office_begin'], 11, 2));
-        $endTime = intval(substr($row['office_end'], 11, 2));
-    }
+        if (empty($row["profileStart"]) || empty($row["profileEnd"])) {
+            $startTime = 0;
+            $endTime = 23;
+        } else {
+            $startTime = intval(substr($row['profileStart'], 0, 2));
+            $endTime = intval(substr($row['profileEnd'], 0, 2));
+        }
 
-    $pdo = null;
+        $pdo = null;
 
-    return [$startTime, $endTime, $row['profileStart'],$row['profileEnd']];
-
+        return [$startTime,$endTime];
 }
 
 function whatTime($group_id): array
@@ -607,7 +607,7 @@ function whatTime($group_id): array
             if(str_ends_with($times[$j], 'e')){
                 if(str_ends_with($times[$j + 1], 's')){
                     if (substr($times[$j], 0, 19) != substr($times[$j+1], 0, 19)){
-                        $unavailableTimes[] = ["title" => 'UNAVAILABLE', "start" => substr($times[$i], 0, 19), "end" =>  substr($times[$j], 0, 19)];
+                        $unavailableTimes[] = ["title" => 'UNAVAILABLE', "start" => substr($times[$i], 0, 19) . "Z", "end" =>  substr($times[$j], 0, 19) . "Z"];
                         break;
                     }
                 }
