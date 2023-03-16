@@ -31,9 +31,9 @@ $group_users = getGroupUsers($group_id);
 $office_hours = getBestOfficeHours($group_users);
 
 foreach ($group_users as $user) {
-    if ($user != getLoggedInUserId()) {
-        updateTimetable($user);
-    }
+	if ($user != getLoggedInUserId()) {
+		updateTimetable($user);
+	}
 }
 
 ?>
@@ -66,15 +66,15 @@ foreach ($group_users as $user) {
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
 
-    <script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
+	<script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
+	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				initialView: 'timeGridWeek',
-                dayHeaderFormat: 'dddd DD/MM',
+				dayHeaderFormat: 'dddd DD/MM',
 				weekends: false,
 				firstDay: 1,
 				slotMinTime: "<?php echo $office_hours[0] ?>:00",
@@ -94,56 +94,49 @@ foreach ($group_users as $user) {
 		});
 
 
-        // Function to handle creating group
-        function createGroup() {
-            let $group_name = document.getElementById("group-name").value;
+		// Function to handle creating group
+		function createGroup() {
+			let $group_name = document.getElementById("group-name").value;
 
-            //FRONTEND: Add validation for the group name (no special characters, max 30 characters)
+			//FRONTEND: Add validation for the group name (no special characters, max 30 characters)
 
-            var ajaxRequest;
-            try {
-                ajaxRequest = new XMLHttpRequest();
-            }catch (e) {
-                // Internet Explorer Browsers
-                try {
-                    ajaxRequest = new ActiveXObject("Msxm l2.XMLHTTP");
-                }catch (e) {
-                    try{
-                        ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-                    }catch (e){
-                        alert("An error occured!");
-                        return false;
-                    }
-                }
-            }
-            ajaxRequest.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("createGroupResponse").innerHTML = this.responseText;
-                }
-            };
-            ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent($group_name), true);
-            ajaxRequest.send(null);
+			var ajaxRequest;
+			try {
+				ajaxRequest = new XMLHttpRequest();
+			} catch (e) {
+				// Internet Explorer Browsers
+				try {
+					ajaxRequest = new ActiveXObject("Msxm l2.XMLHTTP");
+				} catch (e) {
+					try {
+						ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+					} catch (e) {
+						alert("An error occured!");
+						return false;
+					}
+				}
+			}
+			ajaxRequest.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("createGroupResponse").innerHTML = this.responseText;
+				}
+			};
+			ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent($group_name), true);
+			ajaxRequest.send(null);
 
-        }
+		}
 
-	    function search() {
-	        	let text = document.getElementById("search").value.toLowerCase();
-	        	$('.group_row').each(function(i, obj) {
-	        		var name = document.getElementsByClassName('group_name_container')[i].innerHTML.toLowerCase();
-	        		if (name.includes(text)) {
-	        			obj.style.display = "block";
-	        		} else {
-	        			obj.style.display = "none";
-	        		}
-	        	});
-	        }
-
-
-
-
-
-
-
+		function search() {
+			let text = document.getElementById("search").value.toLowerCase();
+			$('.group_row').each(function(i, obj) {
+				var name = document.getElementsByClassName('group_name_container')[i].innerHTML.toLowerCase();
+				if (name.includes(text)) {
+					obj.style.display = "block";
+				} else {
+					obj.style.display = "none";
+				}
+			});
+		}
 	</script>
 </head>
 
@@ -200,8 +193,8 @@ foreach ($group_users as $user) {
 						<div class="form_info">
 							<div class="input_container">
 								<label>Group Name:</label>
-								<input type="text" id="group-name" placeholder="Group Name">
-                                <div id="createGroupResponse"></div><!-- FRONTEND: Please style this, backend added it -->
+								<input type="text" id="group-name" placeholder="Group Name" maxlength="30">
+								<div id="createGroupResponse"></div><!-- FRONTEND: Please style this, backend added it -->
 							</div>
 						</div>
 						<div class="modal-footer">

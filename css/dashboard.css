@@ -213,3 +213,10 @@
   margin-top: 2.5%;
   font-size: 250%;
 }
+
+#createGroupResponse {
+  color: red;
+  font-size: 20px;
+  text-align: center;
+  margin-left: 5%;
+}
