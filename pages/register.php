@@ -141,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1 class="info_title">REGISTER</h1>
             <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkAll()">
                 <div class="name">
-                    <input id="name" type="text" name="name" max="30" placeholder="Name" value="<?php echo htmlspecialchars($realName); ?>" required>
+                    <input id="name" type="text" name="name" max="30" placeholder="Name" value="<?php echo htmlspecialchars($realName ?? ''); ?>" required>
                 </div>
                 <div class="username">
                     <input id="username" type="text" name="username" max="30" placeholder="Username" value="<?php echo htmlspecialchars($username); ?>" required>
@@ -156,18 +156,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input id="confirm" type="password" max="128" name="confirm" placeholder="Confirm Password" required>
                 </div>
 
-                <div id = "error" class="error">
-                <?php
-                if (isset($passedValidation)){
-                    if (!$passedValidation) {
-                        echo ("<p>" . $error . "</p>");
-                    } 
-                }
-                    
-                ?>
+                <div id="error" class="error">
+                    <?php
+                    if (isset($passedValidation)) {
+                        if (!$passedValidation) {
+                            echo ("<p>" . $error . "</p>");
+                        }
+                    }
+
+                    ?>
 
                 </div>
-                           
+
                 <div class="login">
                     <p>Already Registered?</p>
                     <a href="<?php echo "login.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Login Here</a>
