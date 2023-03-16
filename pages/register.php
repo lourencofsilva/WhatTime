@@ -156,18 +156,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input id="confirm" type="password" max="128" name="confirm" placeholder="Confirm Password" required>
                 </div>
 
-                <div id = "error" class="error">
-                <?php
-                if (isset($passedValidation)){
-                    if (!$passedValidation) {
-                        echo ("<p>" . $error . "</p>");
-                    } 
-                }
-                    
-                ?>
+                <div id="error" class="error">
+                    <?php
+                    if (isset($passedValidation)) {
+                        if (!$passedValidation) {
+                            echo ("<p>" . $error . "</p>");
+                        }
+                    }
+
+                    ?>
 
                 </div>
-                           
+
                 <div class="login">
                     <p>Already Registered?</p>
                     <a href="<?php echo "login.php?" . htmlspecialchars($_SERVER['QUERY_STRING']); ?>">Login Here</a>
