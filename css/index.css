@@ -80,7 +80,7 @@ html{
 }
 
 .nav > ul > li > a:hover{
-	color:#1fdfdf;
+	color: rgb(151, 151, 151);
 }
 
 .nav > button{
@@ -93,6 +93,10 @@ html{
 	font-size: 3rem;
 	cursor: pointer;
 	background-color: rgba(49, 95, 211, 1);
+}
+
+.nav > button > i:hover{
+	color: rgb(151, 151, 151);
 }
 
 .hero{
@@ -197,6 +201,10 @@ html{
 .footer > ul > li > a{
 	font-size: 2rem;
 	color: white;
+}
+
+.footer > ul > li > a:hover{
+	color: rgb(151, 151, 151);
 }
 
 @media (orientation: portrait) and (max-width: 1500px) {
