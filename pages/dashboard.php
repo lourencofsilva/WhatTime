@@ -96,11 +96,9 @@ foreach ($group_users as $user) {
 		});
 
 
-<<<<<<< HEAD
 		// Function to handle creating group
 		function createGroup() {
 			let $group_name = document.getElementById("group-name").value;
-=======
         // Function to handle creating group
         function createGroup() {
             let $group_name = document.getElementById("group-name").value;
@@ -166,8 +164,6 @@ foreach ($group_users as $user) {
 	    function hamburger() {
 
 	    }
-
->>>>>>> ac3a47d0669b9f8c4a81d9158d2c588cc63b1124
 
 			//FRONTEND: Add validation for the group name (no special characters, max 30 characters)
 
