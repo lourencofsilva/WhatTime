@@ -52,6 +52,7 @@ $user_info = getUserInfo(getLoggedInUserId());
 
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
+				height: '100%',
                 initialView: 'timeGridWeek',
                 dayHeaderFormat: 'dddd DD/MM',
                 weekends: false,
