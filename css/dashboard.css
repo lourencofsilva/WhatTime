@@ -184,7 +184,8 @@
 
 #calendar {
   height: 73vh;
-  width: 73vw;
+  width: 71.5vw;
+  margin-top: 4%;
 }
 
 .available {
