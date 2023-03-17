@@ -20,7 +20,7 @@
 
 .left_container{
     width: 28%;
-    height: 89%;
+    height: 100%;
     background-color: white;
     float: left;
     border: 2px solid black;
@@ -30,7 +30,7 @@
 
 .right_container{
     width: 72%;
-    height: 89%;
+    height: 100%;
     background-color: white;
     float: right;
 }
@@ -186,13 +186,11 @@
 
 .timetable {
     margin-left: 0%;
-    height: 77.5%;
+    height: 80%;
 }
 
 #calendar {
-  height: 73vh;
-  width: 71.5vw;
-  margin-top: 4%;
+
 }
 
 .available {
