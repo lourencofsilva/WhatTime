@@ -89,6 +89,7 @@ foreach ($group_users as $user) {
 				expandRows: true,
 				eventColor: 'rgba(49, 95, 211, 1)',
 				eventTextColor: 'white',
+				height: '100%',
 				events: <?php echo json_encode(whatTime($group_id)); ?>
 
 			});
