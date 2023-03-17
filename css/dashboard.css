@@ -18,6 +18,7 @@
     float: left;
     border: 2px solid black;
     border-radius: 1px;
+    display: block;
 }
 
 .right_container{
@@ -37,7 +38,7 @@
     width: 70%;
     height: 50%;
     margin-top: 5%;
-	border-radius: 5px;
+	border-radius: 20px;
 	font-size: 17px;
 }
 
@@ -75,18 +76,16 @@
 
 .btn_container {
   width: 100%;
-  height: 10vh;
-  background-color: yellow;
-  
+  height: 12vh;
 }
 
 .btn_container > button {
-  width: 10vw;
+  width: 8vw;
   height: 5vh;
   border: 1px solid black;
   background-color: rgb(39, 93, 219);
   color: white;
-  font-size: 1.5vw;
+  font-size: 1vw;
   border-radius: 20px;
   position: relative;
   top: 50%;
@@ -94,7 +93,13 @@
   transform: translate(-50%,-50%);
 }
 
+.btn_container > button:hover{
+  color: rgb(151, 151, 151);
+}
+
 .buttondesign {
+    width: 8vw;
+    height: 5vh;
     float: right;
     border: 1px solid black;
     background-color: rgb(39, 93, 219);
@@ -102,10 +107,26 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 1.5vw;
-    margin: 4px 2px;
+    font-size: 1vw;
+    margin: 1.5% 3% 0 0;
     border-radius: 20px;
   }
+
+.hamburger_menu {
+  display: none;
+  border: none;
+  background-color: white;
+  margin: 1.5% 0 0 1.5%;
+}
+
+.hamburger_menu > i {
+  color: rgba(49, 95, 211, 1);
+  font-size: 20px;
+}
+
+.hamburger_menu > i:hover{
+  color: rgb(151, 151, 151);
+}
 
 #deleteGroupBtn{
     border: 1px solid black;
@@ -163,6 +184,8 @@
 
 #calendar {
   height: 73vh;
+  width: 71.5vw;
+  margin-top: 4%;
 }
 
 .available {
@@ -212,4 +235,11 @@
   margin-left: 10%;
   margin-top: 2.5%;
   font-size: 250%;
+}
+
+#createGroupResponse {
+  color: red;
+  font-size: 20px;
+  text-align: center;
+  margin-left: 5%;
 }

@@ -31,9 +31,9 @@ $group_users = getGroupUsers($group_id);
 $office_hours = getBestOfficeHours($group_users);
 
 foreach ($group_users as $user) {
-    if ($user != getLoggedInUserId()) {
-        updateTimetable($user);
-    }
+	if ($user != getLoggedInUserId()) {
+		updateTimetable($user);
+	}
 }
 
 ?>
@@ -52,6 +52,7 @@ foreach ($group_users as $user) {
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
 	<link rel="stylesheet" type="text/css" href="../css/dashboard.css">
 	<link rel="stylesheet" type="text/css" href="../css/modal.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<script defer type="text/javascript" src="../js/createGroupModal.js"></script>
 	<script defer type="text/javascript" src="../js/manageGroupModal.js"></script>
 
@@ -66,19 +67,20 @@ foreach ($group_users as $user) {
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
 
-    <script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
+	<script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
+	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
+            let tmz = new Date().getTimezoneOffset() / 60;
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				initialView: 'timeGridWeek',
-                dayHeaderFormat: 'dddd DD/MM',
+				dayHeaderFormat: 'dddd DD/MM',
 				weekends: false,
 				firstDay: 1,
-				slotMinTime: "<?php echo $office_hours[0] ?>:00",
-				slotMaxTime: "<?php echo $office_hours[1] ?>:00",
+				slotMinTime: parseInt(<?php echo $office_hours[0] ?>) - tmz + ":00",
+				slotMaxTime: parseInt(<?php echo $office_hours[1] ?>) - tmz + ":00",
 				eventTimeFormat: {
 					hour: '2-digit',
 					minute: '2-digit',
@@ -92,7 +94,6 @@ foreach ($group_users as $user) {
 			});
 			calendar.render();
 		});
-
 
         // Function to handle creating group
         function createGroup() {
@@ -126,6 +127,7 @@ foreach ($group_users as $user) {
 
         }
 
+        // Function for searching group names
 	    function search() {
 	        	let text = document.getElementById("search").value.toLowerCase();
 	        	$('.group_row').each(function(i, obj) {
@@ -138,12 +140,26 @@ foreach ($group_users as $user) {
 	        	});
 	        }
 
+	    // Function for detection devices (sitll being worked by Jawoon)
+	    $( document ).ready(function() {      
+    		var is_mobile = false;
+    		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    			is_mobile = true;
+			}
 
+    		if (is_mobile == true) {
+        		$('.hamburger_menu').css('display') = 'block';
+        		$('.left_container').css('display') = 'none';
+    		} else {
+    			$('.hamburger_menu').css('display') = 'none';
+    			$('.left_container').css('display') = 'block';
+    		}
+ 		});
 
+		// Function for hamburger menu (still being worked by Jawoon)
+	    function hamburger() {
 
-
-
-
+	    }
 	</script>
 </head>
 
@@ -200,8 +216,8 @@ foreach ($group_users as $user) {
 						<div class="form_info">
 							<div class="input_container">
 								<label>Group Name:</label>
-								<input type="text" id="group-name" placeholder="Group Name">
-                                <div id="createGroupResponse"></div><!-- FRONTEND: Please style this, backend added it -->
+								<input type="text" id="group-name" placeholder="Group Name" maxlength="30">
+								<div id="createGroupResponse"></div><!-- FRONTEND: Please style this, backend added it -->
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -252,6 +268,8 @@ foreach ($group_users as $user) {
 			<div class="right_container">
 
 				<div class="timetable_header">
+
+					<button class="hamburger_menu" onclick="hamburger()"><i class="fa-solid fa-bars"></i></button>
 
 					<button id="manageGroupBtn" class="buttondesign" onclick="showModal()">Manage Group</button>
 

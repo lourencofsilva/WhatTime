@@ -462,3 +462,9 @@ footer a:hover {
 		padding: 0.8rem 0.9rem;
 	}
 }
+
+.error {
+	font-size: 15px;
+    text-align: center;
+    color: red;
+}
