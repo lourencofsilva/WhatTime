@@ -95,10 +95,6 @@ foreach ($group_users as $user) {
 			calendar.render();
 		});
 
-
-		// Function to handle creating group
-		function createGroup() {
-			let $group_name = document.getElementById("group-name").value;
         // Function to handle creating group
         function createGroup() {
             let $group_name = document.getElementById("group-name").value;
@@ -164,46 +160,6 @@ foreach ($group_users as $user) {
 	    function hamburger() {
 
 	    }
-
-			//FRONTEND: Add validation for the group name (no special characters, max 30 characters)
-
-			var ajaxRequest;
-			try {
-				ajaxRequest = new XMLHttpRequest();
-			} catch (e) {
-				// Internet Explorer Browsers
-				try {
-					ajaxRequest = new ActiveXObject("Msxm l2.XMLHTTP");
-				} catch (e) {
-					try {
-						ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-					} catch (e) {
-						alert("An error occured!");
-						return false;
-					}
-				}
-			}
-			ajaxRequest.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					document.getElementById("createGroupResponse").innerHTML = this.responseText;
-				}
-			};
-			ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent($group_name), true);
-			ajaxRequest.send(null);
-
-		}
-
-		function search() {
-			let text = document.getElementById("search").value.toLowerCase();
-			$('.group_row').each(function(i, obj) {
-				var name = document.getElementsByClassName('group_name_container')[i].innerHTML.toLowerCase();
-				if (name.includes(text)) {
-					obj.style.display = "block";
-				} else {
-					obj.style.display = "none";
-				}
-			});
-		}
 	</script>
 </head>
 
