@@ -565,7 +565,7 @@ function getBestOfficeHours($AllUsers): array{
 function getUserOfficeHours($id): array{
         $pdo = openConn();
 
-        $sql = "SELECT profileStart, profileEnd
+        $sql = "SELECT office_begin, office_end, profileStart, profileEnd
             FROM users
             WHERE id = :id";
 
@@ -585,9 +585,17 @@ function getUserOfficeHours($id): array{
             $endTime = intval(substr($row['profileEnd'], 0, 2));
         }
 
+        if (empty($row["profileStart"]) || empty($row["profileEnd"])) {
+            $startOffice = 0;
+            $endOffice = 23;
+        } else {
+            $startOffice = intval(substr($row['office_begin'], 11, 2));
+            $endOffice = intval(substr($row['office_end'], 11, 2));
+        }
+
         $pdo = null;
 
-        return [$startTime,$endTime];
+        return [$startTime,$endTime, $startOffice, $endOffice];
 }
 
 function whatTime($group_id): array

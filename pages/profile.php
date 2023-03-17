@@ -63,6 +63,11 @@ $user_info = getUserInfo(getLoggedInUserId());
                     minute: '2-digit',
                     hour12: false
                 },
+                businessHours: {
+                    daysOfWeek: [ 1, 2, 3, 4, 5 ],
+                    startTime: parseInt(<?php echo $office_hours[2] ?>) - tmz + ":00",
+                    endTime: parseInt(<?php echo $office_hours[3] ?>) - tmz + ":00",
+                },
                 eventTextColor: 'white',
                 expandRows: true,
                 eventClick: function(info) {
