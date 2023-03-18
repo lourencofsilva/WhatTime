@@ -40,6 +40,9 @@ if (!empty($groups)) {
 			updateTimetable($user);
 		}
 	}
+} else {
+    include "dashboard-empty.php";
+    die();
 }
 
 ?>
@@ -81,7 +84,6 @@ if (!empty($groups)) {
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
-		groupCreated = false;
         memberDeleted = false;
 		document.addEventListener('DOMContentLoaded', function() {
 			let tmz = new Date().getTimezoneOffset() / 60;
@@ -116,6 +118,7 @@ if (!empty($groups)) {
 
 			//FRONTEND: Add validation for the group name (no special characters, max 30 characters)
 
+            $.LoadingOverlay("show");
 			var ajaxRequest;
 			try {
 				ajaxRequest = new XMLHttpRequest();
@@ -132,14 +135,23 @@ if (!empty($groups)) {
 					}
 				}
 			}
-			ajaxRequest.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					document.getElementById("createGroupResponse").innerHTML = this.responseText;
-					groupCreated = true;
-				}
-			};
-			ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent($group_name), true);
-			ajaxRequest.send(null);
+            ajaxRequest.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("createGroupResponse").innerHTML = this.responseText;
+                    $.LoadingOverlay("hide");
+                } else if (this.readyState == 4 && this.status == 201) {
+                    let id = $('.group_row').length;
+                    const url = new URL(window.location.href);
+                    const searchParams = new URLSearchParams(url.search);
+                    searchParams.set('group', id);
+                    url.search = searchParams.toString();
+                    window.location.replace(url.toString());
+                }
+            };
+
+
+            ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent($group_name), true);
+            ajaxRequest.send(null);
 
 		}
 
@@ -257,13 +269,6 @@ if (!empty($groups)) {
 					obj.style.display = "none";
 				}
 			});
-		}
-
-		function reloadAfterCreation() {
-			if (groupCreated) {
-				$.LoadingOverlay("show");
-				location.reload();
-			}
 		}
 
 		// Function for detection devices (sitll being worked by Jawoon)

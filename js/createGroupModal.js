@@ -15,7 +15,6 @@ createGroupBtn.onclick = () => {
 // When the user clicks on <span> (x), close the modal
 createGroupSpan.onclick = () => {
   createGroupModal.style.display = "none";
-  reloadAfterCreation();
 };
 
 
@@ -47,6 +46,5 @@ window.onclick = (event) => {
   }
   else if (event.target == createGroupModal) {
     createGroupModal.style.display = "none";
-    reloadAfterCreation();
   }
 };
