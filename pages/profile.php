@@ -37,7 +37,7 @@ $user_info = getUserInfo(getLoggedInUserId());
 	<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
-	<link rel="stylesheet" type="text/css" href="../css/dashboard.css">
+
 	<link rel="stylesheet" type="text/css" href="../css/profile.css">
 
 	<!--- FAVICONS --->
@@ -222,7 +222,7 @@ $user_info = getUserInfo(getLoggedInUserId());
 
 						<button class="buttondesign" onclick="window.location.href = '#something';">Create Group</button>
 			</div>
-			<div class="right_container">
+			<div class="right_container"  style="display: flex;">
 				
 				<div class="timetable">
 					<div id="calendar"></div>
