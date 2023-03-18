@@ -276,7 +276,7 @@ if (!empty($groups)) {
 </head>
 
 <body>
-	<div class="wrap">
+
 		<div class="header">
 			<a class="mainlogo" href="../index.php"><img class="main-img" src="../images/logo_white.png"></a>
 			<div class="nav">
@@ -420,7 +420,7 @@ if (!empty($groups)) {
 				</div>
 			</div>
 		</div>
-	</div>
+	
 
 	<div class="footer">
 		<a>©</a>
@@ -430,7 +430,6 @@ if (!empty($groups)) {
 			<li><a href="#">Privacy Policy</a></li>
 		</ul>
 	</div>
-
 
 </body>
 

@@ -5,6 +5,7 @@ html, body{
 }
 
 
+
 .header > a{
   width: 15%;
 }
@@ -16,12 +17,12 @@ html, body{
 }
 
 .header > .nav{
-  line-height: 6vh;
+  line-height: 6%;
 }
 
 .main {
-    width: 100vw;
-    height: 89vh;
+    width: 100%;
+    height: 89%;
 }
 
 .left_container{
