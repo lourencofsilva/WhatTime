@@ -130,7 +130,7 @@ $user_info = getUserInfo(getLoggedInUserId());
 		</div>
 
 		<div class="main">
-			<div class="left_container">
+			<div class="left_container" style="padding-top:10px">
 
 				<div class="input_container">
 					<div class="text">Name:</div>
