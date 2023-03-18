@@ -224,7 +224,9 @@ $user_info = getUserInfo(getLoggedInUserId());
 			</div>
 			<div class="right_container">
 				
-				<div id="calendar"></div>
+				<div class="timetable">
+					<div id="calendar"></div>
+				</div>
 
 			</div>
 		</div>
