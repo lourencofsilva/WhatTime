@@ -33,6 +33,14 @@ if (!$info) {
 $group_id = $info["id"];
 $group_name = $info["name"];
 
+
+foreach (getUserGroupInfo(getLoggedInUserId()) as $group) {
+    if ($group["id"] == $group_id) {
+        echo "You are already a part of this group.";
+        die();
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_SESSION["user_id"];
     addUserToGroup($user_id, $group_id);
