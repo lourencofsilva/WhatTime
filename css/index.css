@@ -2,6 +2,10 @@ html{
 	font-size: 62.5%;
 }
 
+html, body {
+	overflow-y: hidden;
+}
+
 *{
 	font-family: 'Overpass', sans-serif;
 	text-decoration: none;
@@ -22,24 +26,25 @@ html{
 .header{
 	display:flex;
 	width:100%;
-	height: 6vh;
+	height: 6%;
 	margin:auto auto auto auto;
 	justify-content: space-between;
 	align-items: center;
 	background-color: rgba(49, 95, 211, 1);
 }
 
-.header > button{
+#btn{
 	width: 18%;
+	height: 100%;
 	border: none;
 	background-color: rgba(49, 95, 211, 1);
 	margin: auto auto auto 3%;
 }
 
-.header > button > img{
+.main-img{
 	display: flex;
 	width: 100%;
-	height: 5vh;
+	height: 100%;
 	background-color: rgba(49, 95, 211, 1);
 	cursor: pointer;
 }
@@ -49,14 +54,10 @@ html{
 	border: none;
 	background-color: rgba(49, 95, 211, 1);
 	margin: auto auto auto 3%;
+	height: 100%;
 }
 
-.header > a > img{
-	display: flex;
-	width: 100%;
-	background-color: rgba(49, 95, 211, 1);
-	cursor: pointer;
-}
+
 
 .nav{
 	display: flex;
