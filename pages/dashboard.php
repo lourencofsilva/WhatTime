@@ -82,6 +82,7 @@ if (!empty($groups)) {
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
 		groupCreated = false;
+        memberDeleted = false;
 		document.addEventListener('DOMContentLoaded', function() {
 			let tmz = new Date().getTimezoneOffset() / 60;
 			var calendarEl = document.getElementById('calendar');
@@ -174,6 +175,7 @@ if (!empty($groups)) {
 
 		function deleteMember(member_id, index) {
 			if (confirm("Are you sure you want to remove this member from the group: <?php echo htmlspecialchars($group_name) ?>?")) {
+                $.LoadingOverlay("show");
 				var ajaxRequest;
 				try {
 					ajaxRequest = new XMLHttpRequest();
@@ -190,11 +192,16 @@ if (!empty($groups)) {
 						}
 					}
 				}
+                ajaxRequest.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var row = document.getElementsByClassName('member-row')[index];
+                        row.style.display = "none";
+                        $.LoadingOverlay("hide");
+                        memberDeleted = true;
+                    }
+                };
 				ajaxRequest.open("GET", "api.php?endpoint=dashboard-member-delete&group-id=" + <?php echo htmlspecialchars($group_id) ?> + "&member-id=" + encodeURIComponent(member_id), true);
 				ajaxRequest.send(null);
-				var row = document.getElementsByClassName('member-row')[index];
-				row.style.display = "none";
-				$.LoadingOverlay("hide");
 			}
 		}
 
@@ -202,9 +209,13 @@ if (!empty($groups)) {
 			let text = document.getElementById("manage-name").value;
 
 			if (text === "<?php echo htmlspecialchars($group_name) ?>") {
+                if (memberDeleted) {
+                    $.LoadingOverlay("show");
+                    location.reload()
+                }
 				return;
 			}
-			$.LoadingOverlay("show");
+            $.LoadingOverlay("show");
 
 			// FRONTEND: Add validation for group name here
 
