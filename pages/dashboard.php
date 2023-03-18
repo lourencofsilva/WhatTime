@@ -160,10 +160,14 @@ if (!empty($groups)) {
                         }
                     }
                 }
+                ajaxRequest.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        location.reload()
+                    }
+                };
+
                 ajaxRequest.open("GET", "api.php?endpoint=dashboard-group-delete&group-id=" + <?php echo htmlspecialchars($group_id) ?>, true);
                 ajaxRequest.send(null);
-
-                window.location.href = window.location.href;
             }
         }
 
@@ -219,9 +223,14 @@ if (!empty($groups)) {
                     }
                 }
             }
+            ajaxRequest.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    location.reload()
+                }
+            };
+
             ajaxRequest.open("GET", "api.php?endpoint=dashboard-change-name&group-id=" + <?php echo htmlspecialchars($group_id) ?> + "&new-name=" + encodeURIComponent(text), true);
             ajaxRequest.send(null);
-            window.location.href = window.location.href;
 
         }
 
