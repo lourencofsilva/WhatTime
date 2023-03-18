@@ -259,20 +259,17 @@ if (!empty($groups)) {
 	        }
 
 	    // Function for detection devices (sitll being worked by Jawoon)
-	    $( document ).ready(function() {      
-    		var is_mobile = false;
-    		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    			is_mobile = true;
-			}
-
-    		if (is_mobile == true) {
-        		$('.hamburger_menu').css('display') = 'block';
-        		$('.left_container').css('display') = 'none';
-    		} else {
-    			$('.hamburger_menu').css('display') = 'none';
-    			$('.left_container').css('display') = 'block';
-    		}
- 		});
+	    $(document).ready(function() {
+	        var mobileKeyWords = new Array('Android', 'iPhone', 'iPod', 'iPad', 'BlackBerry', 'Windows CE', 'SAMSUNG', 'LG', 'MOT', 'SonyEricsson');
+	        for (var info in mobileKeyWords) {
+	            if (navigator.userAgent.match(mobileKeyWords[info]) != null) {
+	                document.getElementsByClassName('hamburger_menu').style.display ="block";
+	                document.getElementsByClassName('left_container').style.display ="none";
+	            }
+	        }
+	        document.getElementsByClassName('hamburger_menu').style.display ="none";
+	        document.getElementsByClassName('left_container').style.display ="block";
+	    })
 
 		// Function for hamburger menu (still being worked by Jawoon)
 	    function hamburger() {
@@ -281,7 +278,7 @@ if (!empty($groups)) {
 	</script>
 </head>
 
-<body>
+<body onload="checkMobile()">
 	<div class="wrap">
 		<div class="header">
 			<a class="mainlogo" href="../index.php"><img class="main-img" src="../images/logo_white.png"></a>
@@ -410,8 +407,8 @@ if (!empty($groups)) {
 			<div class="right_container">
 
 				<div class="timetable_header">
-
 					<button class="hamburger_menu" onclick="hamburger()"><i class="fa-solid fa-bars"></i></button>
+
                     <p id="big_text"><?php echo htmlspecialchars($group_name) ?></p>
 
 					<button id="manageGroupBtn" class="buttondesign" onclick="showModal()">Manage Group</button>
