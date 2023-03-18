@@ -81,6 +81,7 @@ if (!empty($groups)) {
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
+        groupCreated = false;
 		document.addEventListener('DOMContentLoaded', function() {
             let tmz = new Date().getTimezoneOffset() / 60;
 			var calendarEl = document.getElementById('calendar');
@@ -133,6 +134,7 @@ if (!empty($groups)) {
             ajaxRequest.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("createGroupResponse").innerHTML = this.responseText;
+                    groupCreated = true;
                 }
             };
             ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent($group_name), true);
@@ -245,6 +247,13 @@ if (!empty($groups)) {
 	        		}
 	        	});
 	        }
+
+        function reloadAfterCreation() {
+            if (groupCreated) {
+                $.LoadingOverlay("show");
+                location.reload();
+            }
+        }
 
 	    // Function for detection devices (sitll being worked by Jawoon)
 	    $( document ).ready(function() {      
