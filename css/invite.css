@@ -3,7 +3,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background: radial-gradient(#5297ed, #285edb);
   }
-  
+
   footer {
     overflow: hidden;
     background-color: rgb(255, 255, 255);
@@ -11,7 +11,7 @@ body {
     bottom: 0;
     width: 100%;
   }
-  
+
   footer a {
     float: right;
     display: block;
@@ -21,7 +21,7 @@ body {
     text-decoration: none;
     font-size: 17px;
   }
-  
+
   footer a:hover {
     background: #f1f1f1;
     color: black;
@@ -32,7 +32,7 @@ body {
     margin-right: auto;
     display: block;
   }
-  
+
   .mainlogo {
     border: none;
     background-color: transparent;
@@ -116,46 +116,46 @@ body {
     margin: 4px 2px;
     border-radius: 20px;
   }
-  
+
   .buttondesign:hover{
       color: rgb(151, 151, 151);
   }
 
 
   .firstline p{
-    color: rgb(77, 130, 193); 
-    font-size: larger; 
-    font-weight: 650; 
+    color: rgb(77, 130, 193);
+    font-size: larger;
+    font-weight: 650;
     text-align: center;
   }
 
   .inviteinfo {
-    color: black; 
-    font-size: larger; 
-    font-weight: 500; 
-    padding-top: 2vh; 
-    padding-left: 3vw; 
-    padding-right: 3vw; 
-    text-align: center; 
+    color: black;
+    font-size: larger;
+    font-weight: 500;
+    padding-top: 2vh;
+    padding-left: 3vw;
+    padding-right: 3vw;
+    text-align: center;
     padding-bottom: 2vh;
   }
 
   .moreinfo {
-    color: black; 
-    font-size: larger; 
-    font-weight: 500; 
-    padding-top: 2vh; 
-    padding-left: 3vw; 
-    padding-right: 3vw; 
+    color: black;
+    font-size: larger;
+    font-weight: 500;
+    padding-top: 2vh;
+    padding-left: 3vw;
+    padding-right: 3vw;
     align-items: center;
     padding-bottom: 2vh;
-  
+
 
   }
   .moreinfo a{
-    color: black; 
-    font-size:large ; 
-    font-weight: 500; 
+    color: black;
+    font-size:large ;
+    font-weight: 500;
     display: inline-block;
     font-style: normal;
     text-decoration: none;
@@ -164,7 +164,7 @@ body {
 
   @media (max-width: 1024px) {
 
-  
+
     .modal {
       background: rgb(255, 255, 255);
       height: 5%;
@@ -180,7 +180,7 @@ body {
       }
 
       footer a {
-  
+
         font-size: 10px;
       }
 
@@ -220,7 +220,7 @@ body {
 
 @media (max-width: 480px) {
 
-  
+
   .modal {
     background: rgb(255, 255, 255);
     height: 5%;

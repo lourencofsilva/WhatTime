@@ -749,7 +749,7 @@ function makeEventInactiveAPI($event_id, $user_id): void
 function getUserInfo($user_id) {
     $pdo = openConn();
 
-    $sql = "SELECT name, profile_picture, email, timetable_url, DATE_FORMAT(office_begin, '%H:%i') as office_begin, DATE_FORMAT(office_end, '%H:%i') as office_end
+    $sql = "SELECT id, name, username, profile_picture, email, timetable_url, DATE_FORMAT(office_begin, '%H:%i') as office_begin, DATE_FORMAT(office_end, '%H:%i') as office_end
             FROM users
             WHERE id = :user_id";
     $stmt = $pdo->prepare($sql);
@@ -763,4 +763,111 @@ function getUserInfo($user_id) {
     return($row);
 }
 
-getTimetable("https://scientia-eu-v4-api-d3-02.azurewebsites.net//api/ical/b5098763-4476-40a6-8d60-5a08e9c52964/b6e0e420-4903-8c85-67cc-ab4573ad3a13/timetable.ics", 41);
+function deleteGroupAPI($group_id, $user_id): bool
+{
+    $pdo = openConn();
+
+    $sql = "SELECT group_id
+            FROM user_group_link
+            WHERE group_id = :group_id AND user_id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id,
+        'user_id' => $user_id,
+    ]);
+
+    $row = $stmt->fetch();
+    if (empty($row)) {
+        return false;
+    }
+
+    $sql = "DELETE 
+            FROM `groups`
+            WHERE id = :group_id;";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id,
+    ]);
+    $pdo = null;
+    return true;
+}
+
+function changeNameAPI($group_id, $name, $user_id): bool
+{
+    $name = trim($name); //Remove leading and trailing spaces
+    $pdo = openConn();
+
+    // Check if the user already has a group with the same name. If so, error.
+    $sql = "SELECT `groups`.`id`
+            FROM `groups` INNER JOIN `user_group_link` ON `groups`.`id` = `user_group_link`.`group_id`
+            WHERE `groups`.name = :name AND `user_group_link`.`user_id` = :user_id";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'name' => $name,
+        'user_id' => $user_id
+    ]);
+
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch();
+
+    if (isset($row["id"])) {
+        return false;
+    }
+
+    $sql = "SELECT group_id
+            FROM user_group_link
+            WHERE group_id = :group_id AND user_id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id,
+        'user_id' => $user_id,
+    ]);
+
+    $row = $stmt->fetch();
+    if (empty($row)) {
+        return false;
+    }
+
+    $sql = "UPDATE `groups`
+            SET `name` = :name
+            WHERE id = :group_id";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'name' => $name,
+        'group_id' => $group_id
+    ]);
+    return true;
+}
+
+function deleteMemberAPI($group_id, $member_id, $user_id): bool
+{
+    $pdo = openConn();
+
+    // Check if user has permissions for this group
+    $sql = "SELECT group_id
+            FROM user_group_link
+            WHERE group_id = :group_id AND user_id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id,
+        'user_id' => $user_id,
+    ]);
+
+    $row = $stmt->fetch();
+    if (empty($row)) {
+        return false;
+    }
+
+    $sql = "DELETE
+            FROM `user_group_link`
+            WHERE user_id = :member_id AND group_id= :group_id";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'member_id' => $member_id,
+        'group_id' => $group_id
+    ]);
+    return true;
+}

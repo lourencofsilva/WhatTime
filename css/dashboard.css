@@ -15,7 +15,7 @@
 
 .main {
     width: 100vw;
-    height: 88.74vh;
+    height: 89vh;
 }
 
 .left_container{
@@ -239,7 +239,7 @@
 
 #big_text {
   float: left;
-  margin-left: 10%;
+  margin-left: 2%;
   margin-top: 2.5%;
   font-size: 250%;
 }
@@ -249,4 +249,8 @@
   font-size: 20px;
   text-align: center;
   margin-left: 5%;
+}
+
+.selected {
+    background-color: green;
 }
