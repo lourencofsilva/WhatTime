@@ -33,7 +33,16 @@
     height: 100%;
     background-color: white;
     float: right;
+    
 }
+
+
+.right_container{
+  display: flex;
+}
+
+
+
 
 .search_container{
     width: 100%;
