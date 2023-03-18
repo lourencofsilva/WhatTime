@@ -3,6 +3,11 @@
 include "../php_funcs/database.php";
 include "../php_funcs/user-session.php";
 
+//Disable cache as this causes issues
+header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
+header("Pragma: no-cache"); // HTTP 1.0.
+header("Expires: 0"); // Proxies.
+
 session_start();
 redirectIfNotLoggedIn("./login.php");
 if (isLoggedIn() && !checkTimetableExists(getLoggedInUserId())) {
@@ -46,6 +51,10 @@ if (!empty($groups)) {
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Dashboard · WhatTime?</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
