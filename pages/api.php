@@ -17,4 +17,16 @@ if (isLoggedIn()) {
             echo "Group Created Successfully!<br><br> Share the link below with anyone you want to join your group!<br>Invite Link: " . $response;
         }
     }
+
+    if ($_GET["endpoint"] == "dashboard-group-delete" and isset($_GET["group-id"])) {
+        deleteGroupAPI(htmlspecialchars($_GET["group-id"]), getLoggedInUserId());
+    }
+
+    if ($_GET["endpoint"] == "dashboard-change-name" and isset($_GET["group-id"]) and isset($_GET["new-name"])) {
+        changeNameAPI(htmlspecialchars($_GET["group-id"]), htmlspecialchars($_GET["new-name"]), getLoggedInUserId());
+    }
+
+    if ($_GET["endpoint"] == "dashboard-member-delete" and isset($_GET["group-id"]) and isset($_GET["member-id"])) {
+        deleteMemberAPI(htmlspecialchars($_GET["group-id"]), htmlspecialchars($_GET["member-id"]), getLoggedInUserId());
+    }
 }
