@@ -228,13 +228,8 @@ $user_info = getUserInfo(getLoggedInUserId());
 				</div>
 
 			</div>
-<<<<<<< HEAD
-			<div class="right_container"  style="display: flex;">
-				
-=======
-			<div class="right_container">
+			<div class="right_container" style="display: flex;">
 
->>>>>>> test101
 				<div class="timetable">
 					<div id="calendar"></div>
 				</div>
