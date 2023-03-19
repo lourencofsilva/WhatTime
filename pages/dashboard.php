@@ -271,22 +271,37 @@ if (!empty($groups)) {
 			});
 		}
 
-		// Function for detection devices (sitll being worked by Jawoon)
-		$(document).ready(function() {
-			var mobileKeyWords = new Array('Android', 'iPhone', 'iPod', 'iPad', 'BlackBerry', 'Windows CE', 'SAMSUNG', 'LG', 'MOT', 'SonyEricsson');
-			for (var info in mobileKeyWords) {
-				if (navigator.userAgent.match(mobileKeyWords[info]) != null) {
-					document.getElementsByClassName('hamburger_menu').style.display = "block";
-					document.getElementsByClassName('left_container').style.display = "none";
-				}
+		//Function for detection devices
+		$(window).ready(function() {
+			var width = window.innerWidth;
+
+			if (width <= 1024) {
+				$(".left_container").css("margin-left", "-100%");
+				$(".hamburger_menu").css("display", "block");
+				$(".right_container").css("width", "100%");
+			} else {
+				$(".left_container").css("margin-left", "0");
+				$(".hamburger_menu").css("display", "none");
+				$(".right_container").css("width", "72%");
 			}
-			document.getElementsByClassName('hamburger_menu').style.display = "none";
-			document.getElementsByClassName('left_container').style.display = "block";
-		})
+		});
 
-		// Function for hamburger menu (still being worked by Jawoon)
+		// Function for hamburger menu and cross button
 		function hamburger() {
+			$(".hamburger_menu").fadeOut();
+			$(".crossbtn").fadeIn();
+			// $(".left_container").css("display", "block");
+			$(".left_container").css("width", "100%");
+			$(".left_container").animate({marginLeft:0},1000);
+			$(".right_container").animate({marginRight:"-100%"},990);
+			$(".createbtn").css("width", "20vw");
+		}
 
+		function cross() {
+			$(".crossbtn").fadeOut();
+			$(".hamburger_menu").fadeIn();
+			$(".left_container").animate({marginLeft:"-100%"},990);
+			$(".right_container").animate({marginRight:0},1000);
 		}
 	</script>
 </head>
@@ -307,6 +322,7 @@ if (!empty($groups)) {
 			<div class="left_container">
 				<div class="search_container">
 					<input type="text" id="search" placeholder="search" onkeyup="search()">
+					<button class="crossbtn" onclick="cross()"><i class="fa-solid fa-xmark"></i></button>
 				</div>
 				<div class="scroll_container">
 					<?php
@@ -341,7 +357,7 @@ if (!empty($groups)) {
 
 				</div>
 				<div class="btn_container">
-					<button id="createGroupBtn" class="button">Create Group</button>
+					<button id="createGroupBtn" class="createbtn">Create Group</button>
 				</div>
 
 				<!-- Create Group Modal -->
