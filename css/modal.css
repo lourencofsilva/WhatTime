@@ -84,7 +84,8 @@
 .modal-footer {
     color: white;
     bottom: 5%;
-    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
     width: 90%;
     height: 10%;
     margin-left: auto;

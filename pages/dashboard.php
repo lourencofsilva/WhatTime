@@ -393,7 +393,7 @@ if (!empty($groups)) {
 
 						<div class = "createGroupResponseContainer">
 							<p id="createGroupResponse"></p>
-					</div>
+						</div>
 						<div class="modal-footer">
 							<button id="savechangesbutton" onclick="createGroup()" class="buttondesign">Save Changes</button>
 						</div>
