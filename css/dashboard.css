@@ -158,7 +158,7 @@ html, body{
 #savechangesbutton {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10%;
+    
   
 }
 
@@ -275,7 +275,8 @@ html, body{
   color: red;
   font-size: 20px;
   text-align: center;
-  margin: auto;
+
+  
 }
 .createGroupResponseContainer {
   height: 70%;
@@ -283,7 +284,7 @@ html, body{
   margin-left: auto;
   margin-right: auto;
   display: flex;
-  justify-content: center;
+  align-items: center;
 }
 
 
