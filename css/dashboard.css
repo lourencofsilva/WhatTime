@@ -63,9 +63,9 @@ a.mainlogo {
 .search_container>input{
     width: 70%;
     height: 50%;
-    margin-top: 5%;
-	border-radius: 20px;
-	font-size: 17px;
+    margin-top: 15px;
+    border-radius: 20px;
+    font-size: 17px;
 }
 
 .scroll_container{

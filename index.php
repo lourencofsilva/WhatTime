@@ -17,7 +17,7 @@ redirectIfLoggedIn("./pages/dashboard.php");
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Home(Logged Out)</title>
+	<title>WhatTime?</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
@@ -69,7 +69,7 @@ redirectIfLoggedIn("./pages/dashboard.php");
 		<div class="footer">
 			<a>©</a>
 			<ul>
-				<li><a href="#">Contact US</a></li>
+				<li><a href="#">Contact Us</a></li>
 				<li><a href="#">Terms & Conditions</a></li>
 				<li><a href="#">Privacy Policy</a></li>
 			</ul>
