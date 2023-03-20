@@ -300,6 +300,7 @@ if (!empty($groups)) {
                 $(".left_container").css("width", "28%");
                 $(".right_container").css("margin-right", "0");
                 $(".crossbtn").css("display", "none");
+                $(".createbtn").css("width", "10vw");
             }
         }
 
