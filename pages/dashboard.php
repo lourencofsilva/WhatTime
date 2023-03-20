@@ -86,6 +86,8 @@ if (!empty($groups)) {
 	<script>
         memberDeleted = false;
 		document.addEventListener('DOMContentLoaded', function() {
+            resize();
+
 			let tmz = new Date().getTimezoneOffset() / 60;
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -114,9 +116,12 @@ if (!empty($groups)) {
 
 		// Function to handle creating group
 		function createGroup() {
-			let $group_name = document.getElementById("group-name").value;
-
-			//FRONTEND: Add validation for the group name (no special characters, max 30 characters)
+			let group_name = document.getElementById("group-name").value;
+            var regexGroupName = /^[\w\s]{1,30}$/;
+            if (!regexGroupName.test(group_name)){
+                document.getElementById("createGroupResponse").innerHTML = "An error ocurred in creating the group. The name of your group is not valid."
+                return false;
+            }
 
             $.LoadingOverlay("show");
 			var ajaxRequest;
@@ -150,7 +155,7 @@ if (!empty($groups)) {
             };
 
 
-            ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent($group_name), true);
+            ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent(group_name), true);
             ajaxRequest.send(null);
 
 		}
@@ -229,13 +234,12 @@ if (!empty($groups)) {
 			}
             $.LoadingOverlay("show");
 
-			// FRONTEND: Add validation for group name here
-
 
             var regexGroupName = /^[\w\s]{1,30}$/;
             if (!regexGroupName.test(text)){
-            	alert("Try another name");
-            	location.reload();
+            	alert("Name is not valid. Please try again");
+                document.getElementById("manage-name").value = "<?php echo htmlspecialchars($group_name) ?>";
+                $.LoadingOverlay("hide");
             	return false;
             } 
 
@@ -280,20 +284,24 @@ if (!empty($groups)) {
 			});
 		}
 
-		//Function for detection devices
-		$(window).ready(function() {
-			var width = window.innerWidth;
+        window.addEventListener("resize", resize);
 
-			if (width <= 1024) {
-				$(".left_container").css("margin-left", "-100%");
-				$(".hamburger_menu").css("display", "block");
-				$(".right_container").css("width", "100%");
-			} else {
-				$(".left_container").css("margin-left", "0");
-				$(".hamburger_menu").css("display", "none");
-				$(".right_container").css("width", "72%");
-			}
-		});
+        function resize() {
+            var width = window.innerWidth;
+
+            if (width <= 1024) {
+                $(".left_container").css("margin-left", "-100%");
+                $(".hamburger_menu").css("display", "block");
+                $(".right_container").css("width", "100%");
+            } else {
+                $(".left_container").css("margin-left", "0");
+                $(".hamburger_menu").css("display", "none");
+                $(".right_container").css("width", "72%");
+                $(".left_container").css("width", "28%");
+                $(".right_container").css("margin-right", "0");
+                $(".crossbtn").css("display", "none");
+            }
+        }
 
 		// Function for hamburger menu and cross button
 		function hamburger() {
