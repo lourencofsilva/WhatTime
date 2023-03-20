@@ -117,7 +117,7 @@ if (!empty($groups)) {
 		// Function to handle creating group
 		function createGroup() {
 			let group_name = document.getElementById("group-name").value;
-            var regexGroupName = /^[\w\s]{1,30}$/;
+            var regexGroupName = /^[\w]([\w\s]{0,30})$/;
             if (!regexGroupName.test(group_name)){
                 document.getElementById("createGroupResponse").innerHTML = "An error ocurred in creating the group. The name of your group is not valid."
                 return false;
@@ -236,6 +236,7 @@ if (!empty($groups)) {
             var regexGroupName = /^[\w]([\w\s]{0,30})$/;
             if (!regexGroupName.test(text)){
             	alert("Name is not valid. Please try again");
+                document.getElementById("manage-name").value = "<?php echo htmlspecialchars($group_name) ?>";
             	return false;
             }
 
