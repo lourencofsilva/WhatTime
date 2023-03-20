@@ -231,6 +231,15 @@ if (!empty($groups)) {
 
 			// FRONTEND: Add validation for group name here
 
+
+            var regexGroupName = /^[\w\s]{1,30}$/;
+            if (!regexGroupName.test(text)){
+            	alert("Try another name");
+            	location.reload();
+            	return false;
+            } 
+
+
 			var ajaxRequest;
 			try {
 				ajaxRequest = new XMLHttpRequest();
