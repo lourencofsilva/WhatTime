@@ -696,8 +696,6 @@ function updateTimetable($user_id): bool
         if ($diff->days < 1) {
             return true;
         }
-    } else {
-        return false;
     }
 
     $events = getTimetable($row['timetable_url'], $user_id);
