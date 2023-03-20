@@ -283,7 +283,13 @@ a.mainlogo {
 .selected {
     /* background-color: green; */
     border-color: blue;
+    background-color: rgba(49, 95, 211, 1);
+
 }
+.selected > p {
+  color: white;
+}
+
 
 .member-row {
   display: table;
