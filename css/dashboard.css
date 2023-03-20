@@ -268,7 +268,7 @@ html, body{
   float: left;
   margin-left: 2%;
   margin-top: 2.5%;
-  font-size: 220%;
+  font-size: 250%;
   margin-bottom: 2%;
 }
 
@@ -315,4 +315,11 @@ html, body{
   margin-bottom: 2px;
   text-align: center;
   border-collapse: separate; 
+}
+
+member-close {
+  position: absolute;
+  right: 20%;
+  top: 4%;
+  font-size: 20px;
 }
