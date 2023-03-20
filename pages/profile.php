@@ -114,6 +114,37 @@ $user_info = getUserInfo(getLoggedInUserId());
 			});
 			calendar.render();
 		});
+
+        function checkAll() {
+
+            //regex
+            var regexPw = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,128}$/;
+            var regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            var regexUsername = /^[0-9a-zA-Z]{1,20}$/;
+
+
+            var em = document.getElementById('email').value;
+            var p1 = document.getElementById('password').value;
+            var p2 = document.getElementById('confirm').value;
+            var username = document.getElementById('username').value;
+
+            if (!regexUsername.test(username)) {
+                document.getElementById("error").innerHTML = ("Username must be 1-20 alphanumeric characters.");
+                return false;
+            }
+            if (!regexEmail.test(em)) {
+                document.getElementById("error").innerHTML = "This is not a general email format.<br>";
+                return false;
+            }
+            if (!regexPw.test(p1)) {
+                document.getElementById("error").innerHTML = "Password should be of length 8 and contain at least\none uppercase [A-Z]\none lowercase [a-z]\none number [0-9]\none special character [~!@#$%^&*()-_+=]<br>";
+                return false;
+            }
+            if (p1 != p2) {
+                document.getElementById("error").innerHTML = "Passwords do not match.<br>";
+                return false;
+            }
+        }
 	</script>
 </head>
 
@@ -131,6 +162,7 @@ $user_info = getUserInfo(getLoggedInUserId());
 
 		<div class="main">
 			<div class="left_container" style="padding-top:10px">
+                <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkAll()">
 
 				<div class="input_container">
 					<div class="text">Name:</div>
@@ -203,17 +235,17 @@ $user_info = getUserInfo(getLoggedInUserId());
 
 				<div class="input_container">
 					<div class="text">Current Password:</div>
-					<input id="curr_pass" type="text" name="name" max="30" placeholder="Current Password" required>
+					<input id="curr_pass" type="text" name="name" max="30" placeholder="Current Password">
 				</div>
 
 				<div class="input_container">
 					<div class="text">New Password:</div>
-					<input id="new_pass" type="text" name="name" max="30" placeholder="New Password" required>
+					<input id="new_pass" type="text" name="name" max="30" placeholder="New Password">
 				</div>
 
 				<div class="input_container">
 					<div class="text">Confirm New Password:</div>
-					<input id="confirm_pass" type="text" name="name" max="30" placeholder="Confirm Password" required>
+					<input id="confirm_pass" type="text" name="name" max="30" placeholder="Confirm Password">
 				</div>
 
 				<div class="input_container">
@@ -223,10 +255,10 @@ $user_info = getUserInfo(getLoggedInUserId());
 
 
 				<!-- <button class="buttondesign" onclick="window.location.href = '#something';">Create Group</button> -->
-				<div class="btn_container">
-					<button id="createGroupBtn" class="button" onclick="window.location.href = '#something';">Submit</button>
-				</div>
-
+                    <div class="final">
+                        <input class="continue" id="post" type="submit" value="Submit">
+                    </div>
+                </form>
 			</div>
 			<div class="right_container" style="display: flex;">
 
