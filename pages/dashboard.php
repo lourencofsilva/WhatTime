@@ -230,19 +230,16 @@ if (!empty($groups)) {
                     $.LoadingOverlay("show");
                     location.reload()
                 }
-				return;
+				return true;
 			}
-            $.LoadingOverlay("show");
-
 
             var regexGroupName = /^[\w\s]{1,30}$/;
             if (!regexGroupName.test(text)){
             	alert("Name is not valid. Please try again");
-                document.getElementById("manage-name").value = "<?php echo htmlspecialchars($group_name) ?>";
-                $.LoadingOverlay("hide");
             	return false;
-            } 
+            }
 
+            $.LoadingOverlay("show");
 
 			var ajaxRequest;
 			try {
