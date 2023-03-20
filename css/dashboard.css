@@ -156,7 +156,9 @@ html, body{
 
 
 #savechangesbutton {
-    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    
   
 }
 
@@ -267,15 +269,24 @@ html, body{
   margin-left: 2%;
   margin-top: 2.5%;
   font-size: 250%;
+  margin-bottom: 2%;
 }
 
 #createGroupResponse {
   color: red;
   font-size: 20px;
   text-align: center;
-  margin: 10%;
-}
 
+  
+}
+.createGroupResponseContainer {
+  height: 70%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+}
 
 
 
@@ -293,6 +304,7 @@ html, body{
 
 .member-row {
   display: table;
+  position: relative;
   width: 99%;
   height: 30%;
   border-color: black;
@@ -303,4 +315,11 @@ html, body{
   margin-bottom: 2px;
   text-align: center;
   border-collapse: separate; 
+}
+
+member-close {
+  position: absolute;
+  right: 20%;
+  top: 4%;
+  font-size: 20px;
 }

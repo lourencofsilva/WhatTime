@@ -14,7 +14,7 @@ if (isLoggedIn() && !checkTimetableExists(getLoggedInUserId())) {
 	redirectIfLoggedIn("./registration.php");
 }
 if (!updateTimetable(getLoggedInUserId())) {
-	errorRedirect("Error updating your timetable. Please try again later.");
+	redirectIfLoggedIn("./registration.php");
 }
 
 if (isset($_GET["group"])) {
@@ -41,8 +41,8 @@ if (!empty($groups)) {
 		}
 	}
 } else {
-    include "dashboard-empty.php";
-    die();
+	include "dashboard-empty.php";
+	die();
 }
 
 ?>
@@ -84,9 +84,9 @@ if (!empty($groups)) {
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
-        memberDeleted = false;
+		memberDeleted = false;
 		document.addEventListener('DOMContentLoaded', function() {
-            resize();
+			resize();
 
 			let tmz = new Date().getTimezoneOffset() / 60;
 			var calendarEl = document.getElementById('calendar');
@@ -114,16 +114,31 @@ if (!empty($groups)) {
 			current_group.scrollIntoView();
 		});
 
+        function copyText() {
+            var copyText = document.getElementById("invite-link");
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            try {
+                document.execCommand('copy');
+                alert("The invite link has been copied to the clipboard!");
+            }
+            catch (err) {
+                console.error("Unable to copy text to clipboard.")
+            }
+        }
+
 		// Function to handle creating group
 		function createGroup() {
 			let group_name = document.getElementById("group-name").value;
-            var regexGroupName = /^[\w]([\w\s]{0,30})$/;
-            if (!regexGroupName.test(group_name)){
-                document.getElementById("createGroupResponse").innerHTML = "An error ocurred in creating the group. The name of your group is not valid."
-                return false;
-            }
+			var regexGroupName = /^[\w]([\w\s]{0,30})$/;
+			if (!regexGroupName.test(group_name)) {
+				document.getElementById("createGroupResponse").innerHTML = "An error ocurred in creating the group. The name of your group is not valid."
+				return false;
+			}
 
-            $.LoadingOverlay("show");
+			$.LoadingOverlay("show");
 			var ajaxRequest;
 			try {
 				ajaxRequest = new XMLHttpRequest();
@@ -140,23 +155,23 @@ if (!empty($groups)) {
 					}
 				}
 			}
-            ajaxRequest.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("createGroupResponse").innerHTML = this.responseText;
-                    $.LoadingOverlay("hide");
-                } else if (this.readyState == 4 && this.status == 201) {
-                    let id = $('.group_row').length;
-                    const url = new URL(window.location.href);
-                    const searchParams = new URLSearchParams(url.search);
-                    searchParams.set('group', id);
-                    url.search = searchParams.toString();
-                    window.location.replace(url.toString());
-                }
-            };
+			ajaxRequest.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("createGroupResponse").innerHTML = this.responseText;
+					$.LoadingOverlay("hide");
+				} else if (this.readyState == 4 && this.status == 201) {
+					let id = $('.group_row').length;
+					const url = new URL(window.location.href);
+					const searchParams = new URLSearchParams(url.search);
+					searchParams.set('group', id);
+					url.search = searchParams.toString();
+					window.location.replace(url.toString());
+				}
+			};
 
 
-            ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent(group_name), true);
-            ajaxRequest.send(null);
+			ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent(group_name), true);
+			ajaxRequest.send(null);
 
 		}
 
@@ -192,7 +207,7 @@ if (!empty($groups)) {
 
 		function deleteMember(member_id, index) {
 			if (confirm("Are you sure you want to remove this member from the group: <?php echo htmlspecialchars($group_name) ?>?")) {
-                $.LoadingOverlay("show");
+				$.LoadingOverlay("show");
 				var ajaxRequest;
 				try {
 					ajaxRequest = new XMLHttpRequest();
@@ -209,14 +224,14 @@ if (!empty($groups)) {
 						}
 					}
 				}
-                ajaxRequest.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var row = document.getElementsByClassName('member-row')[index];
-                        row.style.display = "none";
-                        $.LoadingOverlay("hide");
-                        memberDeleted = true;
-                    }
-                };
+				ajaxRequest.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						var row = document.getElementsByClassName('member-row')[index];
+						row.style.display = "none";
+						$.LoadingOverlay("hide");
+						memberDeleted = true;
+					}
+				};
 				ajaxRequest.open("GET", "api.php?endpoint=dashboard-member-delete&group-id=" + <?php echo htmlspecialchars($group_id) ?> + "&member-id=" + encodeURIComponent(member_id), true);
 				ajaxRequest.send(null);
 			}
@@ -226,21 +241,21 @@ if (!empty($groups)) {
 			let text = document.getElementById("manage-name").value;
 
 			if (text === "<?php echo htmlspecialchars($group_name) ?>") {
-                if (memberDeleted) {
-                    $.LoadingOverlay("show");
-                    location.reload()
-                }
+				if (memberDeleted) {
+					$.LoadingOverlay("show");
+					location.reload()
+				}
 				return true;
 			}
 
-            var regexGroupName = /^[\w]([\w\s]{0,30})$/;
-            if (!regexGroupName.test(text)){
-            	alert("Name is not valid. Please try again");
-                document.getElementById("manage-name").value = "<?php echo htmlspecialchars($group_name) ?>";
-            	return false;
-            }
+			var regexGroupName = /^[\w]([\w\s]{0,30})$/;
+			if (!regexGroupName.test(text)) {
+				alert("Name is not valid. Please try again");
+				document.getElementById("manage-name").value = "<?php echo htmlspecialchars($group_name) ?>";
+				return false;
+			}
 
-            $.LoadingOverlay("show");
+			$.LoadingOverlay("show");
 
 			var ajaxRequest;
 			try {
@@ -282,25 +297,25 @@ if (!empty($groups)) {
 			});
 		}
 
-        window.addEventListener("resize", resize);
+		window.addEventListener("resize", resize);
 
-        function resize() {
-            var width = window.innerWidth;
+		function resize() {
+			var width = window.innerWidth;
 
-            if (width <= 1024) {
-                $(".left_container").css("margin-left", "-100%");
-                $(".hamburger_menu").css("display", "block");
-                $(".right_container").css("width", "100%");
-            } else {
-                $(".left_container").css("margin-left", "0");
-                $(".hamburger_menu").css("display", "none");
-                $(".right_container").css("width", "72%");
-                $(".left_container").css("width", "28%");
-                $(".right_container").css("margin-right", "0");
-                $(".crossbtn").css("display", "none");
-                $(".createbtn").css("width", "10vw");
-            }
-        }
+			if (width <= 1024) {
+				$(".left_container").css("margin-left", "-100%");
+				$(".hamburger_menu").css("display", "block");
+				$(".right_container").css("width", "100%");
+			} else {
+				$(".left_container").css("margin-left", "0");
+				$(".hamburger_menu").css("display", "none");
+				$(".right_container").css("width", "72%");
+				$(".left_container").css("width", "28%");
+				$(".right_container").css("margin-right", "0");
+				$(".crossbtn").css("display", "none");
+				$(".createbtn").css("width", "10vw");
+			}
+		}
 
 		// Function for hamburger menu and cross button
 		function hamburger() {
@@ -308,22 +323,30 @@ if (!empty($groups)) {
 			$(".crossbtn").fadeIn();
 			// $(".left_container").css("display", "block");
 			$(".left_container").css("width", "100%");
-			$(".left_container").animate({marginLeft:0},1000);
-			$(".right_container").animate({marginRight:"-100%"},990);
+			$(".left_container").animate({
+				marginLeft: 0
+			}, 1000);
+			$(".right_container").animate({
+				marginRight: "-100%"
+			}, 990);
 			$(".createbtn").css("width", "20vw");
 		}
 
 		function cross() {
 			$(".crossbtn").fadeOut();
 			$(".hamburger_menu").fadeIn();
-			$(".left_container").animate({marginLeft:"-100%"},990);
-			$(".right_container").animate({marginRight:0},1000);
+			$(".left_container").animate({
+				marginLeft: "-100%"
+			}, 990);
+			$(".right_container").animate({
+				marginRight: 0
+			}, 1000);
 		}
 	</script>
 </head>
 
 <body>
-	<div class = "wrap">
+	<div class="wrap">
 		<div class="header">
 			<button class="mainlogo" onClick="window.location.reload()" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
 			<div class="nav">
@@ -387,13 +410,13 @@ if (!empty($groups)) {
 							<div class="input_container">
 								<label>Group Name:</label>
 								<input type="text" id="group-name" placeholder="Group Name" maxlength="30">
-								
+
 							</div>
 						</div>
 
-						<div class = "createGroupResponseContainer">
+						<div class="createGroupResponseContainer">
 							<p id="createGroupResponse"></p>
-					</div>
+						</div>
 						<div class="modal-footer">
 							<button id="savechangesbutton" onclick="createGroup()" class="buttondesign">Save Changes</button>
 						</div>
@@ -416,7 +439,7 @@ if (!empty($groups)) {
 							</div>
 							<div class="input_container" style="padding-top: 5%;">
 								<label>Invite link:</label>
-								<input type="text" readonly="readonly" value="<?php echo htmlspecialchars($invite_link) ?>">
+								<input type="text" readonly="readonly" id="invite-link" onclick="copyText()" value="<?php echo htmlspecialchars($invite_link) ?>">
 							</div>
 							<div class="input_container" style="padding-top: 5%;">
 								<label>Members:</label>
@@ -430,9 +453,9 @@ if (!empty($groups)) {
 											echo    '<img alt="Profile Picture" style="width:3vw" src="data:image/png;base64,' . base64_encode($info['profile_picture']) . '"/>';
 										}
 										echo    '<p id="big_text">' . $info["name"] . '</p>';
-										echo    '<p style="display: table-cell; vertical-align: bottom;">' . $info["username"] . '</p>';
+										echo '<p style="position:absolute; bottom: 0;margin-left: 2%;">' . $info["username"] . '</p>';
 										if ($user != getLoggedInUserId()) {
-											echo    '<i class="fa-regular fa-x" onclick="deleteMember(';
+											echo    '<i class="fa-regular fa-x member-close close" style="font-size:20px;position: absolute;right: 2%;top: 4%;" onclick="deleteMember(';
 											echo    $info["id"] . ", " . $count;
 											echo    ')"></i>';
 										}
@@ -472,16 +495,16 @@ if (!empty($groups)) {
 				</div>
 			</div>
 		</div>
-	
 
-	<div class="footer">
-		<a>©</a>
-		<ul>
-			<li><a href="#">Contact US</a></li>
-			<li><a href="#">Terms & Conditions</a></li>
-			<li><a href="#">Privacy Policy</a></li>
-		</ul>
-	</div>
+
+		<div class="footer">
+			<a>©</a>
+			<ul>
+				<li><a href="#">Contact US</a></li>
+				<li><a href="#">Terms & Conditions</a></li>
+				<li><a href="#">Privacy Policy</a></li>
+			</ul>
+		</div>
 	</div>
 </body>
 

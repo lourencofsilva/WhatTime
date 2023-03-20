@@ -77,25 +77,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </header>
 
-<div class = "modal">
-    <div class = "firstline">
-        <p>JOIN GROUP</p>
-    </div>
-    <div class = "inviteinfo">
-        <p>You were invited to join the group <?php echo htmlspecialchars($group_name)?><br><br></p>
-        <p>Would you like to join this group?<br><p>
-    </div>
+<div class = "wrapper">
+    <div class = "modal">
+        <div class = "firstline">
+            <p>JOIN GROUP</p>
+        </div>
+        <div class = "inviteinfo">
+            <p>You were invited to join the group <?php echo htmlspecialchars($group_name)?><br><br></p>
+            <p>Would you like to join this group?<br></p>
+        </div>
 
-    <div class = "inputbox">
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+        <div class = "inputbox">
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
 
-            <input type="hidden" name="invite_id" value="<?php echo $invite_id;?>">
+                <input type="hidden" name="invite_id" value="<?php echo $invite_id;?>">
 
-            <div class = "buttonbox">
-                <button class="buttondesign" id = "post" type = "submit" value = "">Join Group</button>
-            </div>
+                <div class = "buttonbox">
+                    <button class="buttondesign" id = "post" type = "submit" value = "">Join Group</button>
+                </div>
 
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 

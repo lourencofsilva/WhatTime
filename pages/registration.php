@@ -13,20 +13,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             addTimetable($id, $url);
             $events = getTimetable($url, $id);
             if (!$events) {
-                echo ("ICS File is not valid, please retry.");
-                die();
+                $error = "Invalid URL, Please try again.";
             }
-            saveTimetable($id, $events);
-            if (isset($_GET["redirect"])) {
-                redirectIfLoggedIn("../" . htmlspecialchars($_GET["redirect"]));
-            } else {
-                redirectIfLoggedIn("../index.php");
+            if (!isset($error)) {
+                saveTimetable($id, $events);
+                if (isset($_GET["redirect"])) {
+                    redirectIfLoggedIn("../" . htmlspecialchars($_GET["redirect"]));
+                } else {
+                    redirectIfLoggedIn("../index.php");
+                }
             }
         } else {
-            echo ("Please log in first, then try again");
+            $error = "Please log in first, then try again";
         }
     } else {
-        echo ("ICS File is not valid, please retry.");
+        $error = "Invalid URL, Please try again.";
     }
 }
 ?>
@@ -62,6 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 return false;
             }
         }
+        <?php
+            if (isset($error)) {
+                echo "window.onload = function() {alert('" . $error . "');}";
+            }
+        ?>
     </script>
 </head>
 

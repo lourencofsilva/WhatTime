@@ -280,7 +280,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 	<div class="wrap">
 		<div class="header">
-			<button class="mainlogo" onClick="window.location.reload()" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
+			<button class="mainlogo" onClick="window.location.href = './dashboard.php'" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
 			<div class="nav">
 				<button class="profile"><i class="fa-regular fa-user" onclick="window.location.href = './profile.php'"></i></button>
 				<ul>
