@@ -34,15 +34,17 @@ manageGroupBtn.onclick = () => {
 
 // When the user clicks on <span> (x), close the modal
 manageGroupSpan.onclick = () => {
-  manageGroupModal.style.display = "none";
-  saveChanges();
+  if (saveChanges()) {
+    manageGroupModal.style.display = "none";
+  }
 };
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = (event) => {
   if (event.target == manageGroupModal) {
-    manageGroupModal.style.display = "none";
-    saveChanges();
+    if (saveChanges()) {
+      manageGroupModal.style.display = "none";
+    }
   }
   else if (event.target == createGroupModal) {
     createGroupModal.style.display = "none";
