@@ -325,7 +325,7 @@ if (!empty($groups)) {
 <body>
 	<div class = "wrap">
 		<div class="header">
-			<a class="mainlogo" href="../index.php"><img class="main-img" src="../images/logo_white.png"></a>
+			<button class="mainlogo" onClick="window.location.reload()" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
 			<div class="nav">
 				<button class="profile"><i class="fa-regular fa-user" onclick="window.location.href = './profile.php'"></i></button>
 				<ul>
