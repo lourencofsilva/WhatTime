@@ -20,6 +20,134 @@ if (!updateTimetable(getLoggedInUserId())) {
 
 $office_hours = getUserOfficeHours(getLoggedInUserId());
 $user_info = getUserInfo(getLoggedInUserId());
+
+$realName = $username = $email = $password = $password_confirm = $office_start = $office_end = $error = "";
+function updateName($new_name){
+    $user_id = getLoggedInUserId();
+    $pdo = openConn();
+
+    $sql = "UPDATE users 
+            SET name = :new_name
+            WHERE id = :user_id";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        'new_name' => $new_name,
+        'user_id' => $user_id,
+    ]);
+
+    $pdo = null;
+}
+function updateEmail($new_email){
+    $user_id = getLoggedInUserId();
+    $pdo = openConn();
+
+    $sql = "UPDATE users 
+            SET email = :new_email
+            WHERE id = :user_id";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        'new_email' => $new_email,
+        'user_id' => $user_id,
+    ]);
+
+    $pdo = null;
+}
+function updatePassword($new_password){
+    $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+    $user_id = getLoggedInUserId();
+    $pdo = openConn();
+
+    $sql = "UPDATE users 
+            SET password_hash = :new_password_hash
+            WHERE id = :user_id";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        'new_password_hash' => $new_password_hash,
+        'user_id' => $user_id,
+    ]);
+
+    $pdo = null;
+}
+
+function updateOfficeHours($office_begin,$office_end){
+    $office_begin = "2000-01-01 " . $office_begin . ":00";
+    $office_end = "2000-01-01 " . $office_end . ":00";
+    $user_id = getLoggedInUserId();
+    $pdo = openConn();
+
+    $sql = "UPDATE users 
+            SET office_begin = :office_begin, office_end = :office_end
+            WHERE id = :user_id";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        'office_begin' => $office_begin,
+        'office_end' => $office_end,
+        'user_id' => $user_id,
+    ]);
+
+    $pdo = null;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $current_pass = $_POST["curr_pass"];
+    $new_pass = $_POST["new_pass"];
+    $confirm_new_pass = $_POST["confirm_pass"];
+    $office_start = $_POST["office_hour_start"];
+    $office_end = $_POST["office_hour_end"];
+    $passedValidation = true;
+    $changePassword = false;
+    $case = -1;
+    if($office_start >= $office_end){
+        $error = $error . "Office hour start cannot be greater than/equal to office hour end";
+        $passedValidation = false;
+    }
+    if($current_pass == $new_pass && (!empty($new_pass) || !empty($confirm_new_pass))){
+        $error = $error . "Current password cannot be same as new password";
+        $passedValidation = false;
+    }
+    if($confirm_new_pass != $new_pass && (!empty($new_pass) || !empty($confirm_new_pass))){
+        $error = $error . "New password and confirmation do not match";
+    }
+    if(empty($current_pass) && (!empty($new_pass) || !empty($confirm_new_pass))){
+        $error = $error . "New password cannot be set without the current password";
+    }
+    if(!(empty($current_pass) || empty($new_pass) || empty($confirm_new_pass))) {
+        $changePassword = true;
+    }
+
+    if($user_info["email"] != $email){
+        updateEmail($email);
+    }
+
+    if($user_info["name"] != $name){
+        updateName($name);
+    }
+    if($user_info["office_begin"] != $office_start || $user_info["office_end"] != $office_end){
+        updateOfficeHours($office_start, $office_end);
+    }
+
+    if($changePassword){
+        if (authenticateUsername($email, $current_pass) == -1) {
+            $error = $error . "Current password is incorrect.";
+        } else {
+            $uppercase = preg_match('@[A-Z]@', $new_pass);
+            $lowercase = preg_match('@[a-z]@', $new_pass);
+            $numbers    = preg_match('@[0-9]@', $new_pass);
+            $specialChars = preg_match('@[^\w]@', $new_pass);
+            if (!$uppercase || !$lowercase || !$numbers || !$specialChars || strlen($new_pass) < 8) {
+                $error = $error . "Password must contain at least:<br>1 Uppercase Character, 1 Lowercase Character<br>1 Number, 1 Special Character<br>";
+            } else  {
+                updatePassword($new_pass);
+            }
+        }}
+}
 ?>
 
 <!DOCTYPE html>
@@ -145,6 +273,7 @@ $user_info = getUserInfo(getLoggedInUserId());
                 return false;
             }
         }
+
 	</script>
 </head>
 
@@ -171,7 +300,7 @@ $user_info = getUserInfo(getLoggedInUserId());
 
 				<div class="input_container">
 					<div class="text">Email Address:</div>
-					<input id="email" type="text" name="name" max="30" placeholder="Email Address" value="<?php echo htmlspecialchars($user_info["email"]) ?>" required>
+					<input id="email" type="text" name="email" max="30" placeholder="Email Address" value="<?php echo htmlspecialchars($user_info["email"]) ?>" required>
 				</div>
 
 				<div class="input_container">
@@ -235,28 +364,39 @@ $user_info = getUserInfo(getLoggedInUserId());
 
 				<div class="input_container">
 					<div class="text">Current Password:</div>
-					<input id="curr_pass" type="text" name="name" max="30" placeholder="Current Password">
+					<input id="curr_pass" type="text" name="curr_pass" max="30" placeholder="Current Password">
 				</div>
 
 				<div class="input_container">
 					<div class="text">New Password:</div>
-					<input id="new_pass" type="text" name="name" max="30" placeholder="New Password">
+					<input id="new_pass" type="text" name="new_pass" max="30" placeholder="New Password">
 				</div>
 
 				<div class="input_container">
 					<div class="text">Confirm New Password:</div>
-					<input id="confirm_pass" type="text" name="name" max="30" placeholder="Confirm Password">
+					<input id="confirm_pass" type="text" name="confirm_pass" max="30" placeholder="Confirm Password">
 				</div>
 
 				<div class="input_container">
 					<div class="text">Timetable URL:</div>
-					<input id="timetable_url" type="text" name="name" max="30" placeholder="URL" readonly = "readonly" onclick = "if(confirm('Do you want to change your timetable?')) {window.location.href='registration.php'}" value="<?php echo htmlspecialchars($user_info["timetable_url"]) ?>" required>
+					<input id="timetable_url" type="text" name="timetable_url" max="30" placeholder="URL" readonly = "readonly" onclick = "if(confirm('Do you want to change your timetable?')) {window.location.href='registration.php'}" value="<?php echo htmlspecialchars($user_info["timetable_url"]) ?>" required>
 				</div>
 
 
 				<!-- <button class="buttondesign" onclick="window.location.href = '#something';">Create Group</button> -->
                     <div class="final">
                         <input class="continue" id="post" type="submit" value="Submit">
+                    </div>
+                    <div id="error" class="error">
+                        <?php
+                        //if (isset($passedValidation)) {
+                            //if (!$passedValidation) {
+                                echo ("<p>" . $error . "</p>");
+                            //}
+                        //}
+
+                        ?>
+
                     </div>
                 </form>
 			</div>
