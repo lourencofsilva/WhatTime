@@ -233,7 +233,7 @@ if (!empty($groups)) {
 				return true;
 			}
 
-            var regexGroupName = /^[\w\s]{1,30}$/;
+            var regexGroupName = /^[\w]([\w\s]{0,30})$/;
             if (!regexGroupName.test(text)){
             	alert("Name is not valid. Please try again");
             	return false;
