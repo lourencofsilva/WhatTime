@@ -14,7 +14,7 @@ if (isLoggedIn() && !checkTimetableExists(getLoggedInUserId())) {
 	redirectIfLoggedIn("./registration.php");
 }
 if (!updateTimetable(getLoggedInUserId())) {
-	errorRedirect("Error updating your timetable. Please try again later.");
+	redirectIfLoggedIn("./registration.php");
 }
 
 if (isset($_GET["group"])) {
@@ -113,6 +113,20 @@ if (!empty($groups)) {
 			let current_group = document.getElementById("selected");
 			current_group.scrollIntoView();
 		});
+
+        function copyText() {
+            var copyText = document.getElementById("invite-link");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+            const copyContent = async () => {
+                try {
+                    await navigator.clipboard.writeText(copyText.value);
+                    alert("The invite link has been copied to the clipboard!");
+                } catch (err) {
+                    console.error('Failed to copy: ', err);
+                }
+            }
+        }
 
 		// Function to handle creating group
 		function createGroup() {
@@ -424,7 +438,7 @@ if (!empty($groups)) {
 							</div>
 							<div class="input_container" style="padding-top: 5%;">
 								<label>Invite link:</label>
-								<input type="text" readonly="readonly" value="<?php echo htmlspecialchars($invite_link) ?>">
+								<input type="text" readonly="readonly" id="invite-link" onclick="copyText()"  value="<?php echo htmlspecialchars($invite_link) ?>">
 							</div>
 							<div class="input_container" style="padding-top: 5%;">
 								<label>Members:</label>
