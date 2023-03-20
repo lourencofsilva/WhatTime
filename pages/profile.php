@@ -218,7 +218,7 @@ $user_info = getUserInfo(getLoggedInUserId());
 
 				<div class="input_container">
 					<div class="text">Timetable URL:</div>
-					<input id="timetable_url" type="text" name="name" max="30" placeholder="URL" value="<?php echo htmlspecialchars($user_info["timetable_url"]) ?>" required>
+					<input id="timetable_url" type="text" name="name" max="30" placeholder="URL" readonly = "readonly" onclick = "if(confirm('Do you want to change your timetable?')) {window.location.href='registration.php'}" value="<?php echo htmlspecialchars($user_info["timetable_url"]) ?>" required>
 				</div>
 
 

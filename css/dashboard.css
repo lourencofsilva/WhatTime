@@ -283,8 +283,12 @@ a.mainlogo {
   color: red;
   font-size: 20px;
   text-align: center;
-  margin-left: 5%;
+  margin: 10%;
 }
+
+
+
+
 
 .selected {
     /* background-color: green; */

@@ -389,9 +389,13 @@ if (!empty($groups)) {
 							<div class="input_container">
 								<label>Group Name:</label>
 								<input type="text" id="group-name" placeholder="Group Name" maxlength="30">
-								<div id="createGroupResponse"></div><!-- FRONTEND: Please style this, backend added it -->
+								
 							</div>
 						</div>
+
+						<div class = "createGroupResponseContainer">
+							<p id="createGroupResponse"></p>
+					</div>
 						<div class="modal-footer">
 							<button id="savechangesbutton" onclick="createGroup()" class="buttondesign">Save Changes</button>
 						</div>
