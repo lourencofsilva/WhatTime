@@ -25,4 +25,68 @@ form {
     height: 100%;
 }
 
+.left_container{
+    width: 28%;
+    height: 100%;
+    background-color: white;
+    float: left;
+    border-right: 2px solid black;
+    border-radius: 1px;
+    display: block;
+}
 
+.right_container{
+    width: 72%;
+    height: 100%;
+    background-color: white;
+    float: right;
+    display: block;
+}
+
+.hamburger_menu {
+    float: left;
+    display: none;
+    border: none;
+    background-color: white;
+    margin: 1% 0 0 2%;
+}
+  
+.hamburger_menu > i {
+    color: rgba(49, 95, 211, 1);
+    font-size: 25px;
+}
+  
+.hamburger_menu > i:hover{
+    color: rgb(151, 151, 151);
+}
+
+.crossbtn_container{
+    width: 100%;
+    height: 5%;
+}
+
+.crossbtn {
+    float: right;
+    display: none;
+    border: none;
+    background-color: white;
+    margin: 1% 2.5% 0 0;
+}
+
+.crossbtn > i {
+    color: rgba(49, 95, 211, 1);
+    font-size: 35px;
+}
+
+.corssbtn > i:hover{
+    color: rgb(151, 151, 151);
+}
+
+.timetable {
+    height: 95%;
+}
+
+.timetable_header {
+    height: 5%;
+    width: 100%;
+}

@@ -171,6 +171,9 @@ $user_info = getUserInfo(getLoggedInUserId());
 	<link rel="stylesheet" type="text/css" href="../css/dashboard.css">
 	<link rel="stylesheet" type="text/css" href="../css/profile.css">
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
 	<!--- FAVICONS --->
 	<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -185,6 +188,7 @@ $user_info = getUserInfo(getLoggedInUserId());
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
+			// resize();
 			let tmz = new Date().getTimezoneOffset() / 60;
 			// Set office hours selected to current value
 			document.getElementById("office_hour_start").value = "<?php echo htmlspecialchars($user_info["office_begin"]) ?>";
@@ -277,6 +281,52 @@ $user_info = getUserInfo(getLoggedInUserId());
             }
         }
 
+		window.addEventListener("resize", resize);
+
+		function resize() {
+			var width = window.innerWidth;
+
+			if (width <= 1024) {
+				$(".left_container").css("margin-left", "-100%");
+				$(".hamburger_menu").css("display", "block");
+				$(".right_container").css("width", "100%");
+			} else {
+				$(".left_container").css("margin-left", "0");
+				$(".hamburger_menu").css("display", "none");
+				$(".right_container").css("width", "72%");
+				$(".left_container").css("width", "28%");
+				$(".right_container").css("margin-right", "0");
+				$(".crossbtn").css("display", "none");
+				$(".createbtn").css("width", "10vw");
+			}
+		}
+
+		// Function for hamburger menu and cross button
+		function hamburger() {
+			$(".hamburger_menu").fadeOut();
+			$(".crossbtn").fadeIn();
+			// $(".left_container").css("display", "block");
+			$(".left_container").css("width", "100%");
+			$(".left_container").animate({
+				marginLeft: 0
+			}, 1000);
+			$(".right_container").animate({
+				marginRight: "-100%"
+			}, 990);
+			$(".createbtn").css("width", "20vw");
+		}
+
+		function cross() {
+			$(".crossbtn").fadeOut();
+			$(".hamburger_menu").fadeIn();
+			$(".left_container").animate({
+				marginLeft: "-100%"
+			}, 990);
+			$(".right_container").animate({
+				marginRight: 0
+			}, 1000);
+		}
+
 	</script>
 </head>
 
@@ -293,7 +343,11 @@ $user_info = getUserInfo(getLoggedInUserId());
 		</div>
 
 		<div class="main">
-			<div class="left_container" style="padding-top:10px">
+			<div class="left_container">
+				<div class="crossbtn_container">
+					<button class="crossbtn" onclick="cross()"><i class="fa-solid fa-xmark"></i></button>
+				</div>
+
                 <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkAll()">
 
 				<div class="input_container">
@@ -403,7 +457,10 @@ $user_info = getUserInfo(getLoggedInUserId());
                     </div>
                 </form>
 			</div>
-			<div class="right_container" style="display: flex;">
+			<div class="right_container">
+				<header class="timetable_header">
+					<button class="hamburger_menu" onclick="hamburger()"><i class="fa-solid fa-bars"></i></button>
+				</header>
 
 				<div class="timetable">
 					<div id="calendar"></div>
