@@ -90,3 +90,10 @@ form {
     height: 5%;
     width: 100%;
 }
+
+.final {
+    display: flex;
+    justify-content: center;
+}
+
+
