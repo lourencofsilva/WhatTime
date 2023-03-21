@@ -122,11 +122,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if($user_info["email"] != $email){
-        updateEmail($email);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = $error .  "Invalid Email Address.";
+        } else {
+            updateEmail($email);
+        }
     }
 
     if($user_info["name"] != $name){
-        updateName($name);
+        if(strlen($name) > 30){
+            $error = $error . "Name cannot be greater than 30 characters.";
+        } else {
+            updateName($name);
+        }
     }
     if($user_info["office_begin"] != $office_start || $user_info["office_end"] != $office_end){
         updateOfficeHours($office_start, $office_end);
