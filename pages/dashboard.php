@@ -120,6 +120,10 @@ if (!empty($groups)) {
 			current_group.scrollIntoView();
 		});
 
+        window.addEventListener('load', function () {
+            calendar.updateSize(); // This fixes the issue where overflow is visible after calendar load
+        })
+
         function copyText() {
             var copyText = document.getElementById("invite-link");
 

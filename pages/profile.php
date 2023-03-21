@@ -256,6 +256,10 @@ $user_info = getUserInfo(getLoggedInUserId());
 			calendar.render();
 		});
 
+        window.addEventListener('load', function () {
+            calendar.updateSize(); // This fixes the issue where overflow is visible after calendar load
+        })
+
         function checkAll() {
             return true;
 
