@@ -187,17 +187,18 @@ $user_info = getUserInfo(getLoggedInUserId());
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
+        var calendar;
 		document.addEventListener('DOMContentLoaded', function() {
-			resize();
+            defaultView = resize();
 			let tmz = new Date().getTimezoneOffset() / 60;
 			// Set office hours selected to current value
 			document.getElementById("office_hour_start").value = "<?php echo htmlspecialchars($user_info["office_begin"]) ?>";
 			document.getElementById("office_hour_end").value = "<?php echo htmlspecialchars($user_info["office_end"]) ?>";
 
 			var calendarEl = document.getElementById('calendar');
-			var calendar = new FullCalendar.Calendar(calendarEl, {
+            calendar = new FullCalendar.Calendar(calendarEl, {
 				height: '100%',
-				initialView: 'timeGridWeek',
+				initialView: defaultView,
 				dayHeaderFormat: 'dddd DD/MM',
                 headerToolbar: {
                     left: 'timeGridDay,timeGridWeek,dayGridMonth',
@@ -289,23 +290,30 @@ $user_info = getUserInfo(getLoggedInUserId());
 
 		window.addEventListener("resize", resize);
 
-		function resize() {
-			var width = window.innerWidth;
+        function resize() {
+            var width = window.innerWidth;
 
-			if (width <= 1024) {
-				$(".left_container").css("margin-left", "-100%");
-				$(".hamburger_menu").css("display", "block");
-				$(".right_container").css("width", "100%");
-			} else {
-				$(".left_container").css("margin-left", "0");
-				$(".hamburger_menu").css("display", "none");
-				$(".right_container").css("width", "72%");
-				$(".left_container").css("width", "28%");
-				$(".right_container").css("margin-right", "0");
-				$(".crossbtn").css("display", "none");
-				$(".createbtn").css("width", "10vw");
-			}
-		}
+            if (width <= 1024) {
+                $(".left_container").css("margin-left", "-100%");
+                $(".hamburger_menu").css("display", "block");
+                $(".right_container").css("width", "100%");
+                if (typeof calendar !== 'undefined') {
+                    calendar.changeView('timeGridDay');
+                }
+                return 'timeGridDay';
+            }
+            $(".left_container").css("margin-left", "0");
+            $(".hamburger_menu").css("display", "none");
+            $(".right_container").css("width", "72%");
+            $(".left_container").css("width", "28%");
+            $(".right_container").css("margin-right", "0");
+            $(".crossbtn").css("display", "none");
+            $(".createbtn").css("width", "10vw");
+            if (typeof calendar !== 'undefined') {
+                calendar.changeView('timeGridWeek');
+            }
+            return 'timeGridWeek';
+        }
 
 		// Function for hamburger menu and cross button
 		function hamburger() {

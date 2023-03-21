@@ -85,13 +85,14 @@ if (!empty($groups)) {
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
 		memberDeleted = false;
+        var calendar;
 		document.addEventListener('DOMContentLoaded', function() {
-			resize();
+			defaultView = resize();
 
 			let tmz = new Date().getTimezoneOffset() / 60;
 			var calendarEl = document.getElementById('calendar');
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				initialView: 'timeGridWeek',
+			calendar = new FullCalendar.Calendar(calendarEl, {
+				initialView: defaultView,
 				dayHeaderFormat: 'dddd DD/MM',
 				weekends: false,
                 headerToolbar: {
@@ -311,15 +312,22 @@ if (!empty($groups)) {
 				$(".left_container").css("margin-left", "-100%");
 				$(".hamburger_menu").css("display", "block");
 				$(".right_container").css("width", "100%");
-			} else {
-				$(".left_container").css("margin-left", "0");
-				$(".hamburger_menu").css("display", "none");
-				$(".right_container").css("width", "72%");
-				$(".left_container").css("width", "28%");
-				$(".right_container").css("margin-right", "0");
-				$(".crossbtn").css("display", "none");
-				$(".createbtn").css("width", "10vw");
+                if (typeof calendar !== 'undefined') {
+                    calendar.changeView('timeGridDay');
+                }
+                return 'timeGridDay';
 			}
+            $(".left_container").css("margin-left", "0");
+            $(".hamburger_menu").css("display", "none");
+            $(".right_container").css("width", "72%");
+            $(".left_container").css("width", "28%");
+            $(".right_container").css("margin-right", "0");
+            $(".crossbtn").css("display", "none");
+            $(".createbtn").css("width", "10vw");
+            if (typeof calendar !== 'undefined') {
+                calendar.changeView('timeGridWeek');
+			}
+            return 'timeGridWeek';
 		}
 
 		// Function for hamburger menu and cross button
