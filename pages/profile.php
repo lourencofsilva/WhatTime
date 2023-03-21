@@ -188,7 +188,7 @@ $user_info = getUserInfo(getLoggedInUserId());
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
-			// resize();
+			resize();
 			let tmz = new Date().getTimezoneOffset() / 60;
 			// Set office hours selected to current value
 			document.getElementById("office_hour_start").value = "<?php echo htmlspecialchars($user_info["office_begin"]) ?>";
