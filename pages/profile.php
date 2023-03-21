@@ -486,7 +486,7 @@ $user_info = getUserInfo(getLoggedInUserId());
 		<div class="footer">
 			<a>©</a>
 			<ul>
-				<li><a href="#">Contact US</a></li>
+				<li><a href="#">Contact Us</a></li>
 				<li><a href="#">Terms & Conditions</a></li>
 				<li><a href="#">Privacy Policy</a></li>
 			</ul>
