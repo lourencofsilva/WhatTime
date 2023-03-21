@@ -18,7 +18,6 @@ if (!updateTimetable(getLoggedInUserId())) {
 	errorRedirect("Error updating your timetable. Please try again later.");
 }
 
-$office_hours = getUserOfficeHours(getLoggedInUserId());
 $user_info = getUserInfo(getLoggedInUserId());
 
 $realName = $username = $email = $password = $password_confirm = $office_start = $office_end = $error = "";
@@ -148,6 +147,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }}
 }
+
+$office_hours = getUserOfficeHours(getLoggedInUserId());
+$user_info = getUserInfo(getLoggedInUserId());
 ?>
 
 <!DOCTYPE html>
@@ -244,6 +246,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		});
 
         function checkAll() {
+            return true;
 
             //regex
             var regexPw = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,128}$/;
@@ -364,17 +367,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 				<div class="input_container">
 					<div class="text">Current Password:</div>
-					<input id="curr_pass" type="text" name="curr_pass" max="30" placeholder="Current Password">
+					<input id="curr_pass" type="password" name="curr_pass" max="30" placeholder="Current Password">
 				</div>
 
 				<div class="input_container">
 					<div class="text">New Password:</div>
-					<input id="new_pass" type="text" name="new_pass" max="30" placeholder="New Password">
+					<input id="new_pass" type="password" name="new_pass" max="30" placeholder="New Password">
 				</div>
 
 				<div class="input_container">
 					<div class="text">Confirm New Password:</div>
-					<input id="confirm_pass" type="text" name="confirm_pass" max="30" placeholder="Confirm Password">
+					<input id="confirm_pass" type="password" name="confirm_pass" max="30" placeholder="Confirm Password">
 				</div>
 
 				<div class="input_container">
