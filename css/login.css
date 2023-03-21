@@ -127,6 +127,7 @@ input:focus{
 	color: white;
 	background-color: rgba(49, 96, 211, 1);
 	cursor: pointer;
+	text-align: center;
 }
 
 .login_box > form > .final > input:hover{
