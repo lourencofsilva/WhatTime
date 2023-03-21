@@ -94,6 +94,11 @@ if (!empty($groups)) {
 				initialView: 'timeGridWeek',
 				dayHeaderFormat: 'dddd DD/MM',
 				weekends: false,
+                headerToolbar: {
+                    left: 'timeGridDay,timeGridWeek',
+                    center: 'title',
+                    right: 'today,prev,next'
+                },
 				firstDay: 1,
 				slotMinTime: parseInt(<?php echo $office_hours[0] ?>) - tmz + ":00",
 				slotMaxTime: parseInt(<?php echo $office_hours[1] ?>) - tmz + ":00",

@@ -199,6 +199,11 @@ $user_info = getUserInfo(getLoggedInUserId());
 				height: '100%',
 				initialView: 'timeGridWeek',
 				dayHeaderFormat: 'dddd DD/MM',
+                headerToolbar: {
+                    left: 'timeGridDay,timeGridWeek,dayGridMonth',
+                    center: 'title',
+                    right: 'today,prev,next'
+                },
 				weekends: false,
 				firstDay: 1,
 				slotMinTime: parseInt(<?php echo $office_hours[0] ?>) - tmz + ":00",
@@ -215,6 +220,7 @@ $user_info = getUserInfo(getLoggedInUserId());
 				},
 				eventTextColor: 'white',
 				expandRows: true,
+                eventDisplay: "block",
 				eventClick: function(info) {
 					if (info.el.style.backgroundColor === 'rgb(200, 30, 65)') {
 						info.el.style.backgroundColor = 'rgb(49, 95, 211)'; // Change the background color
