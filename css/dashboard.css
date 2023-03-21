@@ -324,3 +324,7 @@ member-close {
   top: 4%;
   font-size: 20px;
 }
+
+.fc-event-title {
+    word-wrap: break-word;
+}
