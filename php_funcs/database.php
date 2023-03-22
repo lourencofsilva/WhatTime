@@ -5,10 +5,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-require_once "../PHPMailer-master/src/PHPMailer.php";
-require_once "../PHPMailer-master/src/SMTP.php";
-require_once "../PHPMailer-master/src/Exception.php";
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -943,6 +939,10 @@ function createEventAPI($summary, $start, $end, $group_id, $user_id)
 }
 
 function sendEmail($to, $ics_file, $title, $group_name) {
+    require_once "../PHPMailer-master/src/PHPMailer.php";
+    require_once "../PHPMailer-master/src/SMTP.php";
+    require_once "../PHPMailer-master/src/Exception.php";
+
     $pdo = openConn();
 
     $sql = "SELECT smtp_pass
