@@ -870,33 +870,50 @@ function deleteMemberAPI($group_id, $member_id, $user_id): bool
     return true;
 }
 
-class ICS
+function getGroupEmailsAndName($group_id)
 {
-    var $data;
-    var $name;
+    $pdo = openConn();
 
-    function ICS($start, $end, $summary, $description, $location)
-    {
-        $this->name = $summary;
-        $this->data = "BEGIN:VCALENDAR\nVERSION:2.0\nMETHOD:PUBLISH\nBEGIN:VEVENT\nDTSTART:" . date("Ymd\THis\Z", strtotime($start)) . "\nDTEND:" . date("Ymd\THis\Z", strtotime($end)) . "\nLOCATION:" . $location . "\nTRANSP: OPAQUE\nSEQUENCE:0\nUID:\nDTSTAMP:" . date("Ymd\THis\Z") . "\nSUMMARY:" . $summary . "\nDESCRIPTION:" . $description . "\nPRIORITY:1\nCLASS:PUBLIC\nBEGIN:VALARM\nTRIGGER:-PT10080M\nACTION:DISPLAY\nDESCRIPTION:Reminder\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR\n";
+    $sql = "SELECT `name`
+            FROM `groups`
+            WHERE `id` = :group_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id,
+    ]);
+    $row = $stmt->fetch();
+
+    $GroupName = $row['name'];
+
+    $sql = "SELECT user_id
+            FROM user_group_link
+            WHERE group_id = :group_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id,
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $user_ids = [];
+    while ($row = $stmt->fetch()){
+        $user_ids[] = $row['user_id'];
     }
 
-    function save()
-    {
-        file_put_contents($this->name . ".ics", $this->data);
+    $sql = "SELECT email
+            FROM users
+            WHERE id IN (" . implode(",", array_map('intval', $user_ids)) . ")";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $userEmails = [];
+    while ($row = $stmt->fetch()){
+        $userEmails[] = $row['email'];
     }
-
-    function show()
-    {
-        header("Content-type:text/calendar");
-        header('Content-Disposition: attachment; filename="' . $this->name . '.ics"');
-        Header('Content-Length: ' . strlen($this->data));
-        Header('Connection: close');
-        echo $this->data;
-    }
+    return([$GroupName, $userEmails]);
 }
 
-function createEventAPI($title, $start, $end, $group_id, $user_id) {
+function createEventAPI($summary, $start, $end, $group_id, $user_id)
+{
     $pdo = openConn();
 
     $sql = "SELECT group_id
@@ -907,12 +924,14 @@ function createEventAPI($title, $start, $end, $group_id, $user_id) {
         'group_id' => $group_id,
         'user_id' => $user_id,
     ]);
-
     $row = $stmt->fetch();
     if (empty($row)) {
         return false; // Check if user has permissions for this group
     }
+    $ics = "BEGIN:VCALENDAR\nVERSION:2.0\nMETHOD:PUBLISH\nBEGIN:VEVENT\nDTSTART:" . date("Ymd\THis\Z", strtotime($start)) . "\nDTEND:" . date("Ymd\THis\Z", strtotime($end)) . "\nLOCATION:" . "group meeting point" . "\nTRANSP: OPAQUE\nSEQUENCE:0\nUID:\nDTSTAMP:" . date("Ymd\THis\Z") . "\nSUMMARY:" . $summary . "\nDESCRIPTION:" . "This is a group meeting created by WhatTime" . "\nPRIORITY:1\nCLASS:PUBLIC\nBEGIN:VALARM\nTRIGGER:-PT10080M\nACTION:DISPLAY\nDESCRIPTION:Reminder\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR\n";
+    $groupInfo = getGroupEmailsAndName($group_id);
 
-    //Aran: From here handle the event creation
-
+    sendEmail($groupInfo[1], $ics, $summary, $groupInfo[0]);
 }
+
+
