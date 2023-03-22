@@ -85,7 +85,7 @@ if (!empty($groups)) {
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
 		memberDeleted = false;
-        var calendar;
+		var calendar;
 		document.addEventListener('DOMContentLoaded', function() {
 			defaultView = resize();
 
@@ -95,11 +95,11 @@ if (!empty($groups)) {
 				initialView: defaultView,
 				dayHeaderFormat: 'dddd DD/MM',
 				weekends: false,
-                headerToolbar: {
-                    left: 'timeGridDay,timeGridWeek',
-                    center: 'title',
-                    right: 'today,prev,next'
-                },
+				headerToolbar: {
+					left: 'timeGridDay,timeGridWeek',
+					center: 'title',
+					right: 'today,prev,next'
+				},
 				firstDay: 1,
 				slotMinTime: parseInt(<?php echo $office_hours[0] ?>) - tmz + ":00",
 				slotMaxTime: parseInt(<?php echo $office_hours[1] ?>) - tmz + ":00",
@@ -120,24 +120,23 @@ if (!empty($groups)) {
 			current_group.scrollIntoView();
 		});
 
-        window.addEventListener('load', function () {
-            calendar.updateSize(); // This fixes the issue where overflow is visible after calendar load
-        })
+		window.addEventListener('load', function() {
+			calendar.updateSize(); // This fixes the issue where overflow is visible after calendar load
+		})
 
-        function copyText() {
-            var copyText = document.getElementById("invite-link");
+		function copyText() {
+			var copyText = document.getElementById("invite-link");
 
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); // For mobile devices
+			copyText.select();
+			copyText.setSelectionRange(0, 99999); // For mobile devices
 
-            try {
-                document.execCommand('copy');
-                alert("The invite link has been copied to the clipboard!");
-            }
-            catch (err) {
-                console.error("Unable to copy text to clipboard.")
-            }
-        }
+			try {
+				document.execCommand('copy');
+				alert("The invite link has been copied to the clipboard!");
+			} catch (err) {
+				console.error("Unable to copy text to clipboard.")
+			}
+		}
 
 		// Function to handle creating group
 		function createGroup() {
@@ -316,22 +315,22 @@ if (!empty($groups)) {
 				$(".left_container").css("margin-left", "-100%");
 				$(".hamburger_menu").css("display", "block");
 				$(".right_container").css("width", "100%");
-                if (typeof calendar !== 'undefined') {
-                    calendar.changeView('timeGridDay');
-                }
-                return 'timeGridDay';
+				if (typeof calendar !== 'undefined') {
+					calendar.changeView('timeGridDay');
+				}
+				return 'timeGridDay';
 			}
-            $(".left_container").css("margin-left", "0");
-            $(".hamburger_menu").css("display", "none");
-            $(".right_container").css("width", "72%");
-            $(".left_container").css("width", "28%");
-            $(".right_container").css("margin-right", "0");
-            $(".crossbtn").css("display", "none");
-            $(".createbtn").css("width", "10vw");
-            if (typeof calendar !== 'undefined') {
-                calendar.changeView('timeGridWeek');
+			$(".left_container").css("margin-left", "0");
+			$(".hamburger_menu").css("display", "none");
+			$(".right_container").css("width", "72%");
+			$(".left_container").css("width", "28%");
+			$(".right_container").css("margin-right", "0");
+			$(".crossbtn").css("display", "none");
+			$(".createbtn").css("width", "10vw");
+			if (typeof calendar !== 'undefined') {
+				calendar.changeView('timeGridWeek');
 			}
-            return 'timeGridWeek';
+			return 'timeGridWeek';
 		}
 
 		// Function for hamburger menu and cross button
@@ -435,7 +434,7 @@ if (!empty($groups)) {
 							<p id="createGroupResponse"></p>
 						</div>
 						<div class="modal-footer">
-							<button id="savechangesbutton" onclick="createGroup()" class="buttondesign">Save Changes</button>
+							<button id="savechangesbutton" onclick="createGroup()" class="buttondesign" style="width: 45%;">Save Changes</button>
 						</div>
 
 					</div>

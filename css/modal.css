@@ -23,6 +23,14 @@
     position: relative;
   }
 
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .modal-content{
+      width: 95%;
+      margin-top: 15%;
+    }
+  }
+
   
   /* The Close Button */
   .close {
