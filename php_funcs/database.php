@@ -895,3 +895,24 @@ class ICS
         echo $this->data;
     }
 }
+
+function createEventAPI($title, $start, $end, $group_id, $user_id) {
+    $pdo = openConn();
+
+    $sql = "SELECT group_id
+            FROM user_group_link
+            WHERE group_id = :group_id AND user_id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id,
+        'user_id' => $user_id,
+    ]);
+
+    $row = $stmt->fetch();
+    if (empty($row)) {
+        return false; // Check if user has permissions for this group
+    }
+
+    //Aran: From here handle the event creation
+
+}

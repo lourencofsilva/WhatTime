@@ -85,7 +85,7 @@ if (!empty($groups)) {
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
 		memberDeleted = false;
-		var calendar;
+        var calendar;
 		document.addEventListener('DOMContentLoaded', function() {
 			defaultView = resize();
 
@@ -95,11 +95,11 @@ if (!empty($groups)) {
 				initialView: defaultView,
 				dayHeaderFormat: 'dddd DD/MM',
 				weekends: false,
-				headerToolbar: {
-					left: 'timeGridDay,timeGridWeek',
-					center: 'title',
-					right: 'today,prev,next'
-				},
+                headerToolbar: {
+                    left: 'timeGridDay,timeGridWeek',
+                    center: 'title',
+                    right: 'today,prev,next'
+                },
 				firstDay: 1,
 				slotMinTime: parseInt(<?php echo $office_hours[0] ?>) - tmz + ":00",
 				slotMaxTime: parseInt(<?php echo $office_hours[1] ?>) - tmz + ":00",
@@ -112,6 +112,41 @@ if (!empty($groups)) {
 				eventColor: 'rgba(49, 95, 211, 1)',
 				eventTextColor: 'white',
 				height: '100%',
+                select: function(info) {
+                    const title = prompt("Event Title:", "Group Meeting");
+                    if (!title) {
+                        calendar.unselect();
+                        return;
+                    }
+
+                    $.LoadingOverlay("show");
+                    var ajaxRequest;
+                    try {
+                        ajaxRequest = new XMLHttpRequest();
+                    } catch (e) {
+                        // Internet Explorer Browsers
+                        try {
+                            ajaxRequest = new ActiveXObject("Msxm l2.XMLHTTP");
+                        } catch (e) {
+                            try {
+                                ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                            } catch (e) {
+                                alert("An error occured!");
+                                return false;
+                            }
+                        }
+                    }
+                    ajaxRequest.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            location.reload()
+                        }
+                    };
+                    ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-event&title=" + encodeURIComponent(title) + "&start=" + encodeURIComponent(formatDate(info.startStr)) + "&end=" + encodeURIComponent(formatDate(info.endStr)) + "&group-id=" + encodeURIComponent(<?php echo htmlspecialchars($group_id) ?>), true);
+                    ajaxRequest.send(null);
+                },
+                selectHelper: true,
+                selectable: true,
+                snapDuration: '00:30:00',
 				events: <?php echo json_encode(whatTime($group_id)); ?>
 
 			});
@@ -120,23 +155,29 @@ if (!empty($groups)) {
 			current_group.scrollIntoView();
 		});
 
-		window.addEventListener('load', function() {
-			calendar.updateSize(); // This fixes the issue where overflow is visible after calendar load
-		})
+        window.addEventListener('load', function () {
+            calendar.updateSize(); // This fixes the issue where overflow is visible after calendar load
+        })
 
-		function copyText() {
-			var copyText = document.getElementById("invite-link");
+        function formatDate(date_string) {
+            let string = new Date(date_string);
+            return string.getUTCFullYear() + '-' + (string.getUTCMonth() + 1).toString().padStart(2, '0') + '-' + string.getUTCDate().toString().padStart(2, '0') + 'T' + string.getUTCHours().toString().padStart(2, '0') + ':' + string.getUTCMinutes().toString().padStart(2, '0') + ':' + string.getUTCSeconds().toString().padStart(2, '0') + 'Z';
+        }
 
-			copyText.select();
-			copyText.setSelectionRange(0, 99999); // For mobile devices
+        function copyText() {
+            var copyText = document.getElementById("invite-link");
 
-			try {
-				document.execCommand('copy');
-				alert("The invite link has been copied to the clipboard!");
-			} catch (err) {
-				console.error("Unable to copy text to clipboard.")
-			}
-		}
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            try {
+                document.execCommand('copy');
+                alert("The invite link has been copied to the clipboard!");
+            }
+            catch (err) {
+                console.error("Unable to copy text to clipboard.")
+            }
+        }
 
 		// Function to handle creating group
 		function createGroup() {
