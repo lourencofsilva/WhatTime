@@ -1,13 +1,14 @@
 body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: radial-gradient(#5297ed, #285edb);
     width: 100%;
     height: 100vh;
     text-decoration: none;
     border-collapse: collapse;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: radial-gradient(#5297ed, #285edb);
+    overflow: scroll;
   }
-
+  
   footer {
     overflow: hidden;
     background-color: rgb(255, 255, 255);
@@ -15,33 +16,34 @@ body {
     bottom: 0;
     width: 100%;
   }
-
+  
   footer a {
     float: right;
     display: block;
     color: rgb(151, 151, 151);
     text-align: center;
-    padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: medium;
+    padding: 1% 1%;
   }
-
+  
   footer a:hover {
     background: #f1f1f1;
     color: black;
-  }
+  } 
 
-  .mainlogo {
+  .header > button {
     border: none;
     background-color: transparent;
     width: 12%;
     height: 8vh;
     position: absolute;
-    top: 7vh;
     left: 44%;
+    top: 7vh;
   }
 
-  .main-img{
+
+  .header > button > img{
     display: flex;
     width: 100%;
     cursor: pointer;
@@ -57,11 +59,11 @@ body {
     top: 14vh;
   }
 
-  .modal{
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  .modal {
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
   }
 
   .inputbox{
@@ -69,31 +71,13 @@ body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10%;
-    margin-bottom: 10%;
-  }
-
-  .linkcontainer {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10%;
-    margin-bottom: 10%;
-  }
-
-  .inputbox input {
-    vertical-align: middle;
-    padding: 10px;
-    background-color: #fff;
-    border: 2px solid black;
-    width: 90%;
-    text-align: center;
+    
   }
 
   .buttonbox {
-    width: 25%;
+    width: 20%;
     position: relative;
-    left: 37.5%;
+    left: 40%;
   }
 
   .buttondesign {
@@ -101,11 +85,11 @@ body {
     height: 7vh;
     border: 1px solid black;
     border-radius: 20px;
-    font-size: 15px;
-    white-space: nowrap;
+    font-size: small;
     color: white;
     background-color: rgba(49, 96, 211, 1);
     cursor: pointer;
+    text-align: center;
   }
 
   .buttondesign:hover{
@@ -113,149 +97,56 @@ body {
   }
 
 
+  .firstline {
+    margin-bottom: 8vh;
+  }
+
   .firstline p{
-    color: rgb(77, 130, 193);
-    font-size: larger;
-    font-weight: 650;
+    color: rgb(77, 130, 193); 
+    font-size: large; 
+    font-weight: 650; 
     text-align: center;
   }
 
   .inviteinfo {
+    width: 90%;
     color: black;
-    font-size: larger;
+    font-size: large;
     font-weight: 500;
-    padding-top: 2vh;
-    padding-left: 3vw;
-    padding-right: 3vw;
     text-align: center;
-    padding-bottom: 2vh;
-  }
-
-  .moreinfo {
-    color: black;
-    font-size: larger;
-    font-weight: 500;
-    padding-top: 2vh;
-    padding-left: 3vw;
-    padding-right: 3vw;
-    align-items: center;
-    padding-bottom: 2vh;
-
-
-  }
-  .moreinfo a{
-    color: black;
-    font-size:large ;
-    font-weight: 500;
-    display: inline-block;
-    font-style: normal;
-    text-decoration: none;
-  }
-
-
-  @media (max-width: 1024px) {
-
-
-    .modal {
-      background: rgb(255, 255, 255);
-      height: 5%;
-      width: 70%;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 13vh;
-      margin-bottom: 10vh;
-      border-radius: 30px;
-      text-align: center;
-      padding: 4% 4%;
-      }
-
-      footer a {
-
-        font-size: 10px;
-      }
-
-      .mainlogo {
-        border: none;
-        background-color: transparent;
-        width: 100%;
-        height: 1vh;
-        position: absolute;
-        top: 3vh;
-        padding: 0px;
-      }
-
-
-      .main-img{
-        display: flex;
-        width: 40%;
-        cursor: pointer;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 10vh;
-
-      }
-
-      .inviteinfo{
-        font-size: large;
-      }
-
-      .moreinfo{
-        font-size: large;
-      }
-
-
-
-}
-
-
-@media (max-width: 480px) {
-
-
-  .modal {
-    background: rgb(255, 255, 255);
-    height: 5%;
-    width: 70%;
-    display: block;
+    margin-bottom: 8vh;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 13vh;
-    margin-bottom: 10vh;
-    border-radius: 30px;
-    text-align: center;
-    padding: 4% 4%;
-    }
+  }
 
-    footer a {
+@media (orientation: portrait) and (max-width: 1500px) {
+  .header > button{
+    width: 20%;
+    position: absolute;
+    left: 40%;
+    top: 12vh;
+  }
 
-      font-size: 10px;
-    }
+  .wrapper{
+    width: 70%;
+    height: 60vh;
+    position: absolute;
+    left: 15%;
+    top: 19vh;
+  }
+}
 
-    .mainlogo {
-      border: none;
-      background-color: transparent;
-      width: 100%;
-      height: 1vh;
-      position: absolute;
-      top: 3vh;
-      padding: 0px;
-    }
+@media (orientation: portrait) and (max-width: 415px) {
+  .header > button{
+    width: 35%;
+    position: absolute;
+    left: 32.5%;
+  }
 
-
-    .main-img{
-      display: flex;
-      width: 60%;
-      cursor: pointer;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .inviteinfo{
-      font-size: large;
-    }
-
-    .moreinfo{
-      font-size: large;
-    }
-
+  .wrapper{
+    height: 55vh;
+    width: 90%;
+    position: absolute;
+    left: 5%;
+  }
 }
