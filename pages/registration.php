@@ -73,37 +73,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
 
-    <header>
-        <div class="logo">
-            <button class="mainlogo" onClick="window.location.href = '../index.php' " id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
-        </div>
+    <div class="header">
+        <button class="mainlogo" onClick="window.location.href = '../index.php' " id="btn" type="button"><img class="main_img" src="../images/logo_white.png"></button>
+    </div>
+    <div class="wrapper">
+        <div class="modal">
+            <div class="firstline">
+                <p>SYNC YOUR TIMETABLE</p>
+            </div>
+            <div class=uploadcalendar>
+                <p>To upload your calendar locate the link to the ics file of your calendar system and paste it below.</p>
+            </div>
+            <div class=moreinfo>
+                <p>More details about how to do this can be found <a href="#moreinfo"><b>here.</b></a></p>
+            </div>
 
-    </header>
+            <div class="inputbox">
+                <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkURL()">
+                    <div class="linkcontainer">
+                        <input type="url" id="icslink" placeholder="Timetable URl" name="icslink" required>
+                    </div>
+                    <div class="buttonbox">
+                        <button class="buttondesign" id="post" type="submit" value="">Continue</button>
+                    </div>
 
-    <div class="modal">
-        <div class="firstline">
-            <p>SYNC YOUR TIMETABLE</p>
-        </div>
-        <div class=uploadcalendar>
-            <p>To upload your calendar locate the link to the ics file of your calendar system and paste it below.</p>
-        </div>
-        <div class=moreinfo>
-            <p>More details about how to do this can be found <a href="#moreinfo"><b>here.</b></a></p>
-        </div>
-
-        <div class="inputbox">
-            <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" onsubmit="return checkURL()">
-                <div class="linkcontainer">
-                    <input type="url" id="icslink" placeholder="Timetable URl" name="icslink" required>
-                </div>
-                <div class="buttonbox">
-                    <button class="buttondesign" id="post" type="submit" value="">Continue</button>
-                </div>
-
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-
     <footer id="footer">
         <a href="#privacypolicy">Privacy Policy</a>
         <a href="#t&c">Terms & Conditions</a>
