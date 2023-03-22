@@ -103,6 +103,7 @@ if (!empty($groups)) {
 				firstDay: 1,
 				slotMinTime: parseInt(<?php echo $office_hours[0] ?>) - tmz + ":00",
 				slotMaxTime: parseInt(<?php echo $office_hours[1] ?>) - tmz + ":00",
+                longPressDelay: 500,
 				eventTimeFormat: {
 					hour: '2-digit',
 					minute: '2-digit',
