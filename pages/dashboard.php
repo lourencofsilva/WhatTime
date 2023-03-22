@@ -113,6 +113,7 @@ if (!empty($groups)) {
 				eventColor: 'rgba(49, 95, 211, 1)',
 				eventTextColor: 'white',
 				height: '100%',
+                selectOverlap: false,
                 select: function(info) {
                     const title = prompt("Event Title:", "Group Meeting");
                     if (!title) {
