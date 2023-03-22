@@ -1,6 +1,13 @@
 <?php
 
 use JetBrains\PhpStorm\NoReturn;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require_once "../PHPMailer-master/src/PHPMailer.php";
+require_once "../PHPMailer-master/src/SMTP.php";
+require_once "../PHPMailer-master/src/Exception.php";
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -935,32 +942,42 @@ function createEventAPI($summary, $start, $end, $group_id, $user_id)
 
 }
 
+function sendEmail($to, $ics_file, $title, $group_name) {
+    $pdo = openConn();
 
+    $sql = "SELECT smtp_pass
+            FROM credentials";
 
-function sendEmail() {
-    $to = "lourencofsilva@gmail.com, aran.campbell9@gmail.com";
-    $subject = "This is a test HTML email";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
 
-    $message = "
-    <html>
-    <head>
-    <title>This is a test HTML email2</title>
-    </head>
-    <body>
-    <p>Test email. Please ignore.</p>
-    </body>
-    </html>
-    ";
+    $smtp_pass = $stmt->fetch()["smtp_pass"];
 
-    // It is mandatory to set the content-type when sending HTML email
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $mail = new PHPMailer();
+    $mail->IsSMTP();
+    $mail->Mailer = "smtp";
 
-    // More headers. From is required, rest other headers are optional
-    $headers .= 'From: <info@whattime.com>' . "\r\n";
+    $mail->SMTPDebug  = 1;
+    $mail->SMTPAuth   = TRUE;
+    $mail->SMTPSecure = "tls";
+    $mail->Port       = 587;
+    $mail->Host       = "smtp.gmail.com";
+    $mail->Username   = "whattime.uom@gmail.com";
+    $mail->Password   = $smtp_pass;
 
-    mail($to,$subject,$message,$headers);
+    $mail->IsHTML(true);
+
+    foreach ($to as $email) {
+        $mail->AddAddress($email);
+    }
+
+    $mail->SetFrom("whattime.uom@gmail.com", "WhatTime");
+    $mail->Subject = "Invite to Group Meeting: " . $title . " in " . $group_name;
+    $content = "Dear members,<br><br>You have been invited to a group meeting. Please find the attached ICS file to add the event to your calendar.<br><br>Best Regards<br>WhatTime Team";
+    $mail->addStringAttachment($ics_file, 'invite.ics');
+
+    $mail->MsgHTML($content);
+    if(!$mail->Send()) {
+        doLog("ERROR", "Error while sending Email.", var_export($mail, true), "sendEmail()");
+    }
 }
-
-sendEmail();
-echo("Email sent");
