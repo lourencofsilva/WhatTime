@@ -932,6 +932,7 @@ function createEventAPI($summary, $start, $end, $group_id, $user_id)
     $groupInfo = getGroupEmailsAndName($group_id);
 
     sendEmail($groupInfo[1], $ics, $summary, $groupInfo[0]);
+
 }
 
 
