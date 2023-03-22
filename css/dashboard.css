@@ -124,12 +124,12 @@ html body {
 }
 
 .btn_container > button {
-  width: 10vw;
+  width: 40% !important;
   height: 6vh;
   border: 1px solid black;
   background-color: rgb(39, 93, 219);
   color: white;
-  font-size: 1.4vw;
+  font-size: 2em;
   border-radius: 20px;
   position: relative;
   top: 50%;
@@ -142,7 +142,7 @@ html body {
 }
 
 .buttondesign {
-    width: 10vw;
+    width: 20%;
     height: 6vh;
     float: right;
     border: 1px solid black;
@@ -151,7 +151,7 @@ html body {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 1.4vw;
+    font-size: 1.4em;
     margin: 1.5% 3% 0 0;
     border-radius: 20px;
   }
