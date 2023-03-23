@@ -271,7 +271,7 @@ $user_info = getUserInfo(getLoggedInUserId());
         function checkAll() {
             var regexPw = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,128}$/;
             var regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-			var regexName = /^[a-zA-Z]{1,30}$/;
+			var regexName = /^[a-zA-Z][a-zA-Z\s]{1,29}$/;
 
 			var name = document.getElementById('name').value;
             var email = document.getElementById('email').value;
