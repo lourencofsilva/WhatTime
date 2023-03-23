@@ -31,27 +31,31 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            resize();
+        });
         // Function to handle creating group
         function createGroup() {
-            let $group_name = document.getElementById("group-name").value;
+            let group_name = document.getElementById("group-name").value;
+            var regexGroupName = /^[\w]([\w\s]{0,30})$/;
+            if (!regexGroupName.test(group_name)) {
+                document.getElementById("createGroupResponse").innerHTML = "An error ocurred in creating the group. The name of your group is not valid."
+                return false;
+            }
 
-            //FRONTEND: Add validation for the group name (no special characters, max 30 characters)
             $.LoadingOverlay("show");
             var ajaxRequest;
             try {
                 ajaxRequest = new XMLHttpRequest();
-            }catch (e) {
+            } catch (e) {
                 // Internet Explorer Browsers
                 try {
                     ajaxRequest = new ActiveXObject("Msxm l2.XMLHTTP");
-                }catch (e) {
-                    try{
+                } catch (e) {
+                    try {
                         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-                    }catch (e){
+                    } catch (e) {
                         alert("An error occured!");
                         return false;
                     }
@@ -70,9 +74,29 @@
                     window.location.replace(url.toString());
                 }
             };
-            ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent($group_name), true);
+
+
+            ajaxRequest.open("GET", "api.php?endpoint=dashboard-create-group&name=" + encodeURIComponent(group_name), true);
             ajaxRequest.send(null);
 
+        }
+
+        window.addEventListener("resize", resize);
+
+        function resize() {
+            var width = window.innerWidth;
+
+            if (width <= 1024) {
+                $(".left_container").css("margin-left", "0");
+                $(".right_container").css("width", "0%");
+                $(".left_container").css("width", "100%");
+                $(".createbtn").css("width", "20vw");
+            } else {
+                $(".left_container").css("margin-left", "0");
+                $(".right_container").css("width", "72%");
+                $(".left_container").css("width", "28%");
+                $(".right_container").css("margin-right", "0");
+            }
         }
     </script>
 </head>
@@ -80,7 +104,7 @@
 <body>
 <div class="wrap">
     <div class="header">
-        <a class="mainlogo" href="../index.php"><img class="main-img" src="../images/logo_white.png"></a>
+        <button class="mainlogo" onClick="window.location.reload()" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
         <div class="nav">
             <button class="profile"><i class="fa-regular fa-user" onclick="window.location.href = './profile.php'"></i></button>
             <ul>
@@ -93,12 +117,13 @@
         <div class="left_container">
             <div class="search_container">
                 <input type="text" id="search" placeholder="search" onkeyup="search()">
+                <button class="crossbtn" onclick="cross()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="scroll_container">
                 <h2>You are not currently part of any groups</h2>
             </div>
             <div class="btn_container">
-                <button id="createGroupBtn" class="button">Create Group</button>
+                <button id="createGroupBtn" class="createbtn">Create Group</button>
             </div>
 
             <!-- Create Group Modal -->
@@ -112,11 +137,15 @@
                         <div class="input_container">
                             <label>Group Name:</label>
                             <input type="text" id="group-name" placeholder="Group Name" maxlength="30">
-                            <div id="createGroupResponse"></div><!-- FRONTEND: Please style this, backend added it -->
+
                         </div>
                     </div>
+
+                    <div class="createGroupResponseContainer">
+                        <p id="createGroupResponse"></p>
+                    </div>
                     <div class="modal-footer">
-                        <button id="createGroupBtn" onclick="createGroup()" class="buttondesign">Save Changes</button>
+                        <button id="savechangesbutton" onclick="createGroup()" class="buttondesign" style="width: 45%;">Save Changes</button>
                     </div>
 
                 </div>
@@ -145,7 +174,7 @@
 <div class="footer">
     <a>©</a>
     <ul>
-        <li><a href="#">Contact US</a></li>
+        <li><a href="#">Contact Us</a></li>
         <li><a href="#">Terms & Conditions</a></li>
         <li><a href="#">Privacy Policy</a></li>
     </ul>
