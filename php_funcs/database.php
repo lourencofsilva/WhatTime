@@ -511,6 +511,26 @@ function getUserEvents($user_id): bool|array
     }
 }
 
+function getCreatedGroupEvents($group_id): bool|array
+{
+    $pdo = openConn();
+
+    $sql = "SELECT ('rgb(160, 47, 195)') as color, EventSummary as title, DATE_FORMAT(EventStart, '%Y-%m-%dT%H:%i:%sZ') as start, DATE_FORMAT(EventEnd, '%Y-%m-%dT%H:%i:%sZ') as 'end'
+            FROM GroupEvents
+            WHERE group_id = :group_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'group_id' => $group_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $events = [];
+    while ($row = $stmt->fetch()){
+        $events[] = $row;
+    }
+    $pdo = null;
+    return($events);
+}
+
 function getGroupEvents($group_id): bool|array
 {
     $pdo = openConn();
@@ -626,6 +646,7 @@ function whatTime($group_id): array
         }
         $i = $j;
     }
+    $unavailableTimes = array_merge($unavailableTimes, getCreatedGroupEvents($group_id));
     return($unavailableTimes);
 }
 
