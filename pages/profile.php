@@ -269,35 +269,68 @@ $user_info = getUserInfo(getLoggedInUserId());
         })
 
         function checkAll() {
-            return true;
+            
+			
 
-            //regex
             var regexPw = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,128}$/;
             var regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-            var regexUsername = /^[0-9a-zA-Z]{1,20}$/;
+			var regexName = /^[a-zA-Z]{1,30}$/;
+			
 
+			var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+           
+            var currentPassword = document.getElementById('curr_pass').value;
+            var newPassword = document.getElementById('new_pass').value;
+			var confirmNewPassword = document.getElementById('confirm_pass').value; 
+			
+			
+			if (!regexName.test(name)) {
+				console.log("name not valid");
+				document.getElementById("errormessage").innerHTML = ("Name must be 1-30 alphabetic character");
+				return false;
+			}
+			if (!regexEmail.test(email)){
+				console.log("email not valid");
+				document.getElementById("errormessage").innerHTML = ("Email invalid");
+				return false;
+			}
+			if (currentPassword != ""){
+				console.log("password change");
+				if (!regexPw.test(currentPassword)){
+					console.log("old password not okay");
+					document.getElementById("errormessage").innerHTML = ("Current Password invalid");
+					return false;
+				}
+				if (newPassword != confirmNewPassword) {
+					console.log("newpasswords dont match")
+					document.getElementById("errormessage").innerHTML = ("Password confirmation invalid");
+					return false;
+				}
+				if (newPassword == "" | confirmNewPassword ==""){
+					console.log("no new password");
+					document.getElementById("errormessage").innerHTML = ("New password is empty");
+					return false;
+				}
+				
+				if (!regexPw.test(newPassword )){
+					console.log("invalid new password");
+					document.getElementById("errormessage").innerHTML = ("Password should be of length 8 and contain at least\none uppercase [A-Z]\none lowercase [a-z]\none number [0-9]\none special character [~!@#$%^&*()-_+=]");
+					return false;
+				}
+				if (newPassword == currentPassword){
+					console.log("old password same as new password");
+					document.getElementById("errormessage").innerHTML = ("Please choose another password");
+					return false;
+				}
+			}
 
-            var em = document.getElementById('email').value;
-            var p1 = document.getElementById('password').value;
-            var p2 = document.getElementById('confirm').value;
-            var username = document.getElementById('username').value;
+			else if (newPassword != "" | confirmNewPassword != "") {
+				console.log("can't change password without current");
+				return false;
+			}
 
-            if (!regexUsername.test(username)) {
-                document.getElementById("error").innerHTML = ("Username must be 1-20 alphanumeric characters.");
-                return false;
-            }
-            if (!regexEmail.test(em)) {
-                document.getElementById("error").innerHTML = "This is not a general email format.<br>";
-                return false;
-            }
-            if (!regexPw.test(p1)) {
-                document.getElementById("error").innerHTML = "Password should be of length 8 and contain at least\none uppercase [A-Z]\none lowercase [a-z]\none number [0-9]\none special character [~!@#$%^&*()-_+=]<br>";
-                return false;
-            }
-            if (p1 != p2) {
-                document.getElementById("error").innerHTML = "Passwords do not match.<br>";
-                return false;
-            }
+			return true;
         }
 
 		window.addEventListener("resize", resize);
@@ -471,14 +504,7 @@ $user_info = getUserInfo(getLoggedInUserId());
                         <input class="continue" id="post" type="submit" value="Submit">
                     </div>
                     <div id="error" class="error">
-                        <?php
-                        //if (isset($passedValidation)) {
-                            //if (!$passedValidation) {
-                                echo ("<p>" . $error . "</p>");
-                            //}
-                        //}
-
-                        ?>
+						<p id = "errormessage"><?php echo $error?></p>
 
                     </div>
                 </form>
