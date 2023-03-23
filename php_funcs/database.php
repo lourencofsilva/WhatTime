@@ -511,16 +511,31 @@ function getUserEvents($user_id): bool|array
     }
 }
 
-function getCreatedGroupEvents($group_id): bool|array
+function getGroupUserGroups($group_id): bool|array
 {
     $pdo = openConn();
 
+    $sql = "SELECT group_id FROM user_group_link WHERE user_id IN (SELECT user_id FROM user_group_link WHERE group_id = :group_id)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        "group_id" => $group_id
+    ]);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $group_ids = [];
+    while ($row = $stmt->fetch()) {
+        $group_ids[] = $row['group_id'];
+    }
+    return ($group_ids);
+}
+
+function getCreatedGroupEvents($group_id){
+    $pdo = openConn();
     $sql = "SELECT ('rgb(160, 47, 195)') as color, EventSummary as title, DATE_FORMAT(EventStart, '%Y-%m-%dT%H:%i:%sZ') as start, DATE_FORMAT(EventEnd, '%Y-%m-%dT%H:%i:%sZ') as 'end'
             FROM GroupEvents
             WHERE group_id = :group_id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
-        'group_id' => $group_id
+        "group_id" => $group_id
     ]);
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $events = [];
@@ -646,7 +661,19 @@ function whatTime($group_id): array
         }
         $i = $j;
     }
-    $unavailableTimes = array_merge($unavailableTimes, getCreatedGroupEvents($group_id));
+    $group_ids = getGroupUserGroups($group_id);
+    $allGroupEvents = [];
+    foreach($group_ids as $group_id){
+        $temp = getCreatedGroupEvents($group_id);
+        if(empty($temp) || in_array($temp, $allGroupEvents)){
+            continue;
+        } else {
+            $allGroupEvents[] = getCreatedGroupEvents($group_id);
+        }
+    }
+    foreach($allGroupEvents as $groupEvent){
+        $unavailableTimes = array_merge($unavailableTimes, $groupEvent);
+    }
     return($unavailableTimes);
 }
 
@@ -987,7 +1014,8 @@ function addGroupEventDB($summary, $start, $end, $group_id){
     $pdo = null;
 }
 
-function sendEmail($to, $ics_file, $title, $group_name) {
+function sendEmail($to, $ics_file, $title, $group_name)
+{
     require_once "../PHPMailer-master/src/PHPMailer.php";
     require_once "../PHPMailer-master/src/SMTP.php";
     require_once "../PHPMailer-master/src/Exception.php";
@@ -1006,13 +1034,13 @@ function sendEmail($to, $ics_file, $title, $group_name) {
     $mail->IsSMTP();
     $mail->Mailer = "smtp";
 
-    $mail->SMTPDebug  = 1;
-    $mail->SMTPAuth   = TRUE;
+    $mail->SMTPDebug = 1;
+    $mail->SMTPAuth = TRUE;
     $mail->SMTPSecure = "tls";
-    $mail->Port       = 587;
-    $mail->Host       = "smtp.gmail.com";
-    $mail->Username   = "whattime.uom@gmail.com";
-    $mail->Password   = $smtp_pass;
+    $mail->Port = 587;
+    $mail->Host = "smtp.gmail.com";
+    $mail->Username = "whattime.uom@gmail.com";
+    $mail->Password = $smtp_pass;
 
     $mail->IsHTML(true);
 
@@ -1026,7 +1054,7 @@ function sendEmail($to, $ics_file, $title, $group_name) {
     $mail->addStringAttachment($ics_file, 'invite.ics');
 
     $mail->MsgHTML($content);
-    if(!$mail->Send()) {
+    if (!$mail->Send()) {
         doLog("ERROR", "Error while sending Email.", var_export($mail, true), "sendEmail()");
     }
 }
