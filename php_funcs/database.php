@@ -827,6 +827,7 @@ function changeNameAPI($group_id, $name, $user_id): bool
 
     $row = $stmt->fetch();
     if (empty($row)) {
+        $pdo = null;
         return false;
     }
 
@@ -839,6 +840,7 @@ function changeNameAPI($group_id, $name, $user_id): bool
         'name' => $name,
         'group_id' => $group_id
     ]);
+    $pdo = null;
     return true;
 }
 
@@ -870,6 +872,7 @@ function deleteMemberAPI($group_id, $member_id, $user_id): bool
         'member_id' => $member_id,
         'group_id' => $group_id
     ]);
+    $pdo = null;
     return true;
 }
 
@@ -912,6 +915,7 @@ function getGroupEmailsAndName($group_id)
     while ($row = $stmt->fetch()){
         $userEmails[] = $row['email'];
     }
+    $pdo = null;
     return([$GroupName, $userEmails]);
 }
 
@@ -931,11 +935,10 @@ function createEventAPI($summary, $start, $end, $group_id, $user_id)
     if (empty($row)) {
         return false; // Check if user has permissions for this group
     }
-    $ics = "BEGIN:VCALENDAR\nVERSION:2.0\nMETHOD:PUBLISH\nBEGIN:VEVENT\nDTSTART:" . date("Ymd\THis\Z", strtotime($start)) . "\nDTEND:" . date("Ymd\THis\Z", strtotime($end)) . "\nLOCATION:" . "group meeting point" . "\nTRANSP: OPAQUE\nSEQUENCE:0\nUID:\nDTSTAMP:" . date("Ymd\THis\Z") . "\nSUMMARY:" . $summary . "\nDESCRIPTION:" . "This is a group meeting created by WhatTime" . "\nPRIORITY:1\nCLASS:PUBLIC\nBEGIN:VALARM\nTRIGGER:-PT10080M\nACTION:DISPLAY\nDESCRIPTION:Reminder\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR\n";
+    $ics = "BEGIN:VCALENDAR\nVERSION:2.0\nMETHOD:PUBLISH\nBEGIN:VEVENT\nDTSTART:" . date("Ymd\THis\Z", strtotime($start)) . "\nDTEND:" . date("Ymd\THis\Z", strtotime($end)) . "\nLOCATION:" . "" . "\nTRANSP: OPAQUE\nSEQUENCE:0\nUID:\nDTSTAMP:" . date("Ymd\THis\Z") . "\nSUMMARY:" . $summary . "\nDESCRIPTION:" . "This is a group meeting created by WhatTime" . "\nPRIORITY:1\nCLASS:PUBLIC\nBEGIN:VALARM\nTRIGGER:-PT10080M\nACTION:DISPLAY\nDESCRIPTION:Reminder\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR\n";
     $groupInfo = getGroupEmailsAndName($group_id);
 
     sendEmail($groupInfo[1], $ics, $summary, $groupInfo[0]);
-
 }
 
 function sendEmail($to, $ics_file, $title, $group_name) {
