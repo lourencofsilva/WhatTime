@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <header>
     <div class = "header">
-        <button class="mainlogo" onClick="window.location.href = '../index.html' " id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
+        <button class="mainlogo" onClick="window.location.href = '../index.php' " id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>
     </div>
 
 </header>
