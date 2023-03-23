@@ -514,7 +514,7 @@ if (!empty($groups)) {
 										echo    '<p id="big_text">' . $info["name"] . '</p>';
 										echo '<p style="position:absolute; bottom: 0;margin-left: 2%;">' . $info["username"] . '</p>';
 										if ($user != getLoggedInUserId()) {
-											echo    '<i class="fa-regular fa-x member-close close" style="font-size:20px;position: absolute;right: 2%;top: 4%;" onclick="deleteMember(';
+											echo    '<i class="fa-regular fa-x member-close close" style="font-size:20px; float:right;position:relative;right:5%;top:50%;transform:translate(0, -50%);" onclick="deleteMember(';
 											echo    $info["id"] . ", " . $count;
 											echo    ')"></i>';
 										}
