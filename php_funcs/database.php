@@ -641,6 +641,23 @@ function whatTime($group_id): array
     $events = getGroupEvents($group_id);
     $times = [];
 
+    $group_ids = getGroupUserGroups($group_id);
+    $allGroupEvents = [];
+    foreach($group_ids as $current_group_id){
+        $temp = getCreatedGroupEvents($current_group_id);
+        if (empty($temp) || in_array($temp, $allGroupEvents) || $current_group_id == $group_id) {
+            continue;
+        } else {
+            $allGroupEvents[] = $temp;
+        }
+    }
+    foreach($allGroupEvents as $group_sections) {
+        foreach ($group_sections as $groupEvent) {
+            $times[] = $groupEvent['start'] . "s";
+            $times[] = $groupEvent['end'] . "e";
+        }
+    }
+
     foreach ($events as $event) {
         $times[] = $event['start'] . "s";
         $times[] = $event['end'] . "e";
@@ -661,19 +678,9 @@ function whatTime($group_id): array
         }
         $i = $j;
     }
-    $group_ids = getGroupUserGroups($group_id);
-    $allGroupEvents = [];
-    foreach($group_ids as $group_id){
-        $temp = getCreatedGroupEvents($group_id);
-        if(empty($temp) || in_array($temp, $allGroupEvents)){
-            continue;
-        } else {
-            $allGroupEvents[] = getCreatedGroupEvents($group_id);
-        }
-    }
-    foreach($allGroupEvents as $groupEvent){
-        $unavailableTimes = array_merge($unavailableTimes, $groupEvent);
-    }
+
+    $unavailableTimes = array_merge($unavailableTimes, getCreatedGroupEvents($group_id));
+
     return($unavailableTimes);
 }
 

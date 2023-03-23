@@ -51,7 +51,6 @@ redirectIfLoggedIn("./pages/dashboard.php");
 			<div class="hero">
 				<h2>TIME THAT WORKS FOR EVERYONE</h2>
 			</div>
-			<!-- <div class="main"> -->
 			<div class="description">
 				<p>A tool to simplify your group meetings. Sync your timetables and find time that works for everyone.</p>
 			</div>

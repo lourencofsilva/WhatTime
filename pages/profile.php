@@ -269,13 +269,9 @@ $user_info = getUserInfo(getLoggedInUserId());
         })
 
         function checkAll() {
-            
-			
-
             var regexPw = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,128}$/;
             var regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 			var regexName = /^[a-zA-Z]{1,30}$/;
-			
 
 			var name = document.getElementById('name').value;
             var email = document.getElementById('email').value;
@@ -283,8 +279,7 @@ $user_info = getUserInfo(getLoggedInUserId());
             var currentPassword = document.getElementById('curr_pass').value;
             var newPassword = document.getElementById('new_pass').value;
 			var confirmNewPassword = document.getElementById('confirm_pass').value; 
-			
-			
+
 			if (!regexName.test(name)) {
 				console.log("name not valid");
 				document.getElementById("errormessage").innerHTML = ("Name must be 1-30 alphabetic character");
@@ -364,7 +359,6 @@ $user_info = getUserInfo(getLoggedInUserId());
 		function hamburger() {
 			$(".hamburger_menu").fadeOut();
 			$(".crossbtn").fadeIn();
-			// $(".left_container").css("display", "block");
 			$(".left_container").css("width", "100%");
 			$(".left_container").animate({
 				marginLeft: 0
@@ -498,8 +492,6 @@ $user_info = getUserInfo(getLoggedInUserId());
 					<input id="timetable_url" type="text" name="timetable_url" max="30" placeholder="URL" readonly = "readonly" onclick = "if(confirm('Do you want to change your timetable?')) {window.location.href='registration.php'}" value="<?php echo htmlspecialchars($user_info["timetable_url"]) ?>" required>
 				</div>
 
-
-				<!-- <button class="buttondesign" onclick="window.location.href = '#something';">Create Group</button> -->
                     <div class="final">
                         <input class="continue" id="post" type="submit" value="Submit">
                     </div>

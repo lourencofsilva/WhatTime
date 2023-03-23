@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
         } else {
-            $error = $error . ("incorrect email/password.");
+            $error = $error . ("Incorrect Username/Email or Password.");
         }
     }
 }
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="login_box">
             <h1 class="info_title">LOG IN</h1>
             <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
-                <div class="email"> <!-- MAY BREAK CSS ID=EMAIL -->
+                <div class="email">
                     <input name="email" id="email" type="text" max="256" placeholder="Email or Username" value="<?php echo htmlspecialchars($email); ?>" required>
                 </div>
                 <div class="password">

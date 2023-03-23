@@ -69,7 +69,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         createUser($realName, null, $username, $email, $password);
         $user = authenticateUsername($email, $password);
         if ($user != "false") {
-            // This function will return the id.
             $_SESSION['user_id'] = $user;
             redirectIfLoggedIn("./registration.php?" .  htmlspecialchars($_SERVER['QUERY_STRING']));
         }

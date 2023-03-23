@@ -439,10 +439,6 @@ if (!empty($groups)) {
 							}
 							echo "'>";
 							echo "<p class='group_name_container'>" . $currentGroup["name"] . "</p>";
-							// echo "<div class='group_image_container'>";
-							// echo "<img class='group_image' src='../images/group.png'>";
-							// echo "</div>";
-							// echo "<div class='group_name_container'>" . $currentGroup["name"] . "</div>";
 							echo "</div>";
 							echo "</a>";
 							$count++;
@@ -525,8 +521,7 @@ if (!empty($groups)) {
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button id="deleteGroupBtn" class="deleteGroupBtnDesign" onclick="deleteGroup()">Delete Group</button> <!-- TODO: This button should be centered -->
-							<!-- <button id="savechanges" class="buttondesign">Save Changes</button> This isn't needed anymore, the changes are saved on exit from the modal-->
+							<button id="deleteGroupBtn" class="deleteGroupBtnDesign" onclick="deleteGroup()">Delete Group</button>
 						</div>
 
 					</div>
