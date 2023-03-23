@@ -1058,3 +1058,12 @@ function sendEmail($to, $ics_file, $title, $group_name)
         doLog("ERROR", "Error while sending Email.", var_export($mail, true), "sendEmail()");
     }
 }
+
+
+
+
+
+
+
+
+//end of code (nice)
