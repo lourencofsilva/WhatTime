@@ -922,7 +922,6 @@ function getGroupEmailsAndName($group_id)
 function createEventAPI($summary, $start, $end, $group_id, $user_id)
 {
     $pdo = openConn();
-
     $sql = "SELECT group_id
             FROM user_group_link
             WHERE group_id = :group_id AND user_id = :user_id";
@@ -935,10 +934,36 @@ function createEventAPI($summary, $start, $end, $group_id, $user_id)
     if (empty($row)) {
         return false; // Check if user has permissions for this group
     }
-    $ics = "BEGIN:VCALENDAR\nVERSION:2.0\nMETHOD:PUBLISH\nBEGIN:VEVENT\nDTSTART:" . date("Ymd\THis\Z", strtotime($start)) . "\nDTEND:" . date("Ymd\THis\Z", strtotime($end)) . "\nLOCATION:" . "" . "\nTRANSP: OPAQUE\nSEQUENCE:0\nUID:\nDTSTAMP:" . date("Ymd\THis\Z") . "\nSUMMARY:" . $summary . "\nDESCRIPTION:" . "This is a group meeting created by WhatTime" . "\nPRIORITY:1\nCLASS:PUBLIC\nBEGIN:VALARM\nTRIGGER:-PT10080M\nACTION:DISPLAY\nDESCRIPTION:Reminder\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR\n";
-    $groupInfo = getGroupEmailsAndName($group_id);
+    $sql = "SELECT name, email
+            FROM users
+            WHERE id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'user_id' => $user_id,
+    ]);
+    $row = $stmt->fetch();
+    $creatorData = [$row['name'], $row['email']];
 
+    $ics = "BEGIN:VCALENDAR\nVERSION:2.0\nMETHOD:PUBLISH\nBEGIN:VEVENT\nDTSTART:" . date("Ymd\THis\Z", strtotime($start)) . "\nDTEND:" . date("Ymd\THis\Z", strtotime($end)) . "\nLOCATION:" . "" . "\nTRANSP: OPAQUE\nSEQUENCE:0\nUID:\nDTSTAMP:" . date("Ymd\THis\Z") . "\nORGANIZER;CN=" . $creatorData[0] .':mailto:'.$creatorData[1] ."\nSUMMARY:" . $summary . "\nDESCRIPTION:" . "This is a group meeting created by WhatTime" . "\nPRIORITY:1\nCLASS:PUBLIC\nBEGIN:VALARM\nTRIGGER:-PT10080M\nACTION:DISPLAY\nDESCRIPTION:Reminder\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR\n";
+    $groupInfo = getGroupEmailsAndName($group_id);
+    addGroupEventDB($summary, $start, $end, $group_id);
     sendEmail($groupInfo[1], $ics, $summary, $groupInfo[0]);
+}
+
+function addGroupEventDB($summary, $start, $end, $group_id){
+    $pdo = openConn();
+    $start = str_replace('T', ' ', str_replace('Z', '', $start));
+    $end = str_replace('T', ' ', str_replace('Z', '', $end));
+    $sql = "INSERT INTO GroupEvents (EventSummary, EventStart, EventEnd, group_id)
+            VALUES (:summary, :start, :end, :group_id)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'summary' => $summary,
+        'start' => $start,
+        'end' => $end,
+        'group_id' => $group_id,
+    ]);
+    $pdo = null;
 }
 
 function sendEmail($to, $ics_file, $title, $group_name) {
