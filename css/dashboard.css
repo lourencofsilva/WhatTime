@@ -330,3 +330,39 @@ member-close {
 .fc-event-title {
     word-wrap: break-word;
 }
+
+
+.popup {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 350px;
+    height: 220px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+    z-index: 9999;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.popup-content {
+    padding: 20px;
+}
+
+.popup-close {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgb(39, 93, 219);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 20px;
+}
+
+.popup-close:hover {
+    background-color: #555;
+}

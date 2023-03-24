@@ -379,11 +379,48 @@ $user_info = getUserInfo(getLoggedInUserId());
 				marginRight: 0
 			}, 1000);
 		}
-
+        <?php
+        if (getOnboardingStatus(getLoggedInUserId(), "profile")) {
+            echo(
+            '$(document).ready(function () {
+                            $(".popup").fadeIn(1000);
+                
+                        $(".popup-close").click(function () {
+                            $(".popup").fadeOut(1000);
+                            var ajaxRequest;
+                            try {
+                                ajaxRequest = new XMLHttpRequest();
+                            } catch (e) {
+                                // Internet Explorer Browsers
+                                try {
+                                    ajaxRequest = new ActiveXObject("Msxm l2.XMLHTTP");
+                                } catch (e) {
+                                    try {
+                                        ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                                    } catch (e) {
+                                        alert("An error occured!");
+                                        return false;
+                                    }
+                                }
+                            }
+                            ajaxRequest.open("GET", "api.php?endpoint=onboarding-disable&type=profile", true);
+                            ajaxRequest.send(null);
+                        });
+                        });'
+            );
+        }
+        ?>
 	</script>
 </head>
 
 <body>
+<div class="popup">
+    <div class="popup-content">
+        <h2>Get Started - Profile</h2>
+        <p><br>This profile page is where you can change your personal details, including office hours, and see your personal calendar. To remove any event from occupying your availability, simply click on it!</p>
+        <button class="popup-close">Got It</button>
+    </div>
+</div>
 	<div class="wrap">
 		<div class="header">
 			<button class="mainlogo" onClick="window.location.href = './dashboard.php'" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>

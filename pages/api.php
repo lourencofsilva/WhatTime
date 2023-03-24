@@ -33,4 +33,8 @@ if (isLoggedIn()) {
     if ($_GET["endpoint"] == "dashboard-create-event" and isset($_GET["title"]) and isset($_GET["start"]) and isset($_GET["end"]) and isset($_GET["group-id"])) {
         createEventAPI(htmlspecialchars($_GET["title"]), htmlspecialchars($_GET["start"]), htmlspecialchars($_GET["end"]), htmlspecialchars($_GET["group-id"]), getLoggedInUserId());
     }
+
+    if ($_GET["endpoint"] == "onboarding-disable" and isset($_GET["type"])) {
+        onboardingDisableAPI(htmlspecialchars($_GET["type"]), getLoggedInUserId());
+    }
 }

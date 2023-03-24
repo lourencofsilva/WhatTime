@@ -98,10 +98,49 @@
                 $(".right_container").css("margin-right", "0");
             }
         }
+
+        <?php
+        if (getOnboardingStatus(getLoggedInUserId(), "dashboard-empty")) {
+            echo(
+            '$(document).ready(function () {
+                            $(".popup").fadeIn(1000);
+                
+                        $(".popup-close").click(function () {
+                            $(".popup").fadeOut(1000);
+                            var ajaxRequest;
+                            try {
+                                ajaxRequest = new XMLHttpRequest();
+                            } catch (e) {
+                                // Internet Explorer Browsers
+                                try {
+                                    ajaxRequest = new ActiveXObject("Msxm l2.XMLHTTP");
+                                } catch (e) {
+                                    try {
+                                        ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                                    } catch (e) {
+                                        alert("An error occured!");
+                                        return false;
+                                    }
+                                }
+                            }
+                            ajaxRequest.open("GET", "api.php?endpoint=onboarding-disable&type=dashboard-empty", true);
+                            ajaxRequest.send(null);
+                        });
+                        });'
+            );
+        }
+        ?>
     </script>
 </head>
 
 <body>
+<div class="popup">
+    <div class="popup-content">
+        <h2>Get Started - Dashboard</h2>
+        <p><br>To get started, either create a group and send the invite link to the members, or join an existing group by visiting an invite link provided to you.</p>
+        <button class="popup-close">Got It</button>
+    </div>
+</div>
 <div class="wrap">
     <div class="header">
         <button class="mainlogo" onClick="window.location.reload()" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>

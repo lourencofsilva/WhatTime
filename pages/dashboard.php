@@ -84,6 +84,37 @@ if (!empty($groups)) {
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
 	<script>
+        <?php
+        if (getOnboardingStatus(getLoggedInUserId(), "dashboard")) {
+            echo(
+            '$(document).ready(function () {
+                            $(".popup").fadeIn(1000);
+                
+                        $(".popup-close").click(function () {
+                            $(".popup").fadeOut(1000);
+                            var ajaxRequest;
+                            try {
+                                ajaxRequest = new XMLHttpRequest();
+                            } catch (e) {
+                                // Internet Explorer Browsers
+                                try {
+                                    ajaxRequest = new ActiveXObject("Msxm l2.XMLHTTP");
+                                } catch (e) {
+                                    try {
+                                        ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                                    } catch (e) {
+                                        alert("An error occured!");
+                                        return false;
+                                    }
+                                }
+                            }
+                            ajaxRequest.open("GET", "api.php?endpoint=onboarding-disable&type=dashboard", true);
+                            ajaxRequest.send(null);
+                        });
+                        });'
+            );
+        }
+        ?>
 		memberDeleted = false;
 		var calendar;
 		document.addEventListener('DOMContentLoaded', function() {
@@ -400,10 +431,19 @@ if (!empty($groups)) {
 				marginRight: 0
 			}, 1000);
 		}
-	</script>
+
+
+    </script>
 </head>
 
 <body>
+<div class="popup">
+    <div class="popup-content">
+        <h2>Get Started - Dashboard</h2>
+        <p><br>This dashboard is where you can check all of your group's availabilities and create meetings. To create a meeting, simply select the time slots by dragging on the calendar!</p>
+        <button class="popup-close">Got It</button>
+    </div>
+</div>
 	<div class="wrap">
 		<div class="header">
 			<button class="mainlogo" onClick="window.location.reload()" id="btn" type="button"><img class="main-img" src="../images/logo_white.png"></button>

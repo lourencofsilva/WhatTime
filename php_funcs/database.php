@@ -1066,11 +1066,50 @@ function sendEmail($to, $ics_file, $title, $group_name)
     }
 }
 
+function getOnboardingStatus($user_id, $page) {
+    if ($page == "dashboard") {
+        $field = "onboardingDashboard";
+    } elseif ($page == "dashboard-empty") {
+        $field = "onboardingDashboardEmpty";
+    } elseif ($page == "profile") {
+        $field = "onboardingProfile";
+    } else {
+        return false;
+    }
 
+    $pdo = openConn();
+    $sql = "SELECT $field
+            FROM users
+            WHERE id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'user_id' => $user_id,
+    ]);
+    $row = $stmt->fetch();
+    if ($row[$field] == 1) {
+        return true;
+    }
+    return false;
+}
 
+function onboardingDisableAPI($page, $user_id) {
+    if ($page == "dashboard") {
+        $field = "onboardingDashboard";
+    } elseif ($page == "dashboard-empty") {
+        $field = "onboardingDashboardEmpty";
+    } elseif ($page == "profile") {
+        $field = "onboardingProfile";
+    } else {
+        return false;
+    }
 
-
-
-
-
-//end of code (nice)
+    $pdo = openConn();
+    $sql = "UPDATE users
+            SET $field = 0
+            WHERE id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'user_id' => $user_id,
+    ]);
+    return true;
+}
