@@ -1086,6 +1086,7 @@ function getOnboardingStatus($user_id, $page) {
         'user_id' => $user_id,
     ]);
     $row = $stmt->fetch();
+    $pdo = null;
     if ($row[$field] == 1) {
         return true;
     }
@@ -1111,5 +1112,6 @@ function onboardingDisableAPI($page, $user_id) {
     $stmt->execute([
         'user_id' => $user_id,
     ]);
+    $pdo = null;
     return true;
 }
